@@ -9,6 +9,6 @@ package dao;
  *
  * @author anderson.caye
  */
-public class DaoPessoa {
+public class PessoaDAO {
     
 }
