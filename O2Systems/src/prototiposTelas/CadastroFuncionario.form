@@ -47,7 +47,7 @@
                       <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                       <Component id="jLabel7" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="jTabbedPane1" alignment="1" pref="803" max="32767" attributes="0"/>
+                  <Component id="jTabbedPane1" alignment="1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -469,7 +469,7 @@
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="2">
-                        <StringItem index="0" value="PR - Paran&#xe1;"/>
+                        <StringItem index="0" value="Selecione um estado"/>
                         <StringItem index="1" value="RS - Rio Grande do Sul"/>
                       </StringArray>
                     </Property>
