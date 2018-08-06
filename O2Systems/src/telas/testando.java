@@ -10,5 +10,7 @@ package telas;
  * @author elias.flach
  */
 public class testando {
-    
+    public void teste(){
+        
+    }
 }
