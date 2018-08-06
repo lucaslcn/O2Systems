@@ -66,6 +66,7 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame {
         jTF_CodigoPaciente = new javax.swing.JTextField();
         jL_TituloGrande = new javax.swing.JLabel();
 
+        setClosable(true);
         setTitle("Cadastro Paciente");
         setPreferredSize(new java.awt.Dimension(850, 660));
 
