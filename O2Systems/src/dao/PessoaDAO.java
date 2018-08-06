@@ -10,5 +10,8 @@ package dao;
  * @author elias.flach
  */
 public class PessoaDAO {
-    
+ 
+    /**Ideia minha
+     * 
+     */
 }
