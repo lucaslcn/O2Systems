@@ -76,7 +76,7 @@ public class CadastroFuncionarioJIF extends javax.swing.JInternalFrame {
         jL_TituloGrande = new javax.swing.JLabel();
 
         setClosable(true);
-        setTitle("Cadastro Paciente");
+        setTitle("Cadastro Funcionário");
         setPreferredSize(new java.awt.Dimension(850, 660));
 
         btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_add.png"))); // NOI18N

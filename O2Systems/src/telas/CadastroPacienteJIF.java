@@ -88,6 +88,7 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame {
         });
 
         btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_delete.png"))); // NOI18N
+        btnDeletar.setSelected(true);
         btnDeletar.setText("Deletar");
         btnDeletar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 

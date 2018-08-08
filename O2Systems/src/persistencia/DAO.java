@@ -9,6 +9,18 @@ package persistencia;
  *
  * @author anderson.caye
  */
-public class Pessoa {
+public class DAO {
+    
+    public String insert(Object o){
+        return null;
+    }
+    
+    public Object select(String table){
+        return new Object();
+    }
+    
+    public String delete(){
+        return null;
+    }
     
 }

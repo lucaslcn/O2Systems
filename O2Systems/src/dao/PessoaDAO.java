@@ -1,17 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dao;
+
+import javax.swing.JTable;
+import negocio.Pessoa;
+import persistencia.IDAO_T;
 
 /**
  *
  * @author elias.flach
  */
-public class PessoaDAO {
- 
-    /**Ideia minha
-     * 
-     */
+public class PessoaDAO implements IDAO_T<Pessoa>{
+
+    @Override
+    public void preencherTabelaBusca(JTable tabela, String criterio) {
+    
+    }
+
 }
