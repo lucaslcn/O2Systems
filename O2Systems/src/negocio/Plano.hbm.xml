@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 08/08/2018 19:55:39 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="negocio.Plano" table="plano" schema="public" optimistic-lock="version">
+        <id name="idplano" type="int">
+            <column name="idplano" />
+            <generator class="assigned" />
+        </id>
+        <property name="nomePlano" type="string">
+            <column name="nome_plano" length="45" not-null="true" />
+        </property>
+        <set name="agendamentoExameses" table="agendamento_exames" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idplano" not-null="true" />
+            </key>
+            <one-to-many class="negocio.AgendamentoExames" />
+        </set>
+        <set name="consultases" table="consultas" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idplano" not-null="true" />
+            </key>
+            <one-to-many class="negocio.Consultas" />
+        </set>
+        <set name="listagemPlanoses" table="listagem_planos" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idplano" not-null="true" />
+            </key>
+            <one-to-many class="negocio.ListagemPlanos" />
+        </set>
+    </class>
+</hibernate-mapping>

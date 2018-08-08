@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 08/08/2018 19:55:39 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="negocio.Consultas" table="consultas" schema="public" optimistic-lock="version">
+        <id name="idconsultas" type="int">
+            <column name="idconsultas" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="formaPagamento" class="negocio.FormaPagamento" fetch="select">
+            <column name="idforma_pagamento" not-null="true" />
+        </many-to-one>
+        <many-to-one name="funcionario" class="negocio.Funcionario" fetch="select">
+            <column name="idfuncionario" not-null="true" />
+        </many-to-one>
+        <many-to-one name="paciente" class="negocio.Paciente" fetch="select">
+            <column name="idpaciente" not-null="true" />
+        </many-to-one>
+        <many-to-one name="plano" class="negocio.Plano" fetch="select">
+            <column name="idplano" not-null="true" />
+        </many-to-one>
+        <many-to-one name="prontuario" class="negocio.Prontuario" fetch="select">
+            <column name="idprontuario" not-null="true" />
+        </many-to-one>
+        <property name="dataConsulta" type="date">
+            <column name="data_consulta" length="13" not-null="true" />
+        </property>
+        <property name="horaConsulta" type="time">
+            <column name="hora_consulta" length="15" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
