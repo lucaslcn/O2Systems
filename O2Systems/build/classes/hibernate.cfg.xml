@@ -43,7 +43,7 @@ Contributor(s):
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
     <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-    <property name="hibernate.connection.url">jdbc:postgresql://pgsql03-farm76.kinghost.net:5432/syscoffe</property>
+    <property name="hibernate.connection.url">jdbc:postgresql://pgsql03-farm76.kinghost.net:5432</property>
     <property name="hibernate.connection.username">syscoffe</property>
     <property name="hibernate.connection.password">marina2018b</property>
     <mapping resource="negocio/Cidade.hbm.xml"/>

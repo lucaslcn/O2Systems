@@ -186,7 +186,7 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
                 Mensagens.retornoAcao(Mensagens.salvo("plano de saúde"));
                 limpar();
             } else {
-                Mensagens.retornoAcao(Mensagens.erroSalvar("plano de saúde"));
+                Mensagens.retornoAcao(Mensagens.erroSalvar("Plano de saúde"));
                 jTF_NomePlano.requestFocus();
             }
         } catch (HibernateException he) {

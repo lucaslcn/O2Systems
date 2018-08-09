@@ -29,7 +29,7 @@ public class PlanoDAO extends DAO implements IDAO_T<Plano> {
         cabecalho[1] = "";
 
 //        Preencha com o nome da tabela.
-        String table = "plano";
+        String table = "Plano";
 
         //Executa a busca
         if (Gema.vazio(criterio, 1)) {
@@ -100,7 +100,7 @@ public class PlanoDAO extends DAO implements IDAO_T<Plano> {
 
     @Override
     public Plano consultarId(int id) {
-        Object o = this.selectWithJoin("plano", "idplano = " + id);
+        Object o = this.selectWithJoin("Plano", "idplano = " + id);
         return (Plano) o;
     }
 
