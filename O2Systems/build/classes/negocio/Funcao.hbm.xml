@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 08/08/2018 19:55:39 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="negocio.Funcao" table="funcao" schema="public" optimistic-lock="version">
+        <id name="idfuncao" type="int">
+            <column name="idfuncao" />
+            <generator class="assigned" />
+        </id>
+        <property name="descricaoFuncao" type="string">
+            <column name="descricao_funcao" length="100" not-null="true" />
+        </property>
+        <property name="booleanUser" type="java.lang.Boolean">
+            <column name="boolean_user" />
+        </property>
+        <property name="status" type="java.lang.Boolean">
+            <column name="status" />
+        </property>
+        <set name="listagemFuncaos" table="listagem_funcao" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idfuncao" not-null="true" />
+            </key>
+            <one-to-many class="negocio.ListagemFuncao" />
+        </set>
+    </class>
+</hibernate-mapping>

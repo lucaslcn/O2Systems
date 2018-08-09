@@ -46,5 +46,25 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:postgresql://pgsql03-farm76.kinghost.net:5432/syscoffe</property>
     <property name="hibernate.connection.username">syscoffe</property>
     <property name="hibernate.connection.password">marina2018b</property>
+    <mapping resource="negocio/Cidade.hbm.xml"/>
+    <mapping resource="negocio/Consultas.hbm.xml"/>
+    <mapping resource="negocio/ListagemPlanos.hbm.xml"/>
+    <mapping resource="negocio/Pessoa.hbm.xml"/>
+    <mapping resource="negocio/Funcao.hbm.xml"/>
+    <mapping resource="negocio/Paciente.hbm.xml"/>
+    <mapping resource="negocio/ListagemRemedios.hbm.xml"/>
+    <mapping resource="negocio/Prontuario.hbm.xml"/>
+    <mapping resource="negocio/Requisicao.hbm.xml"/>
+    <mapping resource="negocio/Estado.hbm.xml"/>
+    <mapping resource="negocio/ListagemFuncao.hbm.xml"/>
+    <mapping resource="negocio/Remedio.hbm.xml"/>
+    <mapping resource="negocio/Receita.hbm.xml"/>
+    <mapping resource="negocio/AgendamentoExames.hbm.xml"/>
+    <mapping resource="negocio/ListagemExames.hbm.xml"/>
+    <mapping resource="negocio/Plano.hbm.xml"/>
+    <mapping resource="negocio/Exames.hbm.xml"/>
+    <mapping resource="negocio/Funcionario.hbm.xml"/>
+    <mapping resource="negocio/FormaPagamento.hbm.xml"/>
+    <mapping resource="negocio/Usuario.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

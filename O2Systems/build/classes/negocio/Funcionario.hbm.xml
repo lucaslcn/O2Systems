@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 08/08/2018 19:55:39 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="negocio.Funcionario" table="funcionario" schema="public" optimistic-lock="version">
+        <id name="idfuncionario" type="int">
+            <column name="idfuncionario" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="pessoa" class="negocio.Pessoa" fetch="select">
+            <column name="idpessoa" not-null="true" />
+        </many-to-one>
+        <property name="medico" type="java.lang.Boolean">
+            <column name="medico" />
+        </property>
+        <set name="consultases" table="consultas" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idfuncionario" not-null="true" />
+            </key>
+            <one-to-many class="negocio.Consultas" />
+        </set>
+        <set name="listagemFuncaos" table="listagem_funcao" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idfuncionario" not-null="true" />
+            </key>
+            <one-to-many class="negocio.ListagemFuncao" />
+        </set>
+        <set name="usuarios" table="usuario" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idfuncionario" not-null="true" />
+            </key>
+            <one-to-many class="negocio.Usuario" />
+        </set>
+    </class>
+</hibernate-mapping>

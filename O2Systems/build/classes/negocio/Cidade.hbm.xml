@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 08/08/2018 19:55:39 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="negocio.Cidade" table="cidade" schema="public" optimistic-lock="version">
+        <id name="idcidade" type="int">
+            <column name="idcidade" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="estado" class="negocio.Estado" fetch="select">
+            <column name="idestado" not-null="true" />
+        </many-to-one>
+        <property name="nomeCidade" type="string">
+            <column name="nome_cidade" length="45" not-null="true" />
+        </property>
+        <set name="pessoas" table="pessoa" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idcidade" not-null="true" />
+            </key>
+            <one-to-many class="negocio.Pessoa" />
+        </set>
+    </class>
+</hibernate-mapping>

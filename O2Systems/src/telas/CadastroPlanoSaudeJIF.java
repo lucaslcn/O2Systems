@@ -8,21 +8,24 @@ package telas;
 import persistencia.BasicScreen;
 import dao.PlanoDAO;
 import gema.Gema;
+import gema.Mensagens;
 import negocio.Plano;
+import org.hibernate.HibernateException;
 
 /**
  *
  * @author XorNOTE
  */
-public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements BasicScreen{
-    
+public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements BasicScreen {
+
     Plano plano;
+
     /**
      * Creates new form CadastroPlanoSaudeJIF
      */
     public CadastroPlanoSaudeJIF() {
         initComponents();
-        plano = new Plano();
+        limpar();
     }
 
     /**
@@ -80,6 +83,11 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
         btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_add.png"))); // NOI18N
         btnSalvar.setText("Salvar");
         btnSalvar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -169,6 +177,24 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
         }
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        try {
+            popular();
+            String r = new PlanoDAO().insert(this.plano);
+
+            if (r == null) {
+                Mensagens.retornoAcao(Mensagens.salvo("plano de saúde"));
+                limpar();
+            } else {
+                Mensagens.retornoAcao(Mensagens.erroSalvar("plano de saúde"));
+                jTF_NomePlano.requestFocus();
+            }
+        } catch (HibernateException he) {
+            System.out.println(he);
+        }
+
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnCancelar;
@@ -185,11 +211,21 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
 
     @Override
     public void preencher() {
-    
+
     }
 
     @Override
     public void limpar() {
-    
+        this.plano = new Plano();
+        jTF_NomePlano.setText("");
+        jTF_NomePlano.requestFocus();
+    }
+
+    @Override
+    public void popular() {
+        String nomePlano = jTF_NomePlano.getText();
+        if (Gema.vazio(nomePlano, 2)) {
+            this.plano.setNomePlano(nomePlano);
+        }
     }
 }

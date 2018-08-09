@@ -13,5 +13,6 @@ public interface BasicScreen {
     
     public void preencher();
     public void limpar();
+    public void popular();
     
 }
