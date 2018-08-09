@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package persistencia;
-
-import javax.swing.JTable;
+package gema;
 
 /**
  *
  * @author XorNOTE
  */
-public interface IDAO_T <T> {
-    public void preencherTabelaBusca(JTable tabela, String criterio);
-    public T consultarId(int id);
+public class Log {
+    
 }

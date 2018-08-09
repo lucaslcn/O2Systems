@@ -5,13 +5,13 @@
  */
 package persistencia;
 
-import javax.swing.JTable;
-
 /**
  *
  * @author XorNOTE
  */
-public interface IDAO_T <T> {
-    public void preencherTabelaBusca(JTable tabela, String criterio);
-    public T consultarId(int id);
+public interface BasicScreen {
+    
+    public void preencher();
+    public void limpar();
+    
 }

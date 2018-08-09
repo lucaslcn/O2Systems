@@ -5,17 +5,24 @@
  */
 package telas;
 
+import persistencia.BasicScreen;
+import dao.PlanoDAO;
+import gema.Gema;
+import negocio.Plano;
+
 /**
  *
  * @author XorNOTE
  */
-public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame {
-
+public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements BasicScreen{
+    
+    Plano plano;
     /**
      * Creates new form CadastroPlanoSaudeJIF
      */
     public CadastroPlanoSaudeJIF() {
         initComponents();
+        plano = new Plano();
     }
 
     /**
@@ -36,7 +43,7 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jTF_NomePlano = new javax.swing.JTextField();
 
         jLabel2.setText("jLabel2");
 
@@ -82,8 +89,8 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Nome Plano");
 
-        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jTextField1.setText("Unimed Nacional");
+        jTF_NomePlano.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTF_NomePlano.setText("Unimed Nacional");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -93,7 +100,7 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1)
+                .addComponent(jTF_NomePlano)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -101,7 +108,7 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTF_NomePlano, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -148,11 +155,18 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        // TODO add your handling code here:
+        Plano k = (Plano) Gema.pesquisar(new PlanoDAO());
+
+        if (k != null) {
+            this.plano = k;
+            preencher();
+            btnCancelar.setEnabled(true);
+            btnDeletar.setEnabled(true);
+        }
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
 
@@ -166,6 +180,16 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTF_NomePlano;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void preencher() {
+    
+    }
+
+    @Override
+    public void limpar() {
+    
+    }
 }

@@ -7,6 +7,8 @@ package gema;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import persistencia.*;
+import telas.PesquisaSimplesJD;
 
 /**
  *
@@ -55,6 +57,14 @@ public class Gema {
         MessageDigest m = MessageDigest.getInstance("MD5");
         m.update(s.getBytes(), 0, s.length());
         return (new BigInteger(1, m.digest()).toString(16));
+    }
+    
+    public static Object pesquisar(IDAO_T t) {
+        PesquisaSimplesJD p = new PesquisaSimplesJD(new javax.swing.JFrame(), true, t);
+        p.setLocationRelativeTo(null);
+        p.setVisible(true);
+
+        return p.getResultado();
     }
     
 }
