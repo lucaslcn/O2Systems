@@ -5,7 +5,6 @@
  */
 package persistencia;
 
-import net.sf.ehcache.hibernate.HibernateUtil;
 import org.hibernate.Session;
 
 /**
@@ -15,7 +14,7 @@ import org.hibernate.Session;
 public class ConexaoDAO {
     
     public static Session iniciarSessão(){
-        Session sessao = NewHibernateUtil.getSessionFactory().openSession();
+        Session sessao = HibernateUtil.getSessionFactory().getCurrentSession();
         sessao.beginTransaction();
         return sessao;
     }

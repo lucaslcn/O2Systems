@@ -46,6 +46,10 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:postgresql://pgsql03-farm76.kinghost.net:5432/syscoffe</property>
     <property name="hibernate.connection.username">syscoffe</property>
     <property name="hibernate.connection.password">marina2018b</property>
+    <property name="hibernate.show_sql">true</property>
+    <property name="hibernate.current_session_context_class">thread</property>
+   
+    
     <mapping resource="negocio/Cidade.hbm.xml"/>
     <mapping resource="negocio/Consultas.hbm.xml"/>
     <mapping resource="negocio/ListagemPlanos.hbm.xml"/>
@@ -66,5 +70,6 @@ Contributor(s):
     <mapping resource="negocio/Funcionario.hbm.xml"/>
     <mapping resource="negocio/FormaPagamento.hbm.xml"/>
     <mapping resource="negocio/Usuario.hbm.xml"/>
+    
   </session-factory>
 </hibernate-configuration>
