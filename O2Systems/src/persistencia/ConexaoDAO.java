@@ -14,7 +14,7 @@ import org.hibernate.Session;
 public class ConexaoDAO {
     
     public static Session iniciarSessão(){
-        return HibernateUtil.getSessionFactory().getCurrentSession();
+        return HibernateUtil.getSessionFactory().openSession(); //getCurrentSession();
     }
         
 }
