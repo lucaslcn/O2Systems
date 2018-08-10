@@ -8,6 +8,7 @@ package persistencia;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -20,7 +21,9 @@ public class DAO {
         Session s = null;
         try {
             s = ConexaoDAO.iniciarSessão();
+            Transaction t = s.beginTransaction();
             s.save(o);
+            t.commit();
 
         } catch (HibernateException he) {
             System.out.println(he);
@@ -39,6 +42,7 @@ public class DAO {
         List resultado = null;
         try {
             s = ConexaoDAO.iniciarSessão();
+            s.beginTransaction();
             org.hibernate.Query q = s.createQuery(table);
             o = q.list();
         } catch (HibernateException he) {

@@ -14,9 +14,7 @@ import org.hibernate.Session;
 public class ConexaoDAO {
     
     public static Session iniciarSessão(){
-        Session sessao = HibernateUtil.getSessionFactory().getCurrentSession();
-        sessao.beginTransaction();
-        return sessao;
+        return HibernateUtil.getSessionFactory().getCurrentSession();
     }
         
 }
