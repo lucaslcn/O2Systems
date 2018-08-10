@@ -6,6 +6,9 @@
 package persistencia;
 
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -16,6 +19,8 @@ import org.hibernate.Transaction;
  */
 public class DAO {
 
+    protected EntityManager entityManager;
+
     public String insert(Object o) {
         String r = null;
         Session s = null;
@@ -24,9 +29,8 @@ public class DAO {
             Transaction t = s.beginTransaction();
             s.save(o);
             t.commit();
-
         } catch (HibernateException he) {
-            System.out.println(he);
+            he.printStackTrace();
             r = he.toString();
             return r;
         } finally {
@@ -39,20 +43,19 @@ public class DAO {
         table = "from " + table;
         List o = null;
         Session s = null;
-        List resultado = null;
         try {
             s = ConexaoDAO.iniciarSessão();
             s.beginTransaction();
             org.hibernate.Query q = s.createQuery(table);
             o = q.list();
         } catch (HibernateException he) {
-            System.out.println(he);
+            he.printStackTrace();
         } finally {
             s.close();
             return o;
         }
     }
-    
+
     public List selectWithJoin(String table, String join) {
         return this.select(table + " where " + join);
     }
