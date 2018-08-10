@@ -19,7 +19,7 @@ public class LoginJF extends javax.swing.JFrame {
     public LoginJF() {
         initComponents();
         this.setLocationRelativeTo(null);
-        //new PlanoDAO().consultarId(1);
+        new PlanoDAO().select("Plano");
     }
 
     /**
