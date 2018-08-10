@@ -27,7 +27,7 @@ public class DAO {
             r = he.toString();
             return r;
         } finally {
-            //s.close();
+            s.close();
             return null;
         }
     }
@@ -43,8 +43,10 @@ public class DAO {
             o = q.list();
         } catch (HibernateException he) {
             System.out.println(he);
+        } finally {
+            s.close();
+            return o;
         }
-        return o;
     }
     
     public List selectWithJoin(String table, String join) {
