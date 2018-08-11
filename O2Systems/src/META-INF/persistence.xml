@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="ExeHiberPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>entidade.Pessoa</class>
+    <class>negocio.Exames</class>
+    <class>negocio.Receita</class>
+    <class>negocio.Cidade</class>
+    <class>negocio.Estado</class>
+    <class>negocio.ListagemPlanos</class>
+    <class>negocio.AgendamentoExames</class>
+    <class>negocio.Usuario</class>
+    <class>negocio.ListagemFuncao</class>
+    <class>negocio.Consultas</class>
+    <class>negocio.Requisicao</class>
+    <class>negocio.FormaPagamento</class>
+    <class>negocio.Plano</class>
+    <class>negocio.Funcao</class>
+    <class>negocio.Prontuario</class>
+    <class>negocio.ListagemExames</class>
+    <class>negocio.Funcionario</class>
+    <class>negocio.ListagemRemedios</class>
+    <class>negocio.Paciente</class>
+    <class>negocio.Pessoa</class>
+    <class>negocio.Remedio</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://pgsql03-farm76.kinghost.net:5432/syscoffe"/>
+      <property name="javax.persistence.jdbc.user" value="syscoffe"/>
+      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="marina2018b"/>
+    </properties>
+  </persistence-unit>
+</persistence>
