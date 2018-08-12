@@ -26,6 +26,7 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
     public CadastroPlanoSaudeJIF() {
         initComponents();
         limpar();
+        
     }
 
     /**
@@ -227,5 +228,20 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
         if (Gema.vazio(nomePlano, 2)) {
             this.plano.setNomePlano(nomePlano);
         }
+    }
+
+    @Override
+    public void situacaoNovo() {
+    
+    }
+
+    @Override
+    public void situacaoEditar() {
+    
+    }
+
+    @Override
+    public void permissao() {
+    
     }
 }

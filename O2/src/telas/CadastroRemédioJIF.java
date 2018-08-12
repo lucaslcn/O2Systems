@@ -16,7 +16,7 @@ import org.hibernate.HibernateException;
  *
  * @author elias
  */
-public class CadastroRemédioJIF extends javax.swing.JInternalFrame {
+public class CadastroRemédioJIF extends javax.swing.JInternalFrame implements BasicScreen {
     
     Remedio remedio;
 
