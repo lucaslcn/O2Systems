@@ -25,15 +25,15 @@ public class PlanoDAO extends DAO implements IDAO_T<Plano> {
         int columAll = 2;
 //        Definição do cabecalho.
         Object[] cabecalho = new Object[columAll];
-        cabecalho[0] = "";
-        cabecalho[1] = "";
+        cabecalho[0] = "Código";
+        cabecalho[1] = "Nome do Plano";
 
 //        Preencha com o nome da tabela.
         String table = "Plano";
 
         //Executa a busca
         if (Gema.vazio(criterio, 1)) {
-            array = this.selectWithJoin(table, "ilike %" + criterio + "%");
+            array = this.selectWithJoin(table, "ILIKE %" + criterio + "% ORDER BY nome_plano");
         } else {
             array = this.select(table);
         }
@@ -80,18 +80,16 @@ public class PlanoDAO extends DAO implements IDAO_T<Plano> {
         tabela.setSelectionMode(0);
 
         // redimensiona as colunas de uma tabela
+//        580px tamanho da tabela
         TableColumn column = null;
         for (int j = 0; j < tabela.getColumnCount(); j++) {
             column = tabela.getColumnModel().getColumn(j);
             switch (j) {
                 case 0:
-                    column.setPreferredWidth(17);
+                    column.setPreferredWidth(145);
                     break;
                 case 1:
-                    column.setPreferredWidth(30);
-                    break;
-                case 2:
-                    column.setPreferredWidth(250);
+                    column.setPreferredWidth(435);
                     break;
             }
         }

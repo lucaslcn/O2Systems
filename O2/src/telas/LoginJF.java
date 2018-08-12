@@ -18,12 +18,11 @@ public class LoginJF extends javax.swing.JFrame {
      * Creates new form Login
      */
     public LoginJF() {
-        caregando();
         initComponents();
         this.setLocationRelativeTo(null);
-        caregando();
+//        caregando();
         new PlanoDAO().select("Plano");
-        a.fechar();
+//        a.fechar();
     }
 
     /**

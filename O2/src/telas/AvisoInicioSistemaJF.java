@@ -19,7 +19,6 @@ public class AvisoInicioSistemaJF extends javax.swing.JFrame {
     public AvisoInicioSistemaJF() {
         initComponents();
         this.setLocationRelativeTo(null);
-        load();
     }
 
     /**
