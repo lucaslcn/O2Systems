@@ -57,7 +57,25 @@ public class DAO {
     public List selectWithJoin(String table, String join) {
         return this.select(table + " where " + join);
     }
-
+    
+    public String update(Object o) {
+        String r = null;
+        Session s = null;
+        try {
+            s = ConexaoDAO.iniciarSessão();
+            Transaction t = s.beginTransaction();
+            s.update(o);
+            t.commit();
+        } catch (HibernateException he) {
+            he.printStackTrace();
+            r = he.toString();
+            return r;
+        } finally {
+            s.close();
+            return null;
+        }
+    }
+    
     public String delete() {
         return null;
     }

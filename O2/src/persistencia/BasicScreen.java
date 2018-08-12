@@ -36,6 +36,11 @@ public interface BasicScreen {
      */
     public void situacaoEditar();
     
+     /**
+     * Usado para ativar/desativar botões em tela se a situação for Visualizacao.
+     */
+    public void situacaoVisualizacao();
+    
     /**
      * Usado para aplicar o controle de permissao.
      */

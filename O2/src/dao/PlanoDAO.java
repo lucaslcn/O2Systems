@@ -100,7 +100,7 @@ public class PlanoDAO extends DAO implements IDAO_T<Plano> {
 
     @Override
     public Plano consultarId(int id) {
-        Object o = this.selectWithJoin("Plano", "idplano = " + id);
+        Object o = this.selectWithJoin("Plano", "idplano = " + id).get(0);
         return (Plano) o;
     }
 

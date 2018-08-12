@@ -103,7 +103,7 @@ public class RemedioDAO extends DAO implements IDAO_T<Remedio> {
 
     @Override
     public Remedio consultarId(int id) {
-        Object o = this.selectWithJoin("Remedio", "idremedio = " + id);
+        Object o = this.selectWithJoin("Remedio", "idremedio = " + id).get(0);
         return (Remedio) o;
     }
 

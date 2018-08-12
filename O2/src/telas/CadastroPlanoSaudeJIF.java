@@ -9,6 +9,7 @@ import persistencia.BasicScreen;
 import dao.PlanoDAO;
 import gema.Gema;
 import gema.Mensagens;
+import javax.swing.JOptionPane;
 import negocio.Plano;
 import org.hibernate.HibernateException;
 
@@ -26,7 +27,8 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
     public CadastroPlanoSaudeJIF() {
         initComponents();
         limpar();
-        
+        situacaoNovo();
+
     }
 
     /**
@@ -80,6 +82,11 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
         btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_edit.png"))); // NOI18N
         btnEditar.setText("Editar");
         btnEditar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_add.png"))); // NOI18N
         btnSalvar.setText("Salvar");
@@ -164,7 +171,12 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        dispose();
+        int resposta = Mensagens.questionarAcao();
+        if (resposta == JOptionPane.NO_OPTION) {
+
+        } else if (resposta == JOptionPane.YES_OPTION) {
+            dispose();
+        }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
@@ -173,19 +185,24 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
         if (k != null) {
             this.plano = k;
             preencher();
-            btnCancelar.setEnabled(true);
-            btnDeletar.setEnabled(true);
+            situacaoVisualizacao();
         }
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
             popular();
-            String r = new PlanoDAO().insert(this.plano);
+            String r;
+            if (plano.getIdplano() != null) {
+                r = new PlanoDAO().update(this.plano);
+            } else {
+                r = new PlanoDAO().insert(this.plano);
+            }
 
             if (r == null) {
                 Mensagens.retornoAcao(Mensagens.salvo("plano de saúde"));
                 limpar();
+                situacaoNovo();
             } else {
                 Mensagens.retornoAcao(Mensagens.erroSalvar("Plano de saúde"));
                 jTF_NomePlano.requestFocus();
@@ -195,6 +212,10 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
         }
 
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        situacaoEditar();
+    }//GEN-LAST:event_btnEditarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -212,7 +233,7 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
 
     @Override
     public void preencher() {
-
+        jTF_NomePlano.setText(this.plano.getNomePlano());
     }
 
     @Override
@@ -232,16 +253,40 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
 
     @Override
     public void situacaoNovo() {
-    
+        jTF_NomePlano.setEnabled(true);
+        btnCancelar.setEnabled(true);
+        btnDeletar.setEnabled(false);
+        btnEditar.setEnabled(false);
+        btnPesquisar.setEnabled(true);
+        btnSalvar.setEnabled(true);
+        permissao();
     }
 
     @Override
     public void situacaoEditar() {
-    
+        jTF_NomePlano.setEnabled(true);
+        btnCancelar.setEnabled(true);
+        btnDeletar.setEnabled(false);
+        btnEditar.setEnabled(false);
+        btnPesquisar.setEnabled(false);
+        btnSalvar.setEnabled(true);
+        permissao();
+    }
+
+    @Override
+    public void situacaoVisualizacao() {
+        jTF_NomePlano.setEnabled(false);
+        btnCancelar.setEnabled(true);
+        btnDeletar.setEnabled(false);
+        btnEditar.setEnabled(true);
+        btnPesquisar.setEnabled(true);
+        btnSalvar.setEnabled(false);
+        permissao();
     }
 
     @Override
     public void permissao() {
-    
+
     }
+
 }

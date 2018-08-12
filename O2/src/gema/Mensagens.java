@@ -17,6 +17,11 @@ public class Mensagens {
         JOptionPane.showMessageDialog(null, oQue);
     }
     
+    public static int questionarAcao(){
+        int resposta = JOptionPane.showConfirmDialog(null, "Deseja realmente cancelar a operação?", "Alerta!", JOptionPane.YES_NO_OPTION);
+        return resposta;
+    }
+    
     public static String erroSalvar (String onde){
         return "Erro ao salvar: " +  onde;
     }
