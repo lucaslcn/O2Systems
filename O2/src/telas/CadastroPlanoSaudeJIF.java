@@ -28,6 +28,9 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
         initComponents();
         limpar();
         situacaoNovo();
+        
+        //regra de negocio, o plano de saúde não pode ser excluido
+        btnDeletar.setVisible(false);
 
     }
 
