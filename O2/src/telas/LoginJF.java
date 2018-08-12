@@ -6,20 +6,24 @@
 package telas;
 
 import dao.PlanoDAO;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author anderson.caye
  */
 public class LoginJF extends javax.swing.JFrame {
-
+    AvisoInicioSistemaJF a;
     /**
      * Creates new form Login
      */
     public LoginJF() {
+        caregando();
         initComponents();
         this.setLocationRelativeTo(null);
+        caregando();
         new PlanoDAO().select("Plano");
+        a.fechar();
     }
 
     /**
@@ -34,6 +38,7 @@ public class LoginJF extends javax.swing.JFrame {
         btnLogin = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Acessar Sistema");
 
         btnLogin.setText("Login");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -107,4 +112,9 @@ public class LoginJF extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;
     // End of variables declaration//GEN-END:variables
+
+    private void caregando() {
+        this.a = new AvisoInicioSistemaJF();
+        a.setVisible(true);
+    }
 }
