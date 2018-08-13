@@ -106,7 +106,7 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados Básicos"));
 
-        jLabel3.setText("Nome Plano");
+        jLabel3.setText("Nome Plano (*)");
 
         jTF_NomePlano.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jTF_NomePlano.setText("Unimed Nacional");
