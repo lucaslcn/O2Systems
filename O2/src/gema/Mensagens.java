@@ -46,4 +46,8 @@ public class Mensagens {
         return "\nMensagem técnica:\n" + exception;
     }
     
+    public static String preenchaOsCampos(){
+        return "Preencha todos os campos obrigatórios!";
+    }
+    
 }

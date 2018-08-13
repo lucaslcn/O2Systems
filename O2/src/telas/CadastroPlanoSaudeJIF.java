@@ -28,7 +28,7 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
         initComponents();
         limpar();
         situacaoNovo();
-        
+
         //regra de negocio, o plano de saúde não pode ser excluido
         btnDeletar.setVisible(false);
 
@@ -194,21 +194,25 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
-            popular();
-            String r;
-            if (plano.getIdplano() != null) {
-                r = new PlanoDAO().update(this.plano);
-            } else {
-                r = new PlanoDAO().insert(this.plano);
-            }
+            if (Gema.vazio(jTF_NomePlano.getText(), 1)) {
+                popular();
+                String r;
+                if (plano.getIdplano() != null) {
+                    r = new PlanoDAO().update(this.plano);
+                } else {
+                    r = new PlanoDAO().insert(this.plano);
+                }
 
-            if (r == null) {
-                Mensagens.retornoAcao(Mensagens.salvo("plano de saúde"));
-                limpar();
-                situacaoNovo();
+                if (r == null) {
+                    Mensagens.retornoAcao(Mensagens.salvo("plano de saúde"));
+                    limpar();
+                    situacaoNovo();
+                } else {
+                    Mensagens.retornoAcao(Mensagens.erroSalvar("Plano de saúde"));
+                    jTF_NomePlano.requestFocus();
+                }
             } else {
-                Mensagens.retornoAcao(Mensagens.erroSalvar("Plano de saúde"));
-                jTF_NomePlano.requestFocus();
+                Mensagens.retornoAcao(Mensagens.preenchaOsCampos());
             }
         } catch (HibernateException he) {
             System.out.println(he);
