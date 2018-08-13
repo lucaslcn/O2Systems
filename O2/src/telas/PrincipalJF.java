@@ -88,7 +88,7 @@ public class PrincipalJF extends javax.swing.JFrame {
         itemMenuDadosAcesso.setText("Dados de Acesso");
         menuO2System.add(itemMenuDadosAcesso);
 
-        itemMenuUsuario.setText("Usu√°rios");
+        itemMenuUsuario.setText("Usu·rios");
         menuO2System.add(itemMenuUsuario);
         menuO2System.add(jSeparator5);
 
@@ -107,7 +107,7 @@ public class PrincipalJF extends javax.swing.JFrame {
         menuCadastro.add(itemMenuConsultar);
         menuCadastro.add(jSeparator2);
 
-        itemMenuFuncionario.setText("Funcion√°rio");
+        itemMenuFuncionario.setText("Funcion·rio");
         itemMenuFuncionario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemMenuFuncionarioActionPerformed(evt);
@@ -132,7 +132,12 @@ public class PrincipalJF extends javax.swing.JFrame {
         });
         menuCadastro.add(itemMenuPlano);
 
-        itemMenuRemedio.setText("Rem√©dio");
+        itemMenuRemedio.setText("RemÈdio");
+        itemMenuRemedio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuRemedioActionPerformed(evt);
+            }
+        });
         menuCadastro.add(itemMenuRemedio);
 
         itemMenuExame.setText("Exame");
@@ -157,7 +162,7 @@ public class PrincipalJF extends javax.swing.JFrame {
 
         jMenuBar1.add(menuAgendamento);
 
-        menuRelatorios.setText("Relat√≥rios");
+        menuRelatorios.setText("RelatÛrios");
         jMenuBar1.add(menuRelatorios);
 
         setJMenuBar(jMenuBar1);
@@ -193,9 +198,15 @@ public class PrincipalJF extends javax.swing.JFrame {
     private void itemMenuPlanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuPlanoActionPerformed
         CadastroPlanoSaudeJIF k = new CadastroPlanoSaudeJIF();
         jDesktopRun.add(k);
-        k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/10);
+        k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
     }//GEN-LAST:event_itemMenuPlanoActionPerformed
+
+    private void itemMenuRemedioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuRemedioActionPerformed
+        CadastroRemedioJIF k = new CadastroRemedioJIF();
+        jDesktopRun.add(k);
+        k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
+        k.setVisible(true);    }//GEN-LAST:event_itemMenuRemedioActionPerformed
 
 //    /**
 //     * @param args the command line arguments
