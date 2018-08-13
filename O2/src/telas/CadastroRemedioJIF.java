@@ -30,7 +30,7 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
         
         CB_Controlado.removeAllItems();
         CB_Controlado.addItem("Não");
-        CB_Controlado.addItem("Sim");
+        CB_Controlado.addItem("Sima");
     }
 
     /**
