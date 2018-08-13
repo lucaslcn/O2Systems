@@ -32,6 +32,8 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
         CB_Controlado.addItem("Não");
         CB_Controlado.addItem("Sim");
 
+        //regra de negocio, o remédio não pode ser excluído
+        btnDeletar.setVisible(false);
         situacaoNovo();
     }
 
@@ -247,7 +249,7 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
     }//GEN-LAST:event_CB_ControladoActionPerformed
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
-        // TODO add your handling code here:
+      
     }//GEN-LAST:event_btnDeletarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
