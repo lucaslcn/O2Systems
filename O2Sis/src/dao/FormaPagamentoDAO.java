@@ -31,7 +31,7 @@ public class FormaPagamentoDAO extends DAO implements IDAO_T<FormaPagamento> {
         cabecalho[1] = "Nome da Forma de Pagamento";
 
 //        Preencha com o nome da tabela.
-        String table = "forma_Pagamento";
+        String table = "forma_pagamento";
 
         //Executa a busca
         if (Gema.vazio(criterio, 1)) {
