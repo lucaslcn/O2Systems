@@ -93,7 +93,7 @@
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="TF_NomeRemedio" pref="448" max="32767" attributes="0"/>
+                      <Component id="TF_NomeRemedio" pref="455" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Component id="CB_Controlado" min="-2" pref="100" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -124,7 +124,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Nome Rem&#xe9;dio:"/>
+            <Property name="text" type="java.lang.String" value="Nome Rem&#xe9;dio (*)"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="TF_NomeRemedio">
@@ -137,7 +137,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Controlado:"/>
+            <Property name="text" type="java.lang.String" value="Controlado"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JComboBox" name="CB_Controlado">

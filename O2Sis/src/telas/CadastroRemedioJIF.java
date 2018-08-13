@@ -29,10 +29,10 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
         limpar();
 
         CB_Controlado.removeAllItems();
-        CB_Controlado.addItem("Não");
+        CB_Controlado.addItem("NÃ£o");
         CB_Controlado.addItem("Sim");
 
-        //regra de negocio, o remédio não pode ser excluído
+        //regra de negocio, o remï¿½dio nï¿½o pode ser excluï¿½do
         btnDeletar.setVisible(false);
         situacaoNovo();
     }
@@ -58,22 +58,22 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
         btnEditar = new javax.swing.JToggleButton();
         btnSalvar = new javax.swing.JToggleButton();
 
-        setTitle("Cadastro de Remédio");
+        setTitle("Cadastro de RemÃ©dio");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Cadastro Remédio");
+        jLabel1.setText("Cadastro RemÃ©dio");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados Básicos"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados BÃ¡sicos"));
 
-        jLabel3.setText("Nome Remédio:");
+        jLabel3.setText("Nome RemÃ©dio (*)");
 
         TF_NomeRemedio.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         TF_NomeRemedio.setText("Tylenol");
 
-        jLabel2.setText("Controlado:");
+        jLabel2.setText("Controlado");
 
-        CB_Controlado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Não", "Sim" }));
+        CB_Controlado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NÃ£o", "Sim" }));
         CB_Controlado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CB_ControladoActionPerformed(evt);
@@ -91,7 +91,7 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(TF_NomeRemedio, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
+                    .addComponent(TF_NomeRemedio, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(CB_Controlado, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
