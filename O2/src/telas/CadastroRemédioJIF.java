@@ -241,4 +241,24 @@ public class CadastroRemédioJIF extends javax.swing.JInternalFrame implements B
             this.remedio.setNomeRemedio(nomeRemedio);
         }
     }
+
+    @Override
+    public void situacaoNovo() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void situacaoEditar() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void situacaoVisualizacao() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void permissao() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
