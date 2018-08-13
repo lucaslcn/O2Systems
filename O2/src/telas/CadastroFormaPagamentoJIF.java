@@ -24,8 +24,8 @@ public class CadastroFormaPagamentoJIF extends javax.swing.JInternalFrame implem
      * Creates new form CadastroFormaPagamentoJIF
      */
     public CadastroFormaPagamentoJIF() {
-        this.setTitle("Cadastro Forma de Pagamento");
         initComponents();
+        this.setTitle("Cadastro Forma de Pagamento");
         limpar();
         situacaoNovo();
         
@@ -97,12 +97,12 @@ public class CadastroFormaPagamentoJIF extends javax.swing.JInternalFrame implem
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Cadastro Forma de Pagamento");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados B·sicos"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados B√°sicos"));
 
         jLabel3.setText("Forma pagto.");
 
         jTF_NomeFormaPagamento.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jTF_NomeFormaPagamento.setText("Boleto banc·rio");
+        jTF_NomeFormaPagamento.setText("Boleto banc√°rio");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -268,7 +268,7 @@ public class CadastroFormaPagamentoJIF extends javax.swing.JInternalFrame implem
 
     @Override
     public void permissao() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
 

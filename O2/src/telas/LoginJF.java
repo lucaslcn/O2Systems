@@ -21,7 +21,7 @@ public class LoginJF extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
 //        caregando();
-        new PlanoDAO().select("Plano");
+        //new PlanoDAO().select("Plano");
 //        a.fechar();
     }
 

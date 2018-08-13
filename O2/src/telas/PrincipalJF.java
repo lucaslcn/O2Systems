@@ -49,6 +49,7 @@ public class PrincipalJF extends javax.swing.JFrame {
         itemMenuPlano = new javax.swing.JMenuItem();
         itemMenuRemedio = new javax.swing.JMenuItem();
         itemMenuExame = new javax.swing.JMenuItem();
+        itemMenuFormaPagamento = new javax.swing.JMenuItem();
         menuAgendamento = new javax.swing.JMenu();
         itemMenuConsultasMarcadas = new javax.swing.JMenuItem();
         itemMenuExamesMarcados = new javax.swing.JMenuItem();
@@ -88,26 +89,35 @@ public class PrincipalJF extends javax.swing.JFrame {
         itemMenuDadosAcesso.setText("Dados de Acesso");
         menuO2System.add(itemMenuDadosAcesso);
 
-        itemMenuUsuario.setText("Usu·rios");
+        itemMenuUsuario.setText("Usu√°rios");
         menuO2System.add(itemMenuUsuario);
         menuO2System.add(jSeparator5);
 
+        itemMenuSobre.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, java.awt.event.InputEvent.CTRL_MASK));
         itemMenuSobre.setText("Sobre");
         menuO2System.add(itemMenuSobre);
         menuO2System.add(jSeparator4);
 
+        itemMenuSair.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.SHIFT_MASK));
         itemMenuSair.setText("Sair");
+        itemMenuSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuSairActionPerformed(evt);
+            }
+        });
         menuO2System.add(itemMenuSair);
 
         jMenuBar1.add(menuO2System);
 
         menuCadastro.setText("Cadastro");
 
+        itemMenuConsultar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
         itemMenuConsultar.setText("Consultar");
         menuCadastro.add(itemMenuConsultar);
         menuCadastro.add(jSeparator2);
 
-        itemMenuFuncionario.setText("Funcion·rio");
+        itemMenuFuncionario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
+        itemMenuFuncionario.setText("Funcion√°rio");
         itemMenuFuncionario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemMenuFuncionarioActionPerformed(evt);
@@ -115,6 +125,7 @@ public class PrincipalJF extends javax.swing.JFrame {
         });
         menuCadastro.add(itemMenuFuncionario);
 
+        itemMenuPaciente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         itemMenuPaciente.setText("Paciente");
         itemMenuPaciente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -124,6 +135,7 @@ public class PrincipalJF extends javax.swing.JFrame {
         menuCadastro.add(itemMenuPaciente);
         menuCadastro.add(jSeparator1);
 
+        itemMenuPlano.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.SHIFT_MASK));
         itemMenuPlano.setText("Plano");
         itemMenuPlano.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -132,7 +144,8 @@ public class PrincipalJF extends javax.swing.JFrame {
         });
         menuCadastro.add(itemMenuPlano);
 
-        itemMenuRemedio.setText("RemÈdio");
+        itemMenuRemedio.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.SHIFT_MASK));
+        itemMenuRemedio.setText("Rem√©dio");
         itemMenuRemedio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemMenuRemedioActionPerformed(evt);
@@ -140,29 +153,43 @@ public class PrincipalJF extends javax.swing.JFrame {
         });
         menuCadastro.add(itemMenuRemedio);
 
+        itemMenuExame.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.SHIFT_MASK));
         itemMenuExame.setText("Exame");
         menuCadastro.add(itemMenuExame);
+
+        itemMenuFormaPagamento.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.SHIFT_MASK));
+        itemMenuFormaPagamento.setText("Forma Pagamento");
+        itemMenuFormaPagamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuFormaPagamentoActionPerformed(evt);
+            }
+        });
+        menuCadastro.add(itemMenuFormaPagamento);
 
         jMenuBar1.add(menuCadastro);
 
         menuAgendamento.setText("Agendamento");
 
+        itemMenuConsultasMarcadas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
         itemMenuConsultasMarcadas.setText("Consultas Marcados");
         menuAgendamento.add(itemMenuConsultasMarcadas);
 
+        itemMenuExamesMarcados.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
         itemMenuExamesMarcados.setText("Exames Marcados");
         menuAgendamento.add(itemMenuExamesMarcados);
         menuAgendamento.add(jSeparator3);
 
+        itemMenuAgendarConsulta.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
         itemMenuAgendarConsulta.setText("Agendar Consultas");
         menuAgendamento.add(itemMenuAgendarConsulta);
 
+        itemMenuAgendarExames.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
         itemMenuAgendarExames.setText("Agendar Exames");
         menuAgendamento.add(itemMenuAgendarExames);
 
         jMenuBar1.add(menuAgendamento);
 
-        menuRelatorios.setText("RelatÛrios");
+        menuRelatorios.setText("Relat√≥rios");
         jMenuBar1.add(menuRelatorios);
 
         setJMenuBar(jMenuBar1);
@@ -206,7 +233,19 @@ public class PrincipalJF extends javax.swing.JFrame {
         CadastroRemedioJIF k = new CadastroRemedioJIF();
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
-        k.setVisible(true);    }//GEN-LAST:event_itemMenuRemedioActionPerformed
+        k.setVisible(true);    
+    }//GEN-LAST:event_itemMenuRemedioActionPerformed
+
+    private void itemMenuSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuSairActionPerformed
+        dispose();
+    }//GEN-LAST:event_itemMenuSairActionPerformed
+
+    private void itemMenuFormaPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuFormaPagamentoActionPerformed
+        CadastroFormaPagamentoJIF k = new CadastroFormaPagamentoJIF();
+        jDesktopRun.add(k);
+        k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
+        k.setVisible(true);
+    }//GEN-LAST:event_itemMenuFormaPagamentoActionPerformed
 
 //    /**
 //     * @param args the command line arguments
@@ -251,6 +290,7 @@ public class PrincipalJF extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemMenuDadosAcesso;
     private javax.swing.JMenuItem itemMenuExame;
     private javax.swing.JMenuItem itemMenuExamesMarcados;
+    private javax.swing.JMenuItem itemMenuFormaPagamento;
     private javax.swing.JMenuItem itemMenuFuncionario;
     private javax.swing.JMenuItem itemMenuPaciente;
     private javax.swing.JMenuItem itemMenuPlano;
