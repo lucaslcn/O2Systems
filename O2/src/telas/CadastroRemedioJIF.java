@@ -18,7 +18,7 @@ import org.hibernate.HibernateException;
  * @author elias
  */
 public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements BasicScreen {
-        
+
     Remedio remedio;
 
     /**
@@ -27,10 +27,12 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
     public CadastroRemedioJIF() {
         initComponents();
         limpar();
-        
+
         CB_Controlado.removeAllItems();
         CB_Controlado.addItem("Não");
-        CB_Controlado.addItem("Sima");
+        CB_Controlado.addItem("Sim");
+
+        situacaoNovo();
     }
 
     /**
@@ -129,10 +131,20 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
         btnDeletar.setSelected(true);
         btnDeletar.setText("Deletar");
         btnDeletar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnDeletar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeletarActionPerformed(evt);
+            }
+        });
 
         btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_edit.png"))); // NOI18N
         btnEditar.setText("Editar");
         btnEditar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_add.png"))); // NOI18N
         btnSalvar.setText("Salvar");
@@ -205,21 +217,25 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
-            popular();
-            String r;
-            if (remedio.getIdremedio()!= null) {
-                r = new RemedioDAO().update(this.remedio);
-            } else {
-                r = new RemedioDAO().insert(this.remedio);
-            }
+            if (Gema.vazio(TF_NomeRemedio.getText(), 1)) {
+                popular();
+                String r;
+                if (remedio.getIdremedio() != null) {
+                    r = new RemedioDAO().update(this.remedio);
+                } else {
+                    r = new RemedioDAO().insert(this.remedio);
+                }
 
-            if (r == null) {
-                Mensagens.retornoAcao(Mensagens.salvo("Remedio"));
-                limpar();
-                situacaoNovo();
+                if (r == null) {
+                    Mensagens.retornoAcao(Mensagens.salvo("Remedio"));
+                    limpar();
+                    situacaoNovo();
+                } else {
+                    Mensagens.retornoAcao(Mensagens.erroSalvar("Remedio"));
+                    TF_NomeRemedio.requestFocus();
+                }
             } else {
-                Mensagens.retornoAcao(Mensagens.erroSalvar("Remedio"));
-                TF_NomeRemedio.requestFocus();
+                Mensagens.retornoAcao(Mensagens.preenchaOsCampos());
             }
         } catch (HibernateException he) {
             System.out.println(he);
@@ -229,6 +245,14 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
     private void CB_ControladoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CB_ControladoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_CB_ControladoActionPerformed
+
+    private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDeletarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        situacaoEditar();
+    }//GEN-LAST:event_btnEditarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -246,7 +270,12 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
     // End of variables declaration//GEN-END:variables
 
     public void preencher() {
-
+        TF_NomeRemedio.setText(this.remedio.getNomeRemedio());
+        if (this.remedio.getControlado() == false) {
+            CB_Controlado.setSelectedIndex(0);
+        } else {
+            CB_Controlado.setSelectedIndex(1);
+        }
     }
 
     public void limpar() {
@@ -265,11 +294,10 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
             } else {
                 this.remedio.setControlado(true);
             }
-            
+
         }
     }
 
-   
     @Override
     public void situacaoNovo() {
         TF_NomeRemedio.setEnabled(true);
