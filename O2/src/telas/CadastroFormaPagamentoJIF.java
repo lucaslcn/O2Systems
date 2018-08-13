@@ -5,33 +5,32 @@
  */
 package telas;
 
+import dao.FormaPagamentoDAO;
+import negocio.FormaPagamento;
 import persistencia.BasicScreen;
-import dao.PlanoDAO;
 import gema.Gema;
 import gema.Mensagens;
 import javax.swing.JOptionPane;
-import negocio.Plano;
 import org.hibernate.HibernateException;
 
 /**
  *
- * @author XorNOTE
+ * @author Lucas
  */
-public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements BasicScreen {
-
-    Plano plano;
-
+public class CadastroFormaPagamentoJIF extends javax.swing.JInternalFrame implements BasicScreen {
+       
+    FormaPagamento formapagamento;
     /**
-     * Creates new form CadastroPlanoSaudeJIF
+     * Creates new form CadastroFormaPagamentoJIF
      */
-    public CadastroPlanoSaudeJIF() {
+    public CadastroFormaPagamentoJIF() {
+        this.setTitle("Cadastro Forma de Pagamento");
         initComponents();
         limpar();
         situacaoNovo();
-
-        //regra de negocio, a forma de pagamento n„o pode ser excluÌda
+        
+        //regra de negocio
         btnDeletar.setVisible(false);
-
     }
 
     /**
@@ -43,7 +42,6 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JToggleButton();
         btnPesquisar = new javax.swing.JToggleButton();
         btnDeletar = new javax.swing.JToggleButton();
@@ -52,12 +50,7 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jTF_NomePlano = new javax.swing.JTextField();
-
-        jLabel2.setText("jLabel2");
-
-        setClosable(true);
-        setTitle("Cadastro Plano de Sa√∫de");
+        jTF_NomeFormaPagamento = new javax.swing.JTextField();
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cancel.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
@@ -102,14 +95,14 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Cadastro Plano de Sa√∫de");
+        jLabel1.setText("Cadastro Forma de Pagamento");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados B√°sicos"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados B·sicos"));
 
-        jLabel3.setText("Nome Plano (*)");
+        jLabel3.setText("Forma pagto.");
 
-        jTF_NomePlano.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jTF_NomePlano.setText("Unimed Nacional");
+        jTF_NomeFormaPagamento.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTF_NomeFormaPagamento.setText("Boleto banc·rio");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -119,7 +112,7 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
                 .addContainerGap()
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTF_NomePlano)
+                .addComponent(jTF_NomeFormaPagamento)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -127,7 +120,7 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTF_NomePlano, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTF_NomeFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -136,6 +129,7 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -143,13 +137,13 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
                         .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                        .addGap(50, 50, 50)
                         .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -158,15 +152,15 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -183,84 +177,65 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        Plano k = (Plano) Gema.pesquisar(new PlanoDAO());
+        FormaPagamento k = (FormaPagamento) Gema.pesquisar(new FormaPagamentoDAO());
 
         if (k != null) {
-            this.plano = k;
+            this.formapagamento = k;
             preencher();
             situacaoVisualizacao();
         }
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
-    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        try {
-            if (Gema.vazio(jTF_NomePlano.getText(), 1)) {
-                popular();
-                String r;
-                if (plano.getIdplano() != null) {
-                    r = new PlanoDAO().update(this.plano);
-                } else {
-                    r = new PlanoDAO().insert(this.plano);
-                }
-
-                if (r == null) {
-                    Mensagens.retornoAcao(Mensagens.salvo("plano de sa√∫de"));
-                    limpar();
-                    situacaoNovo();
-                } else {
-                    Mensagens.retornoAcao(Mensagens.erroSalvar("Plano de sa√∫de"));
-                    jTF_NomePlano.requestFocus();
-                }
-            } else {
-                Mensagens.retornoAcao(Mensagens.preenchaOsCampos());
-            }
-        } catch (HibernateException he) {
-            System.out.println(he);
-        }
-
-    }//GEN-LAST:event_btnSalvarActionPerformed
-
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         situacaoEditar();
     }//GEN-LAST:event_btnEditarActionPerformed
 
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        try {
+            popular();
+            String r;
+            if (formapagamento.getIdformaPagamento()!= null) {
+                r = new FormaPagamentoDAO().update(this.formapagamento);
+            } else {
+                r = new FormaPagamentoDAO().insert(this.formapagamento);
+            }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton btnCancelar;
-    private javax.swing.JToggleButton btnDeletar;
-    private javax.swing.JToggleButton btnEditar;
-    private javax.swing.JToggleButton btnPesquisar;
-    private javax.swing.JToggleButton btnSalvar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTF_NomePlano;
-    // End of variables declaration//GEN-END:variables
+            if (r == null) {
+                Mensagens.retornoAcao(Mensagens.salvo("Forma de pagamento"));
+                limpar();
+                situacaoNovo();
+            } else {
+                Mensagens.retornoAcao(Mensagens.erroSalvar("Forma de pagamento"));
+                jTF_NomeFormaPagamento.requestFocus();
+            }
+        } catch (HibernateException he) {
+            System.out.println(he);
+        }
+    }//GEN-LAST:event_btnSalvarActionPerformed
 
     @Override
     public void preencher() {
-        jTF_NomePlano.setText(this.plano.getNomePlano());
+        jTF_NomeFormaPagamento.setText(this.formapagamento.getDescricaoFormaPagamento());
     }
 
     @Override
     public void limpar() {
-        this.plano = new Plano();
-        jTF_NomePlano.setText("");
-        jTF_NomePlano.requestFocus();
+        this.formapagamento = new FormaPagamento();
+        jTF_NomeFormaPagamento.setText("");
+        jTF_NomeFormaPagamento.requestFocus();
     }
 
     @Override
     public void popular() {
-        String nomePlano = jTF_NomePlano.getText();
-        if (Gema.vazio(nomePlano, 2)) {
-            this.plano.setNomePlano(nomePlano);
+        String nomeFormaPagamento = jTF_NomeFormaPagamento.getText();
+        if (Gema.vazio(nomeFormaPagamento, 2)) {
+            this.formapagamento.setDescricaoFormaPagamento(nomeFormaPagamento);
         }
     }
 
     @Override
     public void situacaoNovo() {
-        jTF_NomePlano.setEnabled(true);
+        jTF_NomeFormaPagamento.setEnabled(true);
         btnCancelar.setEnabled(true);
         btnDeletar.setEnabled(false);
         btnEditar.setEnabled(false);
@@ -271,7 +246,7 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
 
     @Override
     public void situacaoEditar() {
-        jTF_NomePlano.setEnabled(true);
+        jTF_NomeFormaPagamento.setEnabled(true);
         btnCancelar.setEnabled(true);
         btnDeletar.setEnabled(false);
         btnEditar.setEnabled(false);
@@ -282,7 +257,7 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
 
     @Override
     public void situacaoVisualizacao() {
-        jTF_NomePlano.setEnabled(false);
+        jTF_NomeFormaPagamento.setEnabled(false);
         btnCancelar.setEnabled(true);
         btnDeletar.setEnabled(false);
         btnEditar.setEnabled(true);
@@ -293,7 +268,19 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
 
     @Override
     public void permissao() {
-
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton btnCancelar;
+    private javax.swing.JToggleButton btnDeletar;
+    private javax.swing.JToggleButton btnEditar;
+    private javax.swing.JToggleButton btnPesquisar;
+    private javax.swing.JToggleButton btnSalvar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField jTF_NomeFormaPagamento;
+    // End of variables declaration//GEN-END:variables
 }
