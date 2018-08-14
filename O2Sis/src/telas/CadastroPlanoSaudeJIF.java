@@ -29,7 +29,7 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
         limpar();
         situacaoNovo();
 
-        //regra de negocio, a forma de pagamento não pode ser excluída
+        //regra de negocio, a forma de pagamento nï¿½o pode ser excluï¿½da
         btnDeletar.setVisible(false);
 
     }
@@ -254,6 +254,7 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
     public void popular() {
         String nomePlano = jTF_NomePlano.getText();
         if (Gema.vazio(nomePlano, 2)) {
+            this.plano.setStatus(true);
             this.plano.setNomePlano(nomePlano);
         }
     }

@@ -317,6 +317,7 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
             } else {
                 this.funcao.setBooleanUser(true);
             }
+            this.funcao.setStatus(true);
 
         }
     }
