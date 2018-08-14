@@ -53,7 +53,11 @@ public class RemedioDAO extends DAO implements IDAO_T<Remedio> {
 //              Definir os dados das colunas
                 dadosTabela[i][0] = k.getIdremedio();
                 dadosTabela[i][1] = k.getNomeRemedio();
-                dadosTabela[i][2] = k.getControlado();
+                if (k.getControlado()) {
+                    dadosTabela[i][2] = "Sim";
+                } else {
+                    dadosTabela[i][2] = "Não";
+                }
 
                 i++;
             }

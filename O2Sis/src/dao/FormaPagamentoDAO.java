@@ -31,11 +31,11 @@ public class FormaPagamentoDAO extends DAO implements IDAO_T<FormaPagamento> {
         cabecalho[1] = "Nome da Forma de Pagamento";
 
 //        Preencha com o nome da tabela.
-        String table = "forma_Pagamento";
+        String table = "FormaPagamento";
 
         //Executa a busca
         if (Gema.vazio(criterio, 1)) {
-            array = this.selectWithJoin(table, "descricao_forma_pagamento ilike = '%" + criterio + "%' order by descricao_forma_pagamento asc");
+            array = this.selectWithJoin(table, "descricao_forma_pagamento ilike '%" + criterio + "%' order by descricao_forma_pagamento asc");
         } else {
             array = this.select(table + " order by descricao_forma_pagamento asc");
         }

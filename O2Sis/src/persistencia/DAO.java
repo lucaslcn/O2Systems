@@ -39,6 +39,7 @@ public class DAO {
 
     public List select(String table) {
         table = "from " + table;
+        System.out.println(table);
         List o = null;
         Session s = null;
         try {

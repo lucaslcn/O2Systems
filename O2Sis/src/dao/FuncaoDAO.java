@@ -58,7 +58,6 @@ public class FuncaoDAO extends DAO implements IDAO_T<Funcao> {
                 } else {
                     dadosTabela[i][2] = "Não";
                 }
-                dadosTabela[i][2] = k.getBooleanUser();
 
                 i++;
             }

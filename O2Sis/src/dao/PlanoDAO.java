@@ -1,4 +1,4 @@
-package dao;
+    package dao;
 
 import javax.swing.JTable;
 import negocio.Pessoa;
