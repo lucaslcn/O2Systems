@@ -6,9 +6,7 @@
 package negocio;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,10 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -32,7 +28,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Remedio.findAll", query = "SELECT r FROM Remedio r")
     , @NamedQuery(name = "Remedio.findByIdremedio", query = "SELECT r FROM Remedio r WHERE r.idremedio = :idremedio")
     , @NamedQuery(name = "Remedio.findByNomeRemedio", query = "SELECT r FROM Remedio r WHERE r.nomeRemedio = :nomeRemedio")
-    , @NamedQuery(name = "Remedio.findByControlado", query = "SELECT r FROM Remedio r WHERE r.controlado = :controlado")})
+    , @NamedQuery(name = "Remedio.findByControlado", query = "SELECT r FROM Remedio r WHERE r.controlado = :controlado")
+    , @NamedQuery(name = "Remedio.findByStatus", query = "SELECT r FROM Remedio r WHERE r.status = :status")})
 public class Remedio implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,8 +43,8 @@ public class Remedio implements Serializable {
     private String nomeRemedio;
     @Column(name = "controlado")
     private Boolean controlado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idremedio")
-    private List<ListagemRemedios> listagemRemediosList;
+    @Column(name = "status")
+    private Boolean status;
 
     public Remedio() {
     }
@@ -85,13 +82,12 @@ public class Remedio implements Serializable {
         this.controlado = controlado;
     }
 
-    @XmlTransient
-    public List<ListagemRemedios> getListagemRemediosList() {
-        return listagemRemediosList;
+    public Boolean getStatus() {
+        return status;
     }
 
-    public void setListagemRemediosList(List<ListagemRemedios> listagemRemediosList) {
-        this.listagemRemediosList = listagemRemediosList;
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 
     @Override
