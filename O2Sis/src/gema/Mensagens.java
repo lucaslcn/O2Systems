@@ -50,4 +50,12 @@ public class Mensagens {
         return "Preencha todos os campos obrigatórios!";
     }
     
+    public static String arquivado(String oQue){
+        return oQue + " arquivado com sucesso.";
+    }
+    
+    public static String erroArquivado (String onde){
+        return "Erro ao arquivar: " +  onde;
+    }
+    
 }

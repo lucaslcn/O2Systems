@@ -229,11 +229,11 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
                 }
 
                 if (r == null) {
-                    Mensagens.retornoAcao(Mensagens.salvo("Remedio"));
+                    Mensagens.retornoAcao(Mensagens.salvo("Remédio"));
                     limpar();
                     situacaoNovo();
                 } else {
-                    Mensagens.retornoAcao(Mensagens.erroSalvar("Remedio"));
+                    Mensagens.retornoAcao(Mensagens.erroSalvar("Remédio"));
                     TF_NomeRemedio.requestFocus();
                 }
             } else {
@@ -249,7 +249,21 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
     }//GEN-LAST:event_CB_ControladoActionPerformed
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
-      
+       /* try {
+            this.remedio.setStatus(false);
+            String r;
+            r = new RemedioDAO().update(this.funcao);
+            situacaoNovo();
+            if (r == null) {
+                Mensagens.retornoAcao(Mensagens.arquivado("Remédio"));
+                limpar();
+            } else {
+                Mensagens.retornoAcao(Mensagens.erroArquivado("Remédio"));
+
+            }
+        } catch (HibernateException he) {
+            System.out.println(he);
+        }*/
     }//GEN-LAST:event_btnDeletarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed

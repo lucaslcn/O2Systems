@@ -31,7 +31,7 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
         CB_Usuario.removeAllItems();
         CB_Usuario.addItem("Não");
         CB_Usuario.addItem("Sim");
-        
+
         situacaoNovo();
     }
 
@@ -252,7 +252,21 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
     }//GEN-LAST:event_CB_UsuarioActionPerformed
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
-      
+        try {
+            this.funcao.setStatus(false);
+            String r;
+            r = new FuncaoDAO().update(this.funcao);
+            situacaoNovo();
+            if (r == null) {
+                Mensagens.retornoAcao(Mensagens.arquivado("Funcao"));
+                limpar();
+            } else {
+                Mensagens.retornoAcao(Mensagens.erroArquivado("Funcao"));
+
+            }
+        } catch (HibernateException he) {
+            System.out.println(he);
+        }
     }//GEN-LAST:event_btnDeletarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
@@ -280,7 +294,7 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
 
     public void preencher() {
         TF_DescricaoFuncao.setText(this.funcao.getDescricaoFuncao());
-        if (this.funcao.getBooleanUser()== false) {
+        if (this.funcao.getBooleanUser() == false) {
             CB_Usuario.setSelectedIndex(0);
         } else {
             CB_Usuario.setSelectedIndex(1);
