@@ -131,7 +131,7 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
 
         btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_delete.png"))); // NOI18N
         btnDeletar.setSelected(true);
-        btnDeletar.setText("Deletar");
+        btnDeletar.setText("Arquivar");
         btnDeletar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnDeletar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

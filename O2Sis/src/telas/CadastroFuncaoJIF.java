@@ -6,11 +6,11 @@
 package telas;
 
 import persistencia.BasicScreen;
-import dao.RemedioDAO;
+import dao.FuncaoDAO;
 import gema.Gema;
 import gema.Mensagens;
 import javax.swing.JOptionPane;
-import negocio.Remedio;
+import negocio.Funcao;
 import org.hibernate.HibernateException;
 
 /**
@@ -19,7 +19,7 @@ import org.hibernate.HibernateException;
  */
 public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements BasicScreen {
 
-    Remedio remedio;
+    Funcao funcao;
 
     /**
      * Creates new form CadastroRemédioJIF
@@ -28,12 +28,10 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
         initComponents();
         limpar();
 
-        CB_Controlado.removeAllItems();
-        CB_Controlado.addItem("Não");
-        CB_Controlado.addItem("Sim");
-
-        //regra de negocio, o rem�dio n�o pode ser exclu�do
-        btnDeletar.setVisible(false);
+        CB_Usuario.removeAllItems();
+        CB_Usuario.addItem("Não");
+        CB_Usuario.addItem("Sim");
+        
         situacaoNovo();
     }
 
@@ -49,34 +47,39 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        TF_NomeRemedio = new javax.swing.JTextField();
+        TF_DescricaoFuncao = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        CB_Controlado = new javax.swing.JComboBox<>();
+        CB_Usuario = new javax.swing.JComboBox<>();
         btnCancelar = new javax.swing.JToggleButton();
         btnPesquisar = new javax.swing.JToggleButton();
         btnDeletar = new javax.swing.JToggleButton();
         btnEditar = new javax.swing.JToggleButton();
         btnSalvar = new javax.swing.JToggleButton();
 
-        setTitle("Cadastro de Remédio");
+        setTitle("Cadastro de Função");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Cadastro Remédio");
+        jLabel1.setText("Cadastro Função");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados Básicos"));
 
-        jLabel3.setText("Nome Remédio (*)");
+        jLabel3.setText("Descrição da Função (*)");
 
-        TF_NomeRemedio.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        TF_NomeRemedio.setText("Tylenol");
-
-        jLabel2.setText("Controlado");
-
-        CB_Controlado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Não", "Sim" }));
-        CB_Controlado.addActionListener(new java.awt.event.ActionListener() {
+        TF_DescricaoFuncao.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        TF_DescricaoFuncao.setText("Pediatra");
+        TF_DescricaoFuncao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CB_ControladoActionPerformed(evt);
+                TF_DescricaoFuncaoActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Possui Usuário");
+
+        CB_Usuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Não", "Sim" }));
+        CB_Usuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CB_UsuarioActionPerformed(evt);
             }
         });
 
@@ -91,9 +94,9 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(TF_NomeRemedio, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
+                    .addComponent(TF_DescricaoFuncao, javax.swing.GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(CB_Controlado, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(CB_Usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -102,12 +105,12 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TF_NomeRemedio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TF_DescricaoFuncao, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(CB_Controlado, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(CB_Usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -131,7 +134,7 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
 
         btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_delete.png"))); // NOI18N
         btnDeletar.setSelected(true);
-        btnDeletar.setText("Deletar");
+        btnDeletar.setText("Arquivar");
         btnDeletar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnDeletar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -208,10 +211,10 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        Remedio k = (Remedio) Gema.pesquisar(new RemedioDAO());
+        Funcao k = (Funcao) Gema.pesquisar(new FuncaoDAO());
 
         if (k != null) {
-            this.remedio = k;
+            this.funcao = k;
             preencher();
             situacaoVisualizacao();
         }
@@ -219,22 +222,22 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
-            if (Gema.vazio(TF_NomeRemedio.getText(), 1)) {
+            if (Gema.vazio(TF_DescricaoFuncao.getText(), 1)) {
                 popular();
                 String r;
-                if (remedio.getIdremedio() != null) {
-                    r = new RemedioDAO().update(this.remedio);
+                if (funcao.getIdfuncao() != null) {
+                    r = new FuncaoDAO().update(this.funcao);
                 } else {
-                    r = new RemedioDAO().insert(this.remedio);
+                    r = new FuncaoDAO().insert(this.funcao);
                 }
 
                 if (r == null) {
-                    Mensagens.retornoAcao(Mensagens.salvo("Remedio"));
+                    Mensagens.retornoAcao(Mensagens.salvo("Funcao"));
                     limpar();
                     situacaoNovo();
                 } else {
-                    Mensagens.retornoAcao(Mensagens.erroSalvar("Remedio"));
-                    TF_NomeRemedio.requestFocus();
+                    Mensagens.retornoAcao(Mensagens.erroSalvar("Funcao"));
+                    TF_DescricaoFuncao.requestFocus();
                 }
             } else {
                 Mensagens.retornoAcao(Mensagens.preenchaOsCampos());
@@ -244,9 +247,9 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
-    private void CB_ControladoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CB_ControladoActionPerformed
+    private void CB_UsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CB_UsuarioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_CB_ControladoActionPerformed
+    }//GEN-LAST:event_CB_UsuarioActionPerformed
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
       
@@ -256,10 +259,14 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
         situacaoEditar();
     }//GEN-LAST:event_btnEditarActionPerformed
 
+    private void TF_DescricaoFuncaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TF_DescricaoFuncaoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TF_DescricaoFuncaoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> CB_Controlado;
-    private javax.swing.JTextField TF_NomeRemedio;
+    private javax.swing.JComboBox<String> CB_Usuario;
+    private javax.swing.JTextField TF_DescricaoFuncao;
     private javax.swing.JToggleButton btnCancelar;
     private javax.swing.JToggleButton btnDeletar;
     private javax.swing.JToggleButton btnEditar;
@@ -272,29 +279,29 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
     // End of variables declaration//GEN-END:variables
 
     public void preencher() {
-        TF_NomeRemedio.setText(this.remedio.getNomeRemedio());
-        if (this.remedio.getControlado() == false) {
-            CB_Controlado.setSelectedIndex(0);
+        TF_DescricaoFuncao.setText(this.funcao.getDescricaoFuncao());
+        if (this.funcao.getBooleanUser()== false) {
+            CB_Usuario.setSelectedIndex(0);
         } else {
-            CB_Controlado.setSelectedIndex(1);
+            CB_Usuario.setSelectedIndex(1);
         }
     }
 
     public void limpar() {
-        this.remedio = new Remedio();
-        TF_NomeRemedio.setText("");
-        TF_NomeRemedio.requestFocus();
+        this.funcao = new Funcao();
+        TF_DescricaoFuncao.setText("");
+        TF_DescricaoFuncao.requestFocus();
     }
 
     public void popular() {
-        String nomeRemedio = TF_NomeRemedio.getText();
-        int controladoRemedio = CB_Controlado.getSelectedIndex();
-        if (Gema.vazio(nomeRemedio, 2)) {
-            this.remedio.setNomeRemedio(nomeRemedio);
-            if (controladoRemedio == 0) {
-                this.remedio.setControlado(false);
+        String descricaoFuncao = TF_DescricaoFuncao.getText();
+        int controladoFuncao = CB_Usuario.getSelectedIndex();
+        if (Gema.vazio(descricaoFuncao, 2)) {
+            this.funcao.setDescricaoFuncao(descricaoFuncao);
+            if (controladoFuncao == 0) {
+                this.funcao.setBooleanUser(false);
             } else {
-                this.remedio.setControlado(true);
+                this.funcao.setBooleanUser(true);
             }
 
         }
@@ -302,8 +309,8 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
 
     @Override
     public void situacaoNovo() {
-        TF_NomeRemedio.setEnabled(true);
-        CB_Controlado.setEnabled(true);
+        TF_DescricaoFuncao.setEnabled(true);
+        CB_Usuario.setEnabled(true);
         btnCancelar.setEnabled(true);
         btnDeletar.setEnabled(false);
         btnEditar.setEnabled(false);
@@ -314,8 +321,8 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
 
     @Override
     public void situacaoEditar() {
-        TF_NomeRemedio.setEnabled(true);
-        CB_Controlado.setEnabled(true);
+        TF_DescricaoFuncao.setEnabled(true);
+        CB_Usuario.setEnabled(true);
         btnCancelar.setEnabled(true);
         btnDeletar.setEnabled(false);
         btnEditar.setEnabled(false);
@@ -326,8 +333,8 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
 
     @Override
     public void situacaoVisualizacao() {
-        TF_NomeRemedio.setEnabled(false);
-        CB_Controlado.setEnabled(false);
+        TF_DescricaoFuncao.setEnabled(false);
+        CB_Usuario.setEnabled(false);
         btnCancelar.setEnabled(true);
         btnDeletar.setEnabled(false);
         btnEditar.setEnabled(true);

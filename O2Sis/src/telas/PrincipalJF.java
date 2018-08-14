@@ -50,6 +50,7 @@ public class PrincipalJF extends javax.swing.JFrame {
         itemMenuRemedio = new javax.swing.JMenuItem();
         itemMenuExame = new javax.swing.JMenuItem();
         itemMenuFormaPagamento = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         menuAgendamento = new javax.swing.JMenu();
         itemMenuConsultasMarcadas = new javax.swing.JMenuItem();
         itemMenuExamesMarcados = new javax.swing.JMenuItem();
@@ -166,6 +167,15 @@ public class PrincipalJF extends javax.swing.JFrame {
         });
         menuCadastro.add(itemMenuFormaPagamento);
 
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.SHIFT_MASK));
+        jMenuItem2.setText("Função");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        menuCadastro.add(jMenuItem2);
+
         jMenuBar1.add(menuCadastro);
 
         menuAgendamento.setText("Agendamento");
@@ -233,7 +243,7 @@ public class PrincipalJF extends javax.swing.JFrame {
         CadastroRemedioJIF k = new CadastroRemedioJIF();
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
-        k.setVisible(true);    
+        k.setVisible(true);
     }//GEN-LAST:event_itemMenuRemedioActionPerformed
 
     private void itemMenuSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuSairActionPerformed
@@ -246,6 +256,13 @@ public class PrincipalJF extends javax.swing.JFrame {
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
     }//GEN-LAST:event_itemMenuFormaPagamentoActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        CadastroFuncaoJIF k = new CadastroFuncaoJIF();
+        jDesktopRun.add(k);
+        k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
+        k.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
 //    /**
 //     * @param args the command line arguments
@@ -302,6 +319,7 @@ public class PrincipalJF extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
