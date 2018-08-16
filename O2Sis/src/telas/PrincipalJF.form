@@ -103,7 +103,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="itemMenuPlano">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Shift+P"/>
+                  <KeyStroke key="Alt+P"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Plano"/>
               </Properties>
@@ -114,7 +114,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="itemMenuRemedio">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Shift+R"/>
+                  <KeyStroke key="Alt+R"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Rem&#xe9;dio"/>
               </Properties>
@@ -125,7 +125,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="itemMenuExame">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Shift+E"/>
+                  <KeyStroke key="Alt+E"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Exame"/>
               </Properties>
@@ -133,7 +133,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="itemMenuFormaPagamento">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Shift+F"/>
+                  <KeyStroke key="Alt+F"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Forma Pagamento"/>
               </Properties>
@@ -144,7 +144,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Shift+H"/>
+                  <KeyStroke key="Alt+H"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Fun&#xe7;&#xe3;o"/>
               </Properties>

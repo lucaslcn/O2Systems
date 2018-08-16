@@ -31,9 +31,8 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
         CB_Controlado.removeAllItems();
         CB_Controlado.addItem("Não");
         CB_Controlado.addItem("Sim");
+        btnDeletar.setVisible(true);
 
-        //regra de negocio, o rem�dio n�o pode ser exclu�do
-        btnDeletar.setVisible(false);
         situacaoNovo();
     }
 
@@ -249,10 +248,10 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
     }//GEN-LAST:event_CB_ControladoActionPerformed
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
-       /* try {
+        try {
             this.remedio.setStatus(false);
             String r;
-            r = new RemedioDAO().update(this.funcao);
+            r = new RemedioDAO().update(this.remedio);
             situacaoNovo();
             if (r == null) {
                 Mensagens.retornoAcao(Mensagens.arquivado("Remédio"));
@@ -263,7 +262,7 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
             }
         } catch (HibernateException he) {
             System.out.println(he);
-        }*/
+        }
     }//GEN-LAST:event_btnDeletarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
@@ -297,6 +296,7 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
     public void limpar() {
         this.remedio = new Remedio();
         TF_NomeRemedio.setText("");
+        CB_Controlado.setSelectedIndex(0);
         TF_NomeRemedio.requestFocus();
     }
 
@@ -319,7 +319,7 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
         TF_NomeRemedio.setEnabled(true);
         CB_Controlado.setEnabled(true);
         btnCancelar.setEnabled(true);
-        btnDeletar.setEnabled(false);
+        btnDeletar.setEnabled(true);
         btnEditar.setEnabled(false);
         btnPesquisar.setEnabled(true);
         btnSalvar.setEnabled(true);
@@ -331,7 +331,7 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
         TF_NomeRemedio.setEnabled(true);
         CB_Controlado.setEnabled(true);
         btnCancelar.setEnabled(true);
-        btnDeletar.setEnabled(false);
+        btnDeletar.setEnabled(true);
         btnEditar.setEnabled(false);
         btnPesquisar.setEnabled(false);
         btnSalvar.setEnabled(true);
@@ -343,7 +343,7 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
         TF_NomeRemedio.setEnabled(false);
         CB_Controlado.setEnabled(false);
         btnCancelar.setEnabled(true);
-        btnDeletar.setEnabled(false);
+        btnDeletar.setEnabled(true);
         btnEditar.setEnabled(true);
         btnPesquisar.setEnabled(true);
         btnSalvar.setEnabled(false);

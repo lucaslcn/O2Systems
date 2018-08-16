@@ -339,7 +339,7 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
         TF_DescricaoFuncao.setEnabled(true);
         CB_Usuario.setEnabled(true);
         btnCancelar.setEnabled(true);
-        btnDeletar.setEnabled(false);
+        btnDeletar.setEnabled(true);
         btnEditar.setEnabled(false);
         btnPesquisar.setEnabled(false);
         btnSalvar.setEnabled(true);

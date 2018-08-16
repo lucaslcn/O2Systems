@@ -27,7 +27,7 @@ public class Mensagens {
     }
     
     public static String salvo(String oQue){
-        return oQue + " salvo com sucesso.";
+        return oQue + " salvo(a) com sucesso.";
     }
     
     public static String erroDeletado (String onde){
@@ -35,7 +35,7 @@ public class Mensagens {
     }
     
     public static String deletado(String oQue){
-        return oQue + " deletado com sucesso.";
+        return oQue + " deletado(a) com sucesso.";
     }
     
     public static String problemaPopularTabela(String onde){
@@ -51,7 +51,7 @@ public class Mensagens {
     }
     
     public static String arquivado(String oQue){
-        return oQue + " arquivado com sucesso.";
+        return oQue + " arquivado(a) com sucesso.";
     }
     
     public static String erroArquivado (String onde){
