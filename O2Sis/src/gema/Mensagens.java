@@ -22,6 +22,11 @@ public class Mensagens {
         return resposta;
     }
     
+    public static int confirmarexclusao(){
+        int resposta = JOptionPane.showConfirmDialog(null, "Deseja realmente arquivar?", "Alerta!", JOptionPane.YES_NO_OPTION);
+        return resposta;
+    }
+    
     public static String erroSalvar (String onde){
         return "Erro ao salvar: " +  onde;
     }

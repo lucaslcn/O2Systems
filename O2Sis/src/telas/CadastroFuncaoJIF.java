@@ -133,7 +133,6 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
         });
 
         btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_delete.png"))); // NOI18N
-        btnDeletar.setSelected(true);
         btnDeletar.setText("Arquivar");
         btnDeletar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnDeletar.addActionListener(new java.awt.event.ActionListener() {
@@ -252,21 +251,26 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
     }//GEN-LAST:event_CB_UsuarioActionPerformed
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
-        try {
-            this.funcao.setStatus(false);
-            String r;
-            r = new FuncaoDAO().update(this.funcao);
-            situacaoNovo();
-            if (r == null) {
-                Mensagens.retornoAcao(Mensagens.arquivado("Funcao"));
-                limpar();
-            } else {
-                Mensagens.retornoAcao(Mensagens.erroArquivado("Funcao"));
+        int resposta = Mensagens.confirmarexclusao();
+        if (resposta == JOptionPane.NO_OPTION) {
+        } else if (resposta == JOptionPane.YES_OPTION) {
+            try {
+                this.funcao.setStatus(false);
+                String r;
+                r = new FuncaoDAO().update(this.funcao);
+                situacaoNovo();
+                if (r == null) {
+                    Mensagens.retornoAcao(Mensagens.arquivado("Funcao"));
+                    limpar();
+                } else {
+                    Mensagens.retornoAcao(Mensagens.erroArquivado("Funcao"));
 
+                }
+            } catch (HibernateException he) {
+                System.out.println(he);
             }
-        } catch (HibernateException he) {
-            System.out.println(he);
         }
+
     }//GEN-LAST:event_btnDeletarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
@@ -351,7 +355,7 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
         TF_DescricaoFuncao.setEnabled(false);
         CB_Usuario.setEnabled(false);
         btnCancelar.setEnabled(true);
-        btnDeletar.setEnabled(false);
+        btnDeletar.setEnabled(true);
         btnEditar.setEnabled(true);
         btnPesquisar.setEnabled(true);
         btnSalvar.setEnabled(false);

@@ -31,7 +31,6 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
         CB_Controlado.removeAllItems();
         CB_Controlado.addItem("Não");
         CB_Controlado.addItem("Sim");
-        btnDeletar.setVisible(true);
 
         situacaoNovo();
     }
@@ -129,7 +128,6 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
         });
 
         btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_delete.png"))); // NOI18N
-        btnDeletar.setSelected(true);
         btnDeletar.setText("Arquivar");
         btnDeletar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnDeletar.addActionListener(new java.awt.event.ActionListener() {
@@ -244,30 +242,34 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void CB_ControladoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CB_ControladoActionPerformed
-        // TODO add your handling code here:
+        // T,ODO add your handling code here:
     }//GEN-LAST:event_CB_ControladoActionPerformed
-
-    private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
-        try {
-            this.remedio.setStatus(false);
-            String r;
-            r = new RemedioDAO().update(this.remedio);
-            situacaoNovo();
-            if (r == null) {
-                Mensagens.retornoAcao(Mensagens.arquivado("Remédio"));
-                limpar();
-            } else {
-                Mensagens.retornoAcao(Mensagens.erroArquivado("Remédio"));
-
-            }
-        } catch (HibernateException he) {
-            System.out.println(he);
-        }
-    }//GEN-LAST:event_btnDeletarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         situacaoEditar();
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
+        int resposta = Mensagens.confirmarexclusao();
+        if (resposta == JOptionPane.NO_OPTION) {
+        } else if (resposta == JOptionPane.YES_OPTION) {
+            try {
+                this.remedio.setStatus(false);
+                String r;
+                r = new RemedioDAO().update(this.remedio);
+                situacaoNovo();
+                if (r == null) {
+                    Mensagens.retornoAcao(Mensagens.arquivado("Remédio"));
+                    limpar();
+                } else {
+                    Mensagens.retornoAcao(Mensagens.erroArquivado("Remédio"));
+
+                }
+            } catch (HibernateException he) {
+                System.out.println(he);
+            }
+        }
+    }//GEN-LAST:event_btnDeletarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -319,7 +321,7 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
         TF_NomeRemedio.setEnabled(true);
         CB_Controlado.setEnabled(true);
         btnCancelar.setEnabled(true);
-        btnDeletar.setEnabled(true);
+        btnDeletar.setEnabled(false);
         btnEditar.setEnabled(false);
         btnPesquisar.setEnabled(true);
         btnSalvar.setEnabled(true);

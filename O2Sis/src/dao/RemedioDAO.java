@@ -41,7 +41,7 @@ public class RemedioDAO extends DAO implements IDAO_T<Remedio> {
         if (Gema.vazio(criterio, 1)) {
             array = this.selectWithJoin(table, "ilike %" + criterio + "%");
         } else {
-            array = this.select(table);
+            array = this.selectWithJoin(table, "status = true order by idremedio ASC");
         }
 
         //Definição dos dados da tabela.
