@@ -9,33 +9,34 @@ import gema.Mensagens;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import negocio.Plano;
+import negocio.Exames;
 import org.hibernate.HibernateException;
 
 /**
  *
  * @author elias.flach
  */
-public class ExameDAO extends DAO implements IDAO_T<Plano> {
+public class ExameDAO extends DAO implements IDAO_T<Exames> {
 
     @Override
     public void preencherTabelaBusca(JTable tabela, String criterio) {
         List array = null;
 //        Total de colunas
-        int columAll = 2;
+        int columAll = 3;
 //        Definição do cabecalho.
         Object[] cabecalho = new Object[columAll];
         cabecalho[0] = "Código";
-        cabecalho[1] = "Nome do Plano";
+        cabecalho[1] = "Nome do Exame";
+        cabecalho[2] = "Valor";
 
 //        Preencha com o nome da tabela.
-        String table = "Plano";
+        String table = "Exames";
 
         //Executa a busca
         if (Gema.vazio(criterio, 1)) {
-            array = this.selectWithJoin(table, "nome_plano ilike = '%" + criterio + "%' order by nome_plano asc");
+            array = this.selectWithJoin(table, "nome_exame ilike = '%" + criterio + "%' order by nome_exame asc");
         } else {
-            array = this.select(table + " order by nome_plano asc");
+            array = this.select(table + " order by nome_exame asc");
         }
 
         //Definição dos dados da tabela.
@@ -43,21 +44,21 @@ public class ExameDAO extends DAO implements IDAO_T<Plano> {
         int i = 0;
         try {
             for (Object o : array) {
-                Plano k = (Plano) o;
+                Exames k = (Exames) o;
 //              Definir os dados das colunas
-                dadosTabela[i][0] = k.getIdplano();
-                dadosTabela[i][1] = k.getNomePlano();
+                dadosTabela[i][0] = k.getIdexame();
+                dadosTabela[i][1] = k.getNomeExame();
+                dadosTabela[i][2] = k.getValor();
 
                 i++;
             }
         } catch (HibernateException he) {
             Mensagens.retornoAcao(
-                    Mensagens.problemaPopularTabela("Planos de Saúde")
+                    Mensagens.problemaPopularTabela("Exames")
                     + Mensagens.mensagemTecnica(he.toString())
             );
         }
-        
-        
+
         tabela.setModel(new DefaultTableModel(dadosTabela, cabecalho) {
             @Override
             // quando retorno for FALSE, a tabela nao é editavel
@@ -89,7 +90,10 @@ public class ExameDAO extends DAO implements IDAO_T<Plano> {
                     column.setPreferredWidth(145);
                     break;
                 case 1:
-                    column.setPreferredWidth(435);
+                    column.setPreferredWidth(290);
+                    break;
+                case 2:
+                    column.setPreferredWidth(145);
                     break;
             }
         }
@@ -97,9 +101,9 @@ public class ExameDAO extends DAO implements IDAO_T<Plano> {
     }
 
     @Override
-    public Plano consultarId(int id) {
+    public Exames consultarId(int id) {
         Object o = this.selectWithJoin("Plano", "idplano = " + id).get(0);
-        return (Plano) o;
+        return (Exames) o;
     }
 
 }

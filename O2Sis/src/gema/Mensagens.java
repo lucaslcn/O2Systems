@@ -55,6 +55,10 @@ public class Mensagens {
         return "Preencha todos os campos obrigatórios!";
     }
     
+    public static String preenchaOsCampos(String texto){
+        return "Preencha todos os campos obrigatórios!\n" + texto;
+    }
+    
     public static String arquivado(String oQue){
         return oQue + " arquivado(a) com sucesso.";
     }
