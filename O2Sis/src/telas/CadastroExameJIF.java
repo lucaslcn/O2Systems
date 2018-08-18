@@ -5,12 +5,15 @@
  */
 package telas;
 
+import dao.ExameDAO;
 import persistencia.BasicScreen;
 import dao.PlanoDAO;
 import gema.Gema;
 import gema.Mensagens;
+import gema.ValidaCampo;
+import java.math.BigInteger;
 import javax.swing.JOptionPane;
-import negocio.Plano;
+import negocio.Exames;
 import org.hibernate.HibernateException;
 
 /**
@@ -19,7 +22,7 @@ import org.hibernate.HibernateException;
  */
 public class CadastroExameJIF extends javax.swing.JInternalFrame implements BasicScreen {
 
-    Plano plano;
+    Exames exame;
 
     /**
      * Creates new form CadastroPlanoSaudeJIF
@@ -28,9 +31,6 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
         initComponents();
         limpar();
         situacaoNovo();
-
-        //regra de negocio, a forma de pagamento n�o pode ser exclu�da
-        btnDeletar.setVisible(false);
 
     }
 
@@ -52,7 +52,15 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jTF_NomePlano = new javax.swing.JTextField();
+        jTF_NomeExame = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jS_PrazoEntrega = new javax.swing.JSpinner();
+        jS_DuracaoTempo = new javax.swing.JSpinner();
+        jLabel7 = new javax.swing.JLabel();
+        jTF_ValorExame = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
 
         jLabel2.setText("jLabel2");
 
@@ -81,6 +89,11 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
         btnDeletar.setSelected(true);
         btnDeletar.setText("Deletar");
         btnDeletar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnDeletar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeletarActionPerformed(evt);
+            }
+        });
 
         btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_edit.png"))); // NOI18N
         btnEditar.setText("Editar");
@@ -108,13 +121,35 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
 
         jLabel3.setText("Nome Exame (*)");
 
-        jTF_NomePlano.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jTF_NomePlano.setText("Raio X");
-        jTF_NomePlano.addActionListener(new java.awt.event.ActionListener() {
+        jTF_NomeExame.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTF_NomeExame.setText("Raio X");
+        jTF_NomeExame.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTF_NomePlanoActionPerformed(evt);
+                jTF_NomeExameActionPerformed(evt);
             }
         });
+
+        jLabel4.setText("Prazo Entrega (*)");
+
+        jLabel5.setText("dia(s)");
+
+        jLabel6.setText("Tempo de Duração (*)");
+
+        jS_PrazoEntrega.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+
+        jS_DuracaoTempo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+
+        jLabel7.setText("Valor do Exame R$ (*)");
+
+        jTF_ValorExame.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTF_ValorExame.setText("0.00");
+        jTF_ValorExame.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTF_ValorExameKeyTyped(evt);
+            }
+        });
+
+        jLabel8.setText("minuto(s)");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -122,9 +157,27 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTF_NomePlano)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jTF_ValorExame, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jS_PrazoEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel5)
+                        .addGap(61, 61, 61)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jS_DuracaoTempo, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel8))
+                    .addComponent(jTF_NomeExame))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -132,8 +185,20 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTF_NomePlano, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTF_NomeExame, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6)
+                    .addComponent(jS_PrazoEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jS_DuracaoTempo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jTF_ValorExame, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -148,7 +213,7 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
                         .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -165,7 +230,7 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -188,10 +253,10 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        Plano k = (Plano) Gema.pesquisar(new PlanoDAO());
+        Exames k = (Exames) Gema.pesquisar(new PlanoDAO());
 
         if (k != null) {
-            this.plano = k;
+            this.exame = k;
             preencher();
             situacaoVisualizacao();
         }
@@ -199,22 +264,22 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
-            if (Gema.vazio(jTF_NomePlano.getText(), 1)) {
+            if (Gema.vazio(jTF_NomeExame.getText(), 1)) {
                 popular();
                 String r;
-                if (plano.getIdplano() != null) {
-                    r = new PlanoDAO().update(this.plano);
+                if (exame.getIdexame() != null) {
+                    r = new ExameDAO().update(this.exame);
                 } else {
-                    r = new PlanoDAO().insert(this.plano);
+                    r = new ExameDAO().insert(this.exame);
                 }
 
                 if (r == null) {
-                    Mensagens.retornoAcao(Mensagens.salvo("plano de saúde"));
+                    Mensagens.retornoAcao(Mensagens.salvo("Exame"));
                     limpar();
                     situacaoNovo();
                 } else {
-                    Mensagens.retornoAcao(Mensagens.erroSalvar("Plano de saúde"));
-                    jTF_NomePlano.requestFocus();
+                    Mensagens.retornoAcao(Mensagens.erroSalvar("Exame"));
+                    jTF_NomeExame.requestFocus();
                 }
             } else {
                 Mensagens.retornoAcao(Mensagens.preenchaOsCampos());
@@ -229,9 +294,38 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
         situacaoEditar();
     }//GEN-LAST:event_btnEditarActionPerformed
 
-    private void jTF_NomePlanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTF_NomePlanoActionPerformed
+    private void jTF_NomeExameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTF_NomeExameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTF_NomePlanoActionPerformed
+    }//GEN-LAST:event_jTF_NomeExameActionPerformed
+
+    private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
+//        int resposta = Mensagens.confirmarexclusao();
+//        if (resposta == JOptionPane.YES_OPTION) {
+//            try {
+//                this.exame.setStatus(false);
+//                String r;
+//                r = new ExameDAO().update(this.funcao);
+//                situacaoNovo();
+//                if (r == null) {
+//                    Mensagens.retornoAcao(Mensagens.arquivado("Exame"));
+//                    limpar();
+//                    situacaoNovo();
+//                } else {
+//                    Mensagens.retornoAcao(Mensagens.erroArquivado("Exame"));
+//
+//                }
+//            } catch (HibernateException he) {
+//                System.out.println(he);
+//            }
+//        }
+    }//GEN-LAST:event_btnDeletarActionPerformed
+
+    private void jTF_ValorExameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTF_ValorExameKeyTyped
+        String caracteres = "0987654321,.";
+        if (!caracteres.contains(evt.getKeyChar() + "")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTF_ValorExameKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -243,44 +337,86 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTF_NomePlano;
+    private javax.swing.JSpinner jS_DuracaoTempo;
+    private javax.swing.JSpinner jS_PrazoEntrega;
+    private javax.swing.JTextField jTF_NomeExame;
+    private javax.swing.JTextField jTF_ValorExame;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void preencher() {
-        jTF_NomePlano.setText(this.plano.getNomePlano());
+        jTF_NomeExame.setText(this.exame.getNomeExame());
+        jS_DuracaoTempo.setValue(this.exame.getDuracao());
+        jS_PrazoEntrega.setValue(this.exame.getPrazoRetirada());
+        jTF_ValorExame.setText(this.exame.getValor()+"");
     }
 
     @Override
     public void limpar() {
-        this.plano = new Plano();
-        jTF_NomePlano.setText("");
-        jTF_NomePlano.requestFocus();
+        this.exame = new Exames();
+        jTF_NomeExame.setText("");
+        jS_DuracaoTempo.setValue(5);
+        jS_PrazoEntrega.setValue(1);
+        jTF_ValorExame.setText("");
+        
+        jTF_NomeExame.requestFocus();
     }
 
     @Override
     public void popular() {
-        String nomePlano = jTF_NomePlano.getText();
-        if (Gema.vazio(nomePlano, 2)) {
-            this.plano.setNomePlano(nomePlano);
+        String nomeExame = jTF_NomeExame.getText();
+        int prazoEntrega = (int) jS_PrazoEntrega.getValue();
+        String valorPlano = jTF_ValorExame.getText().replace(",", ".");
+        int duracaoExame = (int) jS_DuracaoTempo.getValue();
+        
+        String [] campos = {"nome do exame","prazo de entrega","duração do exame","valor do plano"};
+        String [] valor = {nomeExame, prazoEntrega+"", valorPlano+"", duracaoExame+""};
+        Integer [] qtd = {1, 1, 1, 4};
+        
+        String r = ValidaCampo.campoVazio(campos, qtd, valor);
+        if (r == null) {
+            this.exame.setNomeExame(nomeExame);
+            this.exame.setPrazoRetirada(prazoEntrega);
+            //this.exame.setDuracao(duracaoExame);
+            BigInteger valorP = new BigInteger (valorPlano);
+            this.exame.setValor(valorP);
+        } else {
+            Mensagens.preenchaOsCampos("Os seguintes campos obrigatórios estão vazios:\n" + r);
         }
     }
 
     @Override
     public void situacaoNovo() {
-        jTF_NomePlano.setEnabled(true);
+        jTF_NomeExame.setEnabled(true);
+        jS_DuracaoTempo.setEnabled(true);
+        jS_PrazoEntrega.setEnabled(true);
+        jTF_ValorExame.setEnabled(true);
+        
         btnCancelar.setEnabled(true);
         btnDeletar.setEnabled(false);
         btnEditar.setEnabled(false);
         btnPesquisar.setEnabled(true);
         btnSalvar.setEnabled(true);
+        
+        jS_DuracaoTempo.setValue(5);
+        jS_PrazoEntrega.setValue(1);
+        
         permissao();
     }
 
     @Override
     public void situacaoEditar() {
-        jTF_NomePlano.setEnabled(true);
+        jTF_NomeExame.setEnabled(true);
+        jS_DuracaoTempo.setEnabled(true);
+        jS_PrazoEntrega.setEnabled(true);
+        jTF_ValorExame.setEnabled(true);
+        
         btnCancelar.setEnabled(true);
         btnDeletar.setEnabled(false);
         btnEditar.setEnabled(false);
@@ -291,7 +427,11 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
 
     @Override
     public void situacaoVisualizacao() {
-        jTF_NomePlano.setEnabled(false);
+        jTF_NomeExame.setEnabled(false);
+        jS_DuracaoTempo.setEnabled(false);
+        jS_PrazoEntrega.setEnabled(false);
+        jTF_ValorExame.setEnabled(false);
+        
         btnCancelar.setEnabled(true);
         btnDeletar.setEnabled(false);
         btnEditar.setEnabled(true);

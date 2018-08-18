@@ -12,14 +12,15 @@ public class ValidaCampo {
      * que será verificado.
      * @param valor - recebe o conteudo do campo, onde o indice do valor deve
      * ser o indice do respectivo campo.
+     * @param qtd - recebe o valor minimo de caracteres para o campo de indice igual.
      * @return retorna NULL caso todos os campos não sejam vazios, caso algum
      * esteja vazio retorna a lista dos campos que estejam vazios.
      */
-    public static String campoVazio(String[] campos, String[] valor) {
+    public static String campoVazio(String[] campos, Integer[] qtd, String[] valor) {
         String r = null;
         if (campos.length == valor.length) {
             for (int i = 0; i < campos.length; i++) {
-                if (!Gema.vazio(valor[i], 1)) {
+                if (!Gema.vazio(valor[i], qtd[i])) {
                     if (r == null) {
                         r = campos[i].toUpperCase();
                     } else if (campos.length - 1 == i) {
