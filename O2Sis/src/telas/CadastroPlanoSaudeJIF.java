@@ -29,9 +29,6 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
         limpar();
         situacaoNovo();
 
-        //regra de negocio, a forma de pagamento n�o pode ser exclu�da
-        btnDeletar.setVisible(false);
-
     }
 
     /**
@@ -79,8 +76,13 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
 
         btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_delete.png"))); // NOI18N
         btnDeletar.setSelected(true);
-        btnDeletar.setText("Deletar");
+        btnDeletar.setText("Arquivar");
         btnDeletar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnDeletar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeletarActionPerformed(evt);
+            }
+        });
 
         btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_edit.png"))); // NOI18N
         btnEditar.setText("Editar");
@@ -224,6 +226,28 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
         situacaoEditar();
     }//GEN-LAST:event_btnEditarActionPerformed
 
+    private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
+        int resposta = Mensagens.confirmarexclusao();
+        if (resposta == JOptionPane.YES_OPTION) {
+            try {
+                this.plano.setStatus(false);
+                String r;
+                r = new PlanoDAO().update(this.plano);
+                situacaoNovo();
+                if (r == null) {
+                    Mensagens.retornoAcao(Mensagens.arquivado("Plano de Saúde"));
+                    limpar();
+                    situacaoNovo();
+                } else {
+                    Mensagens.retornoAcao(Mensagens.erroArquivado("Plano de Saúde"));
+
+                }
+            } catch (HibernateException he) {
+                System.out.println(he);
+            }
+        }
+    }//GEN-LAST:event_btnDeletarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnCancelar;
@@ -285,7 +309,7 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
     public void situacaoVisualizacao() {
         jTF_NomePlano.setEnabled(false);
         btnCancelar.setEnabled(true);
-        btnDeletar.setEnabled(false);
+        btnDeletar.setEnabled(true);
         btnEditar.setEnabled(true);
         btnPesquisar.setEnabled(true);
         btnSalvar.setEnabled(false);

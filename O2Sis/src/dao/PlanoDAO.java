@@ -33,9 +33,9 @@ public class PlanoDAO extends DAO implements IDAO_T<Plano> {
 
         //Executa a busca
         if (Gema.vazio(criterio, 1)) {
-            array = this.selectWithJoin(table, "nome_plano ilike = '%" + criterio + "%' order by nome_plano asc");
+            array = this.selectWithJoin(table, "nome_plano ilike = '%" + criterio + "%' and status = true order by nome_plano asc");
         } else {
-            array = this.select(table + " order by nome_plano asc");
+            array = this.selectWithJoin(table, "status = true order by nome_plano asc");
         }
 
         //Definição dos dados da tabela.
