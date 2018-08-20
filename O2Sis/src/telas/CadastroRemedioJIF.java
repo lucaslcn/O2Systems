@@ -69,7 +69,7 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
         TF_NomeRemedio.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         TF_NomeRemedio.setText("Tylenol");
 
-        jLabel2.setText("Controlado");
+        jLabel2.setText("Controlado (*)");
 
         CB_Controlado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Não", "Sim" }));
         CB_Controlado.addActionListener(new java.awt.event.ActionListener() {
@@ -325,7 +325,6 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
         btnEditar.setEnabled(false);
         btnPesquisar.setEnabled(true);
         btnSalvar.setEnabled(true);
-        btnNovo.setEnabled(true);
         permissao();
     }
 
@@ -338,7 +337,6 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
         btnEditar.setEnabled(false);
         btnPesquisar.setEnabled(false);
         btnSalvar.setEnabled(true);
-        btnNovo.setEnabled(true);
         permissao();
     }
 
@@ -351,7 +349,6 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
         btnEditar.setEnabled(true);
         btnPesquisar.setEnabled(true);
         btnSalvar.setEnabled(false);
-        btnNovo.setEnabled(true);
         permissao();
     }
 

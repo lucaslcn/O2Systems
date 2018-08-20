@@ -335,7 +335,6 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
         btnEditar.setEnabled(false);
         btnPesquisar.setEnabled(true);
         btnSalvar.setEnabled(true);
-        btnNovo.setEnabled(true);
         permissao();
     }
 
@@ -348,7 +347,6 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
         btnEditar.setEnabled(false);
         btnPesquisar.setEnabled(false);
         btnSalvar.setEnabled(true);
-        btnNovo.setEnabled(true);
         permissao();
     }
 
@@ -361,7 +359,6 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
         btnEditar.setEnabled(true);
         btnPesquisar.setEnabled(true);
         btnSalvar.setEnabled(false);
-        btnNovo.setEnabled(true);
         permissao();
     }
 
