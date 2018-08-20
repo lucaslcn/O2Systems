@@ -87,7 +87,7 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
 
         btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_delete.png"))); // NOI18N
         btnDeletar.setSelected(true);
-        btnDeletar.setText("Deletar");
+        btnDeletar.setText("Arquivar");
         btnDeletar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnDeletar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -141,6 +141,7 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
 
         jLabel7.setText("Valor do Exame R$ (*)");
 
+        jTF_ValorExame.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jTF_ValorExame.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTF_ValorExame.setText("0.00");
         jTF_ValorExame.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -253,7 +254,7 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        Exames k = (Exames) Gema.pesquisar(new PlanoDAO());
+        Exames k = (Exames) Gema.pesquisar(new ExameDAO());
 
         if (k != null) {
             this.exame = k;
@@ -264,16 +265,33 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
-            if (Gema.vazio(jTF_NomeExame.getText(), 1)) {
+            
+            String nomeExame = jTF_NomeExame.getText();
+            int prazoEntrega = (int) jS_PrazoEntrega.getValue();
+            String valorPlano = jTF_ValorExame.getText().replace(",", ".");
+            int duracaoExame = (int) jS_DuracaoTempo.getValue();
+            System.out.println("Valor: " + valorPlano);
+            
+            String[] campos = {"nome do exame", "prazo de entrega", "duração do exame", "valor do plano"};
+            String[] valor = {nomeExame, prazoEntrega + "", duracaoExame + "", valorPlano};
+            Integer[] qtd = {1, 1, 1, 1};
+            
+            
+            String r = ValidaCampo.campoVazio(campos, qtd, valor);
+
+            
+            if (r == null) {
+                
                 popular();
-                String r;
+                
+                String s;
                 if (exame.getIdexame() != null) {
-                    r = new ExameDAO().update(this.exame);
+                    s = new ExameDAO().update(this.exame);
                 } else {
-                    r = new ExameDAO().insert(this.exame);
+                    s = new ExameDAO().insert(this.exame);
                 }
 
-                if (r == null) {
+                if (s == null) {
                     Mensagens.retornoAcao(Mensagens.salvo("Exame"));
                     limpar();
                     situacaoNovo();
@@ -282,7 +300,7 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
                     jTF_NomeExame.requestFocus();
                 }
             } else {
-                Mensagens.retornoAcao(Mensagens.preenchaOsCampos());
+                Mensagens.retornoAcao( Mensagens.preenchaOsCampos("Os seguintes campos obrigatórios estão vazios:\n" + r) );
             }
         } catch (HibernateException he) {
             System.out.println(he);
@@ -299,25 +317,25 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
     }//GEN-LAST:event_jTF_NomeExameActionPerformed
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
-//        int resposta = Mensagens.confirmarexclusao();
-//        if (resposta == JOptionPane.YES_OPTION) {
-//            try {
-//                this.exame.setStatus(false);
-//                String r;
-//                r = new ExameDAO().update(this.funcao);
-//                situacaoNovo();
-//                if (r == null) {
-//                    Mensagens.retornoAcao(Mensagens.arquivado("Exame"));
-//                    limpar();
-//                    situacaoNovo();
-//                } else {
-//                    Mensagens.retornoAcao(Mensagens.erroArquivado("Exame"));
-//
-//                }
-//            } catch (HibernateException he) {
-//                System.out.println(he);
-//            }
-//        }
+        int resposta = Mensagens.confirmarexclusao();
+        if (resposta == JOptionPane.YES_OPTION) {
+            try {
+                this.exame.setStatus(false);
+                String r;
+                r = new ExameDAO().update(this.exame);
+                situacaoNovo();
+                if (r == null) {
+                    Mensagens.retornoAcao(Mensagens.arquivado("Exame"));
+                    limpar();
+                    situacaoNovo();
+                } else {
+                    Mensagens.retornoAcao(Mensagens.erroArquivado("Exame"));
+
+                }
+            } catch (HibernateException he) {
+                System.out.println(he);
+            }
+        }
     }//GEN-LAST:event_btnDeletarActionPerformed
 
     private void jTF_ValorExameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTF_ValorExameKeyTyped
@@ -354,7 +372,7 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
         jTF_NomeExame.setText(this.exame.getNomeExame());
         jS_DuracaoTempo.setValue(this.exame.getDuracao());
         jS_PrazoEntrega.setValue(this.exame.getPrazoRetirada());
-        jTF_ValorExame.setText(this.exame.getValor()+"");
+        jTF_ValorExame.setText(this.exame.getValor() + "");
     }
 
     @Override
@@ -364,31 +382,21 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
         jS_DuracaoTempo.setValue(5);
         jS_PrazoEntrega.setValue(1);
         jTF_ValorExame.setText("");
-        
+
         jTF_NomeExame.requestFocus();
     }
 
     @Override
     public void popular() {
-        String nomeExame = jTF_NomeExame.getText();
-        int prazoEntrega = (int) jS_PrazoEntrega.getValue();
+        this.exame.setNomeExame(jTF_NomeExame.getText());
+        this.exame.setPrazoRetirada((int) jS_PrazoEntrega.getValue());
+        this.exame.setDuracao((int) jS_DuracaoTempo.getValue());
+
         String valorPlano = jTF_ValorExame.getText().replace(",", ".");
-        int duracaoExame = (int) jS_DuracaoTempo.getValue();
-        
-        String [] campos = {"nome do exame","prazo de entrega","duração do exame","valor do plano"};
-        String [] valor = {nomeExame, prazoEntrega+"", valorPlano+"", duracaoExame+""};
-        Integer [] qtd = {1, 1, 1, 4};
-        
-        String r = ValidaCampo.campoVazio(campos, qtd, valor);
-        if (r == null) {
-            this.exame.setNomeExame(nomeExame);
-            this.exame.setPrazoRetirada(prazoEntrega);
-            //this.exame.setDuracao(duracaoExame);
-            BigInteger valorP = new BigInteger (valorPlano);
-            this.exame.setValor(valorP);
-        } else {
-            Mensagens.preenchaOsCampos("Os seguintes campos obrigatórios estão vazios:\n" + r);
-        }
+        BigInteger valor = new BigInteger(valorPlano);
+        this.exame.setValor(valor);
+
+        this.exame.setStatus(true);
     }
 
     @Override
@@ -397,16 +405,16 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
         jS_DuracaoTempo.setEnabled(true);
         jS_PrazoEntrega.setEnabled(true);
         jTF_ValorExame.setEnabled(true);
-        
+
         btnCancelar.setEnabled(true);
         btnDeletar.setEnabled(false);
         btnEditar.setEnabled(false);
         btnPesquisar.setEnabled(true);
         btnSalvar.setEnabled(true);
-        
+
         jS_DuracaoTempo.setValue(5);
         jS_PrazoEntrega.setValue(1);
-        
+
         permissao();
     }
 
@@ -416,7 +424,7 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
         jS_DuracaoTempo.setEnabled(true);
         jS_PrazoEntrega.setEnabled(true);
         jTF_ValorExame.setEnabled(true);
-        
+
         btnCancelar.setEnabled(true);
         btnDeletar.setEnabled(false);
         btnEditar.setEnabled(false);
@@ -431,9 +439,9 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
         jS_DuracaoTempo.setEnabled(false);
         jS_PrazoEntrega.setEnabled(false);
         jTF_ValorExame.setEnabled(false);
-        
+
         btnCancelar.setEnabled(true);
-        btnDeletar.setEnabled(false);
+        btnDeletar.setEnabled(true);
         btnEditar.setEnabled(true);
         btnPesquisar.setEnabled(true);
         btnSalvar.setEnabled(false);

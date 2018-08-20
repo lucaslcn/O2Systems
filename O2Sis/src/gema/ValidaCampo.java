@@ -22,11 +22,9 @@ public class ValidaCampo {
             for (int i = 0; i < campos.length; i++) {
                 if (!Gema.vazio(valor[i], qtd[i])) {
                     if (r == null) {
-                        r = campos[i].toUpperCase();
-                    } else if (campos.length - 1 == i) {
-                        r = " e " + campos[i].toUpperCase();
+                        r = "" + campos[i].toUpperCase();
                     } else {
-                        r = ", " + campos[i].toUpperCase();
+                        r = "\n" + campos[i].toUpperCase();
                     }
                 }
             }

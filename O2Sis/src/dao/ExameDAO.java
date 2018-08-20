@@ -34,9 +34,9 @@ public class ExameDAO extends DAO implements IDAO_T<Exames> {
 
         //Executa a busca
         if (Gema.vazio(criterio, 1)) {
-            array = this.selectWithJoin(table, "nome_exame ilike = '%" + criterio + "%' order by nome_exame asc");
+            array = this.selectWithJoin(table, "nome_exame ilike = '%" + criterio + "%' and status = true order by nome_exame asc");
         } else {
-            array = this.select(table + " order by nome_exame asc");
+            array = this.selectWithJoin(table, " status = true order by nome_exame asc");
         }
 
         //Definição dos dados da tabela.
@@ -102,7 +102,7 @@ public class ExameDAO extends DAO implements IDAO_T<Exames> {
 
     @Override
     public Exames consultarId(int id) {
-        Object o = this.selectWithJoin("Plano", "idplano = " + id).get(0);
+        Object o = this.selectWithJoin("Exames", "idexame = " + id).get(0);
         return (Exames) o;
     }
 
