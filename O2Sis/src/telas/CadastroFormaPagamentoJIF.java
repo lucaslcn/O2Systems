@@ -29,8 +29,6 @@ public class CadastroFormaPagamentoJIF extends javax.swing.JInternalFrame implem
         limpar();
         situacaoNovo();
         
-        //regra de negocio
-        btnDeletar.setVisible(false);
     }
 
     /**
@@ -99,7 +97,7 @@ public class CadastroFormaPagamentoJIF extends javax.swing.JInternalFrame implem
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados Básicos"));
 
-        jLabel3.setText("Forma pagto.");
+        jLabel3.setText("Forma pagto. (*)");
 
         jTF_NomeFormaPagamento.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jTF_NomeFormaPagamento.setText("Boleto bancário");
