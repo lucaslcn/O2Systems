@@ -65,7 +65,7 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
         jLabel2.setText("jLabel2");
 
         setClosable(true);
-        setTitle("Cadastro Plano de Saúde");
+        setTitle("Cadastro Exames");
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cancel.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
