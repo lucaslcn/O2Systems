@@ -39,7 +39,7 @@ public class RemedioDAO extends DAO implements IDAO_T<Remedio> {
 
         //Executa a busca
         if (Gema.vazio(criterio, 1)) {
-            array = this.selectWithJoin(table, "as e where lower(nome_remedio) = lower('" + criterio + "') and status = true order by nome_remedio asc");
+            array = this.selectWithJoin(table, "lower(nome_remedio) = lower('%" + criterio + "%') and status = true order by nome_remedio asc");
         } else {
             array = this.selectWithJoin(table, "status = true order by idremedio ASC");
         }
