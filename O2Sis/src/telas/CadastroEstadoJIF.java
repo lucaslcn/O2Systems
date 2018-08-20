@@ -24,6 +24,7 @@ import persistencia.BasicScreen;
 public class CadastroEstadoJIF extends javax.swing.JInternalFrame implements BasicScreen {
 
     Estado estado;
+
     /**
      * Creates new form EstadoJIF
      */
@@ -218,21 +219,34 @@ public class CadastroEstadoJIF extends javax.swing.JInternalFrame implements Bas
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
-            popular();
-            String r;
-            if (estado.getIdestado()!= null) {              
-                r = new EstadoDAO().update(this.estado);
-            } else {
-                r = new EstadoDAO().insert(this.estado);
-            }
+            String UF = TF_UF.getText();
+            String Estado = TF_Estado.getText();
 
+            String[] campos = {"uf", "nome estado"};
+            String[] valor = {UF, Estado};
+            Integer[] qtd = {1, 1};
+
+            String r = ValidaCampo.campoVazio(campos, qtd, valor);
             if (r == null) {
-                Mensagens.retornoAcao(Mensagens.salvo("Estado"));
-                limpar();
-                situacaoNovo();
+                popular();
+                String s;
+                if (estado.getIdestado() != null) {
+                    s = new EstadoDAO().update(this.estado);
+                } else {
+                    s = new EstadoDAO().insert(this.estado);
+                }
+
+                if (s == null) {
+                    Mensagens.retornoAcao(Mensagens.salvo("Estado"));
+                    limpar();
+                    situacaoNovo();
+                } else {
+                    Mensagens.retornoAcao(Mensagens.erroSalvar("Estado"));
+                    TF_UF.requestFocus();
+                }
             } else {
-                Mensagens.retornoAcao(Mensagens.erroSalvar("Estado"));
-                TF_UF.requestFocus();
+                Mensagens.retornoAcao(Mensagens.preenchaOsCampos("Os seguintes campos obrigatórios estão vazios:\n" + r));
+
             }
         } catch (HibernateException he) {
             System.out.println(he);
@@ -282,27 +296,16 @@ public class CadastroEstadoJIF extends javax.swing.JInternalFrame implements Bas
 
     @Override
     public void popular() {
-        String UF = TF_UF.getText();
-        String Estado = TF_Estado.getText();
-        
-        String[] campos = {"uf", "nome_estado"};
-        String[] valor = {UF,Estado};
-        Integer[] qtd = {1,1};
-        
-        String r = ValidaCampo.campoVazio(campos, qtd, valor);
-        if (r == null) {
-            this.estado.setUf(UF);
-            this.estado.setNomeEstado(Estado);
-            //this.exame.setDuracao(duracaoExame);
-        } else {
-            Mensagens.preenchaOsCampos("Os seguintes campos obrigatórios estão vazios:\n" + r);
-        
-    }
+
+        this.estado.setUf(TF_UF.getText());
+        this.estado.setNomeEstado(TF_Estado.getText());
+        //this.exame.setDuracao(duracaoExame);
+
     }
 
     @Override
     public void situacaoNovo() {
-        
+
         TF_UF.setEnabled(true);
         TF_Estado.setEnabled(true);
         btnCancelar.setEnabled(true);
@@ -315,7 +318,7 @@ public class CadastroEstadoJIF extends javax.swing.JInternalFrame implements Bas
     @Override
     public void situacaoEditar() {
         TF_UF.setEnabled(true);
-        TF_Estado.setEnabled(true);   
+        TF_Estado.setEnabled(true);
         btnCancelar.setEnabled(true);
         btnDeletar.setEnabled(false);
         btnEditar.setEnabled(false);
@@ -327,7 +330,7 @@ public class CadastroEstadoJIF extends javax.swing.JInternalFrame implements Bas
     @Override
     public void situacaoVisualizacao() {
         TF_UF.setEnabled(false);
-        TF_Estado.setEnabled(false);   
+        TF_Estado.setEnabled(false);
         btnCancelar.setEnabled(true);
         btnDeletar.setEnabled(false);
         btnEditar.setEnabled(true);

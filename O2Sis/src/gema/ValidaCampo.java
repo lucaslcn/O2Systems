@@ -24,7 +24,7 @@ public class ValidaCampo {
                     if (r == null) {
                         r = "" + campos[i].toUpperCase();
                     } else {
-                        r = "\n" + campos[i].toUpperCase();
+                        r += "\n" + campos[i].toUpperCase();
                     }
                 }
             }
