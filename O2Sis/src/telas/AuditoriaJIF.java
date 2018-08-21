@@ -37,7 +37,7 @@ public class AuditoriaJIF extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        jL_titulo = new javax.swing.JLabel();
         btnFechar = new javax.swing.JButton();
         btnRegistros = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
@@ -47,9 +47,9 @@ public class AuditoriaJIF extends javax.swing.JInternalFrame {
 
         setTitle("Controle de Auditoria");
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Auditoria");
+        jL_titulo.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jL_titulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jL_titulo.setText("Auditoria");
 
         btnFechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cancel.png"))); // NOI18N
         btnFechar.setText("Fechar");
@@ -120,7 +120,7 @@ public class AuditoriaJIF extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jL_status, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jL_titulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -132,7 +132,7 @@ public class AuditoriaJIF extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(jL_titulo)
                 .addGap(18, 18, 18)
                 .addComponent(jL_status)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
@@ -180,7 +180,7 @@ public class AuditoriaJIF extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnLigado;
     private javax.swing.JButton btnRegistros;
     private javax.swing.JLabel jL_status;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jL_titulo;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
     private void ligado(){
@@ -190,7 +190,7 @@ public class AuditoriaJIF extends javax.swing.JInternalFrame {
         btnDesligado.setBackground(Color.RED);
         
         jL_status.setText("Ligada");
-        //jL_status;
+        jL_status.setForeground(Color.GREEN);
     }
     
     private void desligado(){
@@ -200,6 +200,7 @@ public class AuditoriaJIF extends javax.swing.JInternalFrame {
         btnDesligado.setBackground(Color.LIGHT_GRAY);
         
         jL_status.setText("Desligada");
+        jL_status.setForeground(Color.red);
     }
     
     private String onOff(boolean a){
