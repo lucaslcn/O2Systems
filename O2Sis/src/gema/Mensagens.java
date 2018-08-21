@@ -47,6 +47,10 @@ public class Mensagens {
         return "Problemas ao popular a tabela: " + onde;
     }
     
+    public static String tivemosProblemas(String paraQue){
+        return "Desculpe, houve algum problema para " + paraQue;
+    }
+    
     public static String mensagemTecnica(String exception){
         return "\nMensagem técnica:\n" + exception;
     }

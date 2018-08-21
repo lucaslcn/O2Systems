@@ -7,6 +7,7 @@ package telas;
 
 import dao.PlanoDAO;
 import javax.swing.JOptionPane;
+import registros.Auditoria;
 
 /**
  *
@@ -20,9 +21,7 @@ public class LoginJF extends javax.swing.JFrame {
     public LoginJF() {
         initComponents();
         this.setLocationRelativeTo(null);
-//        caregando();
         new PlanoDAO().select("Plano");
-//        a.fechar();
     }
 
     /**

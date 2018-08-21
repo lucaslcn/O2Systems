@@ -37,6 +37,7 @@ public class PrincipalJF extends javax.swing.JFrame {
         itemMenuDadosAcesso = new javax.swing.JMenuItem();
         itemMenuUsuario = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem4 = new javax.swing.JMenuItem();
         itemMenuSobre = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
         itemMenuSair = new javax.swing.JMenuItem();
@@ -94,6 +95,14 @@ public class PrincipalJF extends javax.swing.JFrame {
         itemMenuUsuario.setText("Usuários");
         menuO2System.add(itemMenuUsuario);
         menuO2System.add(jSeparator5);
+
+        jMenuItem4.setText("Auditoria");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        menuO2System.add(jMenuItem4);
 
         itemMenuSobre.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F11, 0));
         itemMenuSobre.setText("Sobre");
@@ -267,7 +276,7 @@ public class PrincipalJF extends javax.swing.JFrame {
     }//GEN-LAST:event_itemMenuRemedioActionPerformed
 
     private void itemMenuSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuSairActionPerformed
-        dispose();
+        System.exit(0);
     }//GEN-LAST:event_itemMenuSairActionPerformed
 
     private void itemMenuFormaPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuFormaPagamentoActionPerformed
@@ -304,6 +313,13 @@ public class PrincipalJF extends javax.swing.JFrame {
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
     }//GEN-LAST:event_itemMenuSobreActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        AuditoriaJIF k = new AuditoriaJIF();
+        jDesktopRun.add(k);
+        k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
+        k.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
 //    /**
 //     * @param args the command line arguments
@@ -362,6 +378,7 @@ public class PrincipalJF extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
