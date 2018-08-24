@@ -46,4 +46,9 @@ public interface BasicScreen {
      */
     public void permissao();
     
+    /**
+     * Usado para popular informação da Auditoria.
+     */
+    public String[] auditoria();
+    
 }

@@ -6,8 +6,10 @@
 package telas;
 
 import dao.PlanoDAO;
+import dao.UsuarioDAO;
 import javax.swing.JOptionPane;
-import registros.Auditoria;
+import negocio.Usuario;
+import registros.LogAuditoria;
 
 /**
  *
@@ -156,7 +158,7 @@ public class LoginJF extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        PrincipalJF principal = new PrincipalJF();
+        PrincipalJF principal = new PrincipalJF((Usuario) new UsuarioDAO().selectWithJoin("Usuario", "usuario = 'admin' AND status = true").get(0));
         principal.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnLoginActionPerformed

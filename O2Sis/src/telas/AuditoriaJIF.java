@@ -7,7 +7,7 @@ package telas;
 
 import gema.Mensagens;
 import java.awt.Color;
-import registros.Auditoria;
+import registros.LogAuditoria;
 
 /**
  *
@@ -21,7 +21,7 @@ public class AuditoriaJIF extends javax.swing.JInternalFrame {
     public AuditoriaJIF() {
         initComponents();
         
-        if( Auditoria.status() ){
+        if( LogAuditoria.status() ){
             ligado();
         } else {
             desligado();
@@ -204,7 +204,7 @@ public class AuditoriaJIF extends javax.swing.JInternalFrame {
     }
     
     private String onOff(boolean a){
-        return Auditoria.onOff(a);
+        return LogAuditoria.onOff(a);
     }
 }
 

@@ -5,18 +5,24 @@
  */
 package telas;
 
+import dao.UsuarioDAO;
+import negocio.Usuario;
+
 /**
  *
  * @author anderson.caye
  */
 public class PrincipalJF extends javax.swing.JFrame {
 
+    Usuario usuario;
+        
     /**
      * Creates new form Principal
      */
-    public PrincipalJF() {
+    public PrincipalJF(Usuario usuario) {
         this.setExtendedState(MAXIMIZED_BOTH);
         initComponents();
+        this.usuario = usuario;
     }
 
     /**
@@ -301,7 +307,7 @@ public class PrincipalJF extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void itemMenuExameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuExameActionPerformed
-        CadastroExameJIF k = new CadastroExameJIF();
+        CadastroExameJIF k = new CadastroExameJIF(this.usuario);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);

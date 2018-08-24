@@ -14,9 +14,9 @@ import java.util.Properties;
  *
  * @author XorNOTE
  */
-public class Auditoria {
+public class LogAuditoria {
 
-    public Auditoria() {
+    public LogAuditoria() {
         resolve();
     }
 

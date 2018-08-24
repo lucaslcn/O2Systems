@@ -5,6 +5,7 @@
  */
 package telas;
 
+import dao.AuditoriaDAO;
 import dao.ExameDAO;
 import persistencia.BasicScreen;
 import dao.PlanoDAO;
@@ -14,7 +15,10 @@ import gema.ValidaCampo;
 import java.math.BigInteger;
 import javax.swing.JOptionPane;
 import negocio.Exames;
+import negocio.Usuario;
 import org.hibernate.HibernateException;
+import registros.Atividade;
+import registros.LogAuditoria;
 
 /**
  *
@@ -23,15 +27,15 @@ import org.hibernate.HibernateException;
 public class CadastroExameJIF extends javax.swing.JInternalFrame implements BasicScreen {
 
     Exames exame;
-
+    Usuario usuario;
     /**
      * Creates new form CadastroPlanoSaudeJIF
      */
-    public CadastroExameJIF() {
+    public CadastroExameJIF(Usuario usuario) {
         initComponents();
         limpar();
         situacaoNovo();
-
+        this.usuario = usuario;
     }
 
     /**
@@ -281,18 +285,38 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
 
             
             if (r == null) {
+//                Pegando dados antigos da tabela;
+                String[] infoOld = auditoria();
                 
                 popular();
+                
+//                Pegando dados novos da tabela
+                String[] infoNew = auditoria();
+                
+//                Preenchendo a auditoria
+                Atividade logAuditoria = new Atividade();
+                logAuditoria.setInformacaoOld(infoOld);
+                logAuditoria.setInformacaoNew(infoNew);
+                logAuditoria.setOnde(Atividade.FROM_EXAME);
+                logAuditoria.setUsuario(usuario);
+                
                 
                 String s;
                 if (exame.getIdexame() != null) {
                     s = new ExameDAO().update(this.exame);
+                    logAuditoria.setAcao(Atividade.ACAO_EDITADO); // Defido para a Auditoria Editado
                 } else {
                     s = new ExameDAO().insert(this.exame);
+                    logAuditoria.setAcao(Atividade.ACAO_INSERIDO); // Defido para a Auditoria Inserido
                 }
 
                 if (s == null) {
-                    Mensagens.retornoAcao(Mensagens.salvo("Exame"));
+                    String audi = "";
+                    if(LogAuditoria.status()){
+                        audi = "\n" + logAuditoria.registraatividade();
+                    }
+                    
+                    Mensagens.retornoAcao(Mensagens.salvo("Exame") + audi);
                     limpar();
                     situacaoNovo();
                 } else {
@@ -451,6 +475,21 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
     @Override
     public void permissao() {
 
+    }
+
+    @Override
+    public String[] auditoria() {
+        String[] r =
+        {
+            exame.getIdexame()+"",
+            exame.getNomeExame(),
+            exame.getDuracao()+"",
+            exame.getPrazoRetirada()+"",
+            exame.getValor()+"",
+            exame.getStatus()+""
+        };
+        
+        return r;
     }
 
 }
