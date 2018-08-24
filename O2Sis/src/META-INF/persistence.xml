@@ -22,6 +22,7 @@
     <class>negocio.Consultas</class>
     <class>negocio.Funcionario</class>
     <class>negocio.Cidade</class>
+    <class>negocio.Auditoria</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://pgsql03-farm76.kinghost.net:5432/syscoffe"/>
       <property name="javax.persistence.jdbc.user" value="syscoffe"/>
