@@ -68,5 +68,6 @@ Contributor(s):
         <mapping class="negocio.Consultas"/>
         <mapping class="negocio.Funcionario"/>
         <mapping class="negocio.Cidade"/>
+        <mapping class="negocio.Auditoria"/>
     </session-factory>
 </hibernate-configuration>

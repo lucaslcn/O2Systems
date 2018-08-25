@@ -54,7 +54,7 @@ public class LoginJF extends javax.swing.JFrame {
 
         jL_imgUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/imgUser.png"))); // NOI18N
 
-        btnLogin.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnLogin.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnLogin.setText("Login");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -62,6 +62,7 @@ public class LoginJF extends javax.swing.JFrame {
             }
         });
 
+        btnLogin1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btnLogin1.setText("Fechar");
         btnLogin1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -69,9 +70,9 @@ public class LoginJF extends javax.swing.JFrame {
             }
         });
 
-        jTextField1.setText("jTextField1");
+        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
-        jPasswordField1.setText("jPasswordField1");
+        jPasswordField1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
         jL_iconUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/user_gray.png"))); // NOI18N
 
@@ -158,7 +159,7 @@ public class LoginJF extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        PrincipalJF principal = new PrincipalJF((Usuario) new UsuarioDAO().selectWithJoin("Usuario", "usuario = 'admin' AND status = true").get(0));
+        PrincipalJF principal = new PrincipalJF((Usuario) new UsuarioDAO().selectWithJoin("Usuario", "nick = 'admin' AND status = true").get(0));
         principal.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnLoginActionPerformed

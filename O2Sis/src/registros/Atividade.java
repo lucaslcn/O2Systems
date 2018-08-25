@@ -60,7 +60,7 @@ public class Atividade {
         String r = "";
         for (int i = 0; i < this.informacaoOld.length; i++) {
             if ( i != 0){
-                r = " | " + this.informacaoOld[i];
+                r += " | " + this.informacaoOld[i];
             } else {
                 r = this.informacaoOld[i];
             }
@@ -76,7 +76,7 @@ public class Atividade {
         String r = "";
         for (int i = 0; i < this.informacaoNew.length; i++) {
             if ( i != 0){
-                r = " | " + this.informacaoNew[i];
+                r += " | " + this.informacaoNew[i];
             } else {
                 r = this.informacaoNew[i];
             }
@@ -119,8 +119,21 @@ public class Atividade {
         a.setData(dataEhora);
         a.setHora(dataEhora);
         a.setIdusuario(usuario);
-        a.setInformacaonew(this.getInformacaoNew());
-        a.setInformacaoold(this.getInformacaoOld());
+        
+        if (acao == ACAO_DELETADO){
+            a.setInformacaonew("Registro deletado.");
+        } else if(acao == ACAO_ARQUIVADO){
+            a.setInformacaonew("Registro aquivado.");
+        } else {
+            a.setInformacaonew(this.getInformacaoNew());
+        }
+        
+        if (acao != ACAO_INSERIDO){
+            a.setInformacaoold(this.getInformacaoOld());
+        } else {
+            a.setInformacaoold("Registro novo.");
+        }
+        
         a.setOnde(onde);
         
         String r = new AuditoriaDAO().insert(a);

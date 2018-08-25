@@ -268,7 +268,7 @@ public class PrincipalJF extends javax.swing.JFrame {
     }//GEN-LAST:event_itemMenuPacienteActionPerformed
 
     private void itemMenuPlanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuPlanoActionPerformed
-        CadastroPlanoSaudeJIF k = new CadastroPlanoSaudeJIF();
+        CadastroPlanoSaudeJIF k = new CadastroPlanoSaudeJIF(usuario);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);

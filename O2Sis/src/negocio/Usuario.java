@@ -33,13 +33,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
     , @NamedQuery(name = "Usuario.findByIdusuario", query = "SELECT u FROM Usuario u WHERE u.idusuario = :idusuario")
-    , @NamedQuery(name = "Usuario.findByUsuario", query = "SELECT u FROM Usuario u WHERE u.usuario = :usuario")
+    , @NamedQuery(name = "Usuario.findByNick", query = "SELECT u FROM Usuario u WHERE u.nick = :nick")
     , @NamedQuery(name = "Usuario.findBySenha", query = "SELECT u FROM Usuario u WHERE u.senha = :senha")
     , @NamedQuery(name = "Usuario.findByStatus", query = "SELECT u FROM Usuario u WHERE u.status = :status")})
 public class Usuario implements Serializable {
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idusuario")
-    private List<Auditoria> auditoriaList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -47,8 +44,8 @@ public class Usuario implements Serializable {
     @Basic(optional = false)
     @Column(name = "idusuario")
     private Integer idusuario;
-    @Column(name = "usuario")
-    private String usuario;
+    @Column(name = "nick")
+    private String nick;
     @Column(name = "senha")
     private String senha;
     @Column(name = "status")
@@ -56,6 +53,8 @@ public class Usuario implements Serializable {
     @JoinColumn(name = "idfuncionario", referencedColumnName = "idfuncionario")
     @ManyToOne(optional = false)
     private Funcionario idfuncionario;
+    @OneToMany (cascade = CascadeType.ALL, mappedBy = "idusuario")
+    private List<Auditoria> auditoriaList;
 
     public Usuario() {
     }
@@ -72,12 +71,12 @@ public class Usuario implements Serializable {
         this.idusuario = idusuario;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public String getNick() {
+        return nick;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setNick(String nick) {
+        this.nick = nick;
     }
 
     public String getSenha() {
@@ -104,6 +103,15 @@ public class Usuario implements Serializable {
         this.idfuncionario = idfuncionario;
     }
 
+    @XmlTransient
+    public List<Auditoria> getAuditoriaList() {
+        return auditoriaList;
+    }
+
+    public void setAuditoriaList(List<Auditoria> auditoriaList) {
+        this.auditoriaList = auditoriaList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -127,15 +135,6 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "negocio.Usuario[ idusuario=" + idusuario + " ]";
-    }
-
-    @XmlTransient
-    public List<Auditoria> getAuditoriaList() {
-        return auditoriaList;
-    }
-
-    public void setAuditoriaList(List<Auditoria> auditoriaList) {
-        this.auditoriaList = auditoriaList;
     }
     
 }

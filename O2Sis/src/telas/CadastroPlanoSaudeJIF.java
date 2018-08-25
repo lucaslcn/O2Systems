@@ -11,7 +11,10 @@ import gema.Gema;
 import gema.Mensagens;
 import javax.swing.JOptionPane;
 import negocio.Plano;
+import negocio.Usuario;
 import org.hibernate.HibernateException;
+import registros.Atividade;
+import registros.LogAuditoria;
 
 /**
  *
@@ -20,14 +23,16 @@ import org.hibernate.HibernateException;
 public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements BasicScreen {
 
     Plano plano;
+    Usuario usuario;
 
     /**
      * Creates new form CadastroPlanoSaudeJIF
      */
-    public CadastroPlanoSaudeJIF() {
+    public CadastroPlanoSaudeJIF(Usuario usuario) {
         initComponents();
         limpar();
         situacaoNovo();
+        this.usuario = usuario;
 
     }
 
@@ -197,16 +202,42 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
             if (Gema.vazio(jTF_NomePlano.getText(), 1)) {
+//                Pegando dados antigos da tabela;
+                String[] infoOld = auditoria();
+                
                 popular();
+//                Pegando dados novos da tabela
+                String[] infoNew = auditoria();
+
+//                Preenchendo a auditoria
+                Atividade logAuditoria = new Atividade();
+                logAuditoria.setInformacaoOld(infoOld);
+                logAuditoria.setInformacaoNew(infoNew);
+                logAuditoria.setOnde(Atividade.FROM_PLANO);
+                logAuditoria.setUsuario(usuario);
+                
                 String r;
                 if (plano.getIdplano() != null) {
                     r = new PlanoDAO().update(this.plano);
+                    logAuditoria.setAcao(Atividade.ACAO_EDITADO); // Defido para a Auditoria Editado
                 } else {
                     r = new PlanoDAO().insert(this.plano);
+                    logAuditoria.setAcao(Atividade.ACAO_INSERIDO); // Defido para a Auditoria Inserido
                 }
 
                 if (r == null) {
-                    Mensagens.retornoAcao(Mensagens.salvo("plano de saúde"));
+                    
+                    String audi = "";
+                    if(LogAuditoria.status()){
+                        audi = logAuditoria.registraatividade();
+                        if(audi == null){
+                            audi = "";
+                        } else {
+                            audi = "\n" + audi;
+                        }
+                    }
+                    
+                    Mensagens.retornoAcao(Mensagens.salvo("plano de saúde") + audi);
                     limpar();
                     situacaoNovo();
                 } else {
@@ -230,11 +261,33 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
         int resposta = Mensagens.confirmarexclusao();
         if (resposta == JOptionPane.YES_OPTION) {
             try {
+//                Pegando dados antigos da tabela;
+                String[] infoOld = auditoria();
+//                Pegando dados novos da tabela
+                String[] infoNew = auditoria();
+//                Preenchendo a auditoria
+                Atividade logAuditoria = new Atividade();
+                logAuditoria.setInformacaoOld(infoOld);
+                logAuditoria.setInformacaoNew(infoNew);
+                logAuditoria.setOnde(Atividade.FROM_PLANO);
+                logAuditoria.setAcao(Atividade.ACAO_ARQUIVADO);
+                logAuditoria.setUsuario(usuario);
+                
                 this.plano.setStatus(false);
                 String r;
                 r = new PlanoDAO().update(this.plano);
                 situacaoNovo();
                 if (r == null) {
+//                    Executando a Auditoria
+                    String audi = "";
+                    if(LogAuditoria.status()){
+                        audi = logAuditoria.registraatividade();
+                        if(audi == null){
+                            audi = "";
+                        } else {
+                            audi = "\n" + audi;
+                        }
+                    }
                     Mensagens.retornoAcao(Mensagens.arquivado("Plano de Saúde"));
                     limpar();
                     situacaoNovo();
@@ -319,6 +372,17 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
     @Override
     public void permissao() {
 
+    }
+
+    @Override
+    public String[] auditoria() {
+        String[] r =
+        {
+            plano.getIdplano()+"",
+            plano.getNomePlano(),
+            plano.getStatus()+""
+        };
+        return r;
     }
 
 }

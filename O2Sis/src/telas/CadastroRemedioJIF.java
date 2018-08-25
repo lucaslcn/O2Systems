@@ -356,4 +356,9 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
     public void permissao() {
 
     }
+
+    @Override
+    public String[] auditoria() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

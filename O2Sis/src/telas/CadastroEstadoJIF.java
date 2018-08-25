@@ -343,4 +343,9 @@ public class CadastroEstadoJIF extends javax.swing.JInternalFrame implements Bas
     public void permissao() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public String[] auditoria() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

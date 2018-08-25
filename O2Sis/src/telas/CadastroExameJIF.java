@@ -313,7 +313,12 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
                 if (s == null) {
                     String audi = "";
                     if(LogAuditoria.status()){
-                        audi = "\n" + logAuditoria.registraatividade();
+                        audi = logAuditoria.registraatividade();
+                        if(audi == null){
+                            audi = "";
+                        } else {
+                            audi = "\n" + audi;
+                        }
                     }
                     
                     Mensagens.retornoAcao(Mensagens.salvo("Exame") + audi);
@@ -344,12 +349,35 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
         int resposta = Mensagens.confirmarexclusao();
         if (resposta == JOptionPane.YES_OPTION) {
             try {
+//                Pegando dados antigos da tabela;
+                String[] infoOld = auditoria();
+//                Pegando dados novos da tabela
+                String[] infoNew = auditoria();
+//                Preenchendo a auditoria
+                Atividade logAuditoria = new Atividade();
+                logAuditoria.setInformacaoOld(infoOld);
+                logAuditoria.setInformacaoNew(infoNew);
+                logAuditoria.setOnde(Atividade.FROM_EXAME);
+                logAuditoria.setAcao(Atividade.ACAO_ARQUIVADO);
+                logAuditoria.setUsuario(usuario);
+                
                 this.exame.setStatus(false);
                 String r;
                 r = new ExameDAO().update(this.exame);
                 situacaoNovo();
                 if (r == null) {
-                    Mensagens.retornoAcao(Mensagens.arquivado("Exame"));
+//                    Executando a Auditoria
+                    String audi = "";
+                    if(LogAuditoria.status()){
+                        audi = logAuditoria.registraatividade();
+                        if(audi == null){
+                            audi = "";
+                        } else {
+                            audi = "\n" + audi;
+                        }
+                    }
+                    
+                    Mensagens.retornoAcao(Mensagens.arquivado("Exame") + audi); //Acrecentar o resultado da auditoria a msg.
                     limpar();
                     situacaoNovo();
                 } else {
