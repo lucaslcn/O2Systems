@@ -9,6 +9,6 @@ package registros;
  *
  * @author XorNOTE
  */
-public class Log {
+public class Termos {
     
 }
