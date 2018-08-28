@@ -21,29 +21,37 @@ import registros.LogErro;
  */
 public class DAO {
 
-    protected EntityManager entityManager;
-
     public String insert(Object o) {
         String r = null;
         Session s = null;
         try {
+//            System.out.println("Inicio Sessao Inserir");
             s = ConexaoDAO.iniciarSessão();
             Transaction t = s.beginTransaction();
+               
+//            System.out.println("Inicio Sessao Inserir Puta merda");
+//            String[] aut = new String[3];
+//            for (int i = 0; i < aut.length+1 ; i++) {
+//                aut[i] = "a "+i;
+//                System.out.println(aut[i]);
+//            }
+            
             s.save(o);
             t.commit();
+            
         } catch (HibernateException he) {
             he.printStackTrace();
             r = he.toString();
             
-            Log log = new Log();
-            log.setData(new Date());
-            log.setHora(new Date());
-            log.setOnde(Atividade.ACAO_INSERIDO);
-            log.setErro(he.toString());
-            
-            LogErro erro = new LogErro(log);
-            String g = erro.registrarErro();
-            System.out.println("Erro ao gravar o Log: "+g);
+//            Log log = new Log();
+//            log.setData(new Date());
+//            log.setHora(new Date());
+//            log.setOnde(Atividade.ACAO_INSERIDO);
+//            log.setErro(he.toString());
+//            
+//            LogErro erro = new LogErro(log);
+//            String g = erro.registrarErro();
+//            System.out.println("Erro ao gravar o Log: "+g);
             
             return r;
         } finally {
