@@ -73,6 +73,17 @@ public class DAO {
             s.close();
         } catch (HibernateException he) {
             he.printStackTrace();
+            
+            Log log = new Log();
+            log.setData(new Date());
+            log.setHora(new Date());
+            log.setOnde("select");
+            log.setErro(he.toString());
+            
+            LogErro erro = new LogErro(log);
+            String g = erro.registrarErro();
+            System.out.println("Erro ao gravar o Log: "+g);
+
         } finally {
             return o;
         }
