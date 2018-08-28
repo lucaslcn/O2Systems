@@ -5,6 +5,8 @@
  */
 package persistencia;
 
+import registros.Atividade;
+
 /**
  *
  * @author XorNOTE
@@ -50,5 +52,11 @@ public interface BasicScreen {
      * Usado para popular informação da Auditoria.
      */
     public String[] auditoria();
+    
+    /**
+     * Popular a classe Atividade
+     * @return 
+     */
+    public Atividade autoAuditoria(String[] iOld, String[] iNew);
     
 }

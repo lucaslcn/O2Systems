@@ -28,6 +28,7 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
 
     Exames exame;
     Usuario usuario;
+
     /**
      * Creates new form CadastroPlanoSaudeJIF
      */
@@ -269,59 +270,36 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
-            
+
             String nomeExame = jTF_NomeExame.getText();
             int prazoEntrega = (int) jS_PrazoEntrega.getValue();
             String valorPlano = jTF_ValorExame.getText().replace(",", ".");
             int duracaoExame = (int) jS_DuracaoTempo.getValue();
             System.out.println("Valor: " + valorPlano);
-            
+
             String[] campos = {"nome do exame", "prazo de entrega", "duração do exame", "valor do plano"};
             String[] valor = {nomeExame, prazoEntrega + "", duracaoExame + "", valorPlano};
             Integer[] qtd = {1, 1, 1, 1};
-            
-            
+
             String r = ValidaCampo.campoVazio(campos, qtd, valor);
 
-            
             if (r == null) {
-//                Pegando dados antigos da tabela;
                 String[] infoOld = auditoria();
-                
+
                 popular();
-                
-//                Pegando dados novos da tabela
+
                 String[] infoNew = auditoria();
-                
-//                Preenchendo a auditoria
-                Atividade logAuditoria = new Atividade();
-                logAuditoria.setInformacaoOld(infoOld);
-                logAuditoria.setInformacaoNew(infoNew);
-                logAuditoria.setOnde(Atividade.FROM_EXAME);
-                logAuditoria.setUsuario(usuario);
-                
-                
+                Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
+
                 String s;
                 if (exame.getIdexame() != null) {
-                    s = new ExameDAO().update(this.exame);
-                    logAuditoria.setAcao(Atividade.ACAO_EDITADO); // Defido para a Auditoria Editado
+                    s = new ExameDAO().update(this.exame, logAuditoria);
                 } else {
-                    s = new ExameDAO().insert(this.exame);
-                    logAuditoria.setAcao(Atividade.ACAO_INSERIDO); // Defido para a Auditoria Inserido
+                    s = new ExameDAO().insert(this.exame, logAuditoria);
                 }
 
                 if (s == null) {
-                    String audi = "";
-                    if(LogAuditoria.status()){
-                        audi = logAuditoria.registraatividade();
-                        if(audi == null){
-                            audi = "";
-                        } else {
-                            audi = "\n" + audi;
-                        }
-                    }
-                    
-                    Mensagens.retornoAcao(Mensagens.salvo("Exame") + audi);
+                    Mensagens.retornoAcao(Mensagens.salvo("Exame"));
                     limpar();
                     situacaoNovo();
                 } else {
@@ -329,7 +307,7 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
                     jTF_NomeExame.requestFocus();
                 }
             } else {
-                Mensagens.retornoAcao( Mensagens.preenchaOsCampos("Os seguintes campos obrigatórios estão vazios:\n" + r) );
+                Mensagens.retornoAcao(Mensagens.preenchaOsCampos("Os seguintes campos obrigatórios estão vazios:\n" + r));
             }
         } catch (HibernateException he) {
             System.out.println(he);
@@ -349,35 +327,16 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
         int resposta = Mensagens.confirmarexclusao();
         if (resposta == JOptionPane.YES_OPTION) {
             try {
-//                Pegando dados antigos da tabela;
                 String[] infoOld = auditoria();
-//                Pegando dados novos da tabela
                 String[] infoNew = auditoria();
-//                Preenchendo a auditoria
-                Atividade logAuditoria = new Atividade();
-                logAuditoria.setInformacaoOld(infoOld);
-                logAuditoria.setInformacaoNew(infoNew);
-                logAuditoria.setOnde(Atividade.FROM_EXAME);
-                logAuditoria.setAcao(Atividade.ACAO_ARQUIVADO);
-                logAuditoria.setUsuario(usuario);
-                
+                Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
+
                 this.exame.setStatus(false);
                 String r;
-                r = new ExameDAO().update(this.exame);
+                r = new ExameDAO().update(this.exame , logAuditoria);
                 situacaoNovo();
                 if (r == null) {
-//                    Executando a Auditoria
-                    String audi = "";
-                    if(LogAuditoria.status()){
-                        audi = logAuditoria.registraatividade();
-                        if(audi == null){
-                            audi = "";
-                        } else {
-                            audi = "\n" + audi;
-                        }
-                    }
-                    
-                    Mensagens.retornoAcao(Mensagens.arquivado("Exame") + audi); //Acrecentar o resultado da auditoria a msg.
+                    Mensagens.retornoAcao(Mensagens.arquivado("Exame")); //Acrecentar o resultado da auditoria a msg.
                     limpar();
                     situacaoNovo();
                 } else {
@@ -507,17 +466,26 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
 
     @Override
     public String[] auditoria() {
-        String[] r =
-        {
-            exame.getIdexame()+"",
-            exame.getNomeExame(),
-            exame.getDuracao()+"",
-            exame.getPrazoRetirada()+"",
-            exame.getValor()+"",
-            exame.getStatus()+""
-        };
-        
+        String[] r
+                = {
+                    exame.getIdexame() + "",
+                    exame.getNomeExame(),
+                    exame.getDuracao() + "",
+                    exame.getPrazoRetirada() + "",
+                    exame.getValor() + "",
+                    exame.getStatus() + ""
+                };
         return r;
+    }
+
+    @Override
+    public Atividade autoAuditoria(String[] iOld, String[] iNew) {
+        Atividade logAuditoria = new Atividade();
+        logAuditoria.setInformacaoOld(iOld);
+        logAuditoria.setInformacaoNew(iNew);
+        logAuditoria.setOnde(Atividade.FROM_EXAME);
+        logAuditoria.setUsuario(usuario);
+        return logAuditoria;
     }
 
 }

@@ -112,7 +112,7 @@ public class Atividade {
         this.dataEhora = dataEhora;
     }
 
-    public String registraatividade(){
+    public Auditoria registraAtividade(){
         Auditoria a = new Auditoria();
         
         a.setAcao(acao);
@@ -136,12 +136,7 @@ public class Atividade {
         
         a.setOnde(onde);
         
-        String r = new AuditoriaDAO().insert(a);
-        
-        if(r != null){
-            r = "Mensagem do Log da Auditoria:\n" + r;
-        }
-        return r;
+        return a;
     }
     
     //Definição de nome para os locais. Vulgo ONDE.

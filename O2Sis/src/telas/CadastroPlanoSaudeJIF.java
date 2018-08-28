@@ -17,7 +17,6 @@ import negocio.Usuario;
 import org.hibernate.HibernateException;
 import registros.Atividade;
 import registros.LogAuditoria;
-import registros.LogErro;
 
 /**
  *
@@ -209,38 +208,21 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
                 String[] infoOld = auditoria();
                 
                 popular();
+                
 //                Pegando dados novos da tabela
                 String[] infoNew = auditoria();
-
-//                Preenchendo a auditoria
-                Atividade logAuditoria = new Atividade();
-                logAuditoria.setInformacaoOld(infoOld);
-                logAuditoria.setInformacaoNew(infoNew);
-                logAuditoria.setOnde(Atividade.FROM_PLANO);
-                logAuditoria.setUsuario(usuario);
+                
+                Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
                 
                 String r;
                 if (plano.getIdplano() != null) {
-                    r = new PlanoDAO().update(this.plano);
-                    logAuditoria.setAcao(Atividade.ACAO_EDITADO); // Defido para a Auditoria Editado
+                    r = new PlanoDAO().update(this.plano, logAuditoria);
                 } else {
-                    r = new PlanoDAO().insert(this.plano);
-                    logAuditoria.setAcao(Atividade.ACAO_INSERIDO); // Defido para a Auditoria Inserido
+                    r = new PlanoDAO().insert(this.plano, logAuditoria);
                 }
 
                 if (r == null) {
-                    
-                    String audi = "";
-                    if(LogAuditoria.status()){
-                        audi = logAuditoria.registraatividade();
-                        if(audi == null){
-                            audi = "";
-                        } else {
-                            audi = "\n" + audi;
-                        }
-                    }
-                    
-                    Mensagens.retornoAcao(Mensagens.salvo("plano de saúde") + audi);
+                    Mensagens.retornoAcao(Mensagens.salvo("plano de saúde"));
                     limpar();
                     situacaoNovo();
                 } else {
@@ -268,29 +250,14 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
                 String[] infoOld = auditoria();
 //                Pegando dados novos da tabela
                 String[] infoNew = auditoria();
-//                Preenchendo a auditoria
-                Atividade logAuditoria = new Atividade();
-                logAuditoria.setInformacaoOld(infoOld);
-                logAuditoria.setInformacaoNew(infoNew);
-                logAuditoria.setOnde(Atividade.FROM_PLANO);
-                logAuditoria.setAcao(Atividade.ACAO_ARQUIVADO);
-                logAuditoria.setUsuario(usuario);
+
+                Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
                 
                 this.plano.setStatus(false);
                 String r;
-                r = new PlanoDAO().update(this.plano);
+                r = new PlanoDAO().archived(this.plano, logAuditoria);
                 situacaoNovo();
                 if (r == null) {
-//                    Executando a Auditoria
-                    String audi = "";
-                    if(LogAuditoria.status()){
-                        audi = logAuditoria.registraatividade();
-                        if(audi == null){
-                            audi = "";
-                        } else {
-                            audi = "\n" + audi;
-                        }
-                    }
                     Mensagens.retornoAcao(Mensagens.arquivado("Plano de Saúde"));
                     limpar();
                     situacaoNovo();
@@ -386,6 +353,17 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
             plano.getStatus()+""
         };
         return r;
+    }
+    
+    @Override
+    public Atividade autoAuditoria(String[] iOld, String[] iNew){
+        Atividade logAuditoria = new Atividade();
+        logAuditoria.setInformacaoOld(iOld);
+        logAuditoria.setInformacaoNew(iNew);
+        logAuditoria.setOnde(Atividade.FROM_PLANO);
+        logAuditoria.setUsuario(usuario);
+        
+        return logAuditoria;
     }
 
 }

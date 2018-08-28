@@ -8,12 +8,13 @@ package persistencia;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
+import negocio.Auditoria;
 import negocio.Log;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import registros.Atividade;
-import registros.LogErro;
+import registros.LogAuditoria;
 
 /**
  *
@@ -21,38 +22,26 @@ import registros.LogErro;
  */
 public class DAO {
 
-    public String insert(Object o) {
+    public String insert(Object o, Atividade logAuditoria) {
         String r = null;
         Session s = null;
+        logAuditoria.setAcao(Atividade.ACAO_INSERIDO); //Definir ação auditoria
         try {
-//            System.out.println("Inicio Sessao Inserir");
             s = ConexaoDAO.iniciarSessão();
             Transaction t = s.beginTransaction();
-               
-//            System.out.println("Inicio Sessao Inserir Puta merda");
-//            String[] aut = new String[3];
-//            for (int i = 0; i < aut.length+1 ; i++) {
-//                aut[i] = "a "+i;
-//                System.out.println(aut[i]);
-//            }
-            
             s.save(o);
-            t.commit();
             
+            //Inicio Auditoria
+            if (LogAuditoria.status()) {
+                Auditoria auditoria = logAuditoria.registraAtividade();
+                s.save(auditoria);
+            }
+            //Fim Auditoria
+            
+            t.commit();
         } catch (HibernateException he) {
             he.printStackTrace();
             r = he.toString();
-            
-//            Log log = new Log();
-//            log.setData(new Date());
-//            log.setHora(new Date());
-//            log.setOnde(Atividade.ACAO_INSERIDO);
-//            log.setErro(he.toString());
-//            
-//            LogErro erro = new LogErro(log);
-//            String g = erro.registrarErro();
-//            System.out.println("Erro ao gravar o Log: "+g);
-            
             return r;
         } finally {
             s.close();
@@ -73,17 +62,6 @@ public class DAO {
             s.close();
         } catch (HibernateException he) {
             he.printStackTrace();
-            
-            Log log = new Log();
-            log.setData(new Date());
-            log.setHora(new Date());
-            log.setOnde("select");
-            log.setErro(he.toString());
-            
-            LogErro erro = new LogErro(log);
-            String g = erro.registrarErro();
-            System.out.println("Erro ao gravar o Log: "+g);
-
         } finally {
             return o;
         }
@@ -92,14 +70,23 @@ public class DAO {
     public List selectWithJoin(String table, String join) {
         return this.select(table + " where " + join);
     }
-    
-    public String update(Object o) {
+
+    public String update(Object o, Atividade logAuditoria) {
         String r = null;
         Session s = null;
+        logAuditoria.setAcao(Atividade.ACAO_EDITADO); //Definir ação auditoria
         try {
             s = ConexaoDAO.iniciarSessão();
             Transaction t = s.beginTransaction();
             s.update(o);
+            
+            //Inicio Auditoria
+            if (LogAuditoria.status()) {
+                Auditoria auditoria = logAuditoria.registraAtividade();
+                s.save(auditoria);
+            }
+            //Fim Auditoria
+            
             t.commit();
         } catch (HibernateException he) {
             he.printStackTrace();
@@ -111,8 +98,46 @@ public class DAO {
         }
     }
 
-    public String delete() {
-        return null;
+    public String archived(Object o, Atividade logAuditoria) {
+        String r = null;
+        Session s = null;
+        logAuditoria.setAcao(Atividade.ACAO_ARQUIVADO); //Definir ação auditoria
+        try {
+            s = ConexaoDAO.iniciarSessão();
+            Transaction t = s.beginTransaction();
+            s.update(o);
+
+            //Inicio Auditoria
+            if (LogAuditoria.status()) {
+                Auditoria auditoria = logAuditoria.registraAtividade();
+                s.save(auditoria);
+            }
+            //Fim Auditoria
+
+            t.commit();
+        } catch (HibernateException he) {
+            he.printStackTrace();
+            r = he.toString();
+            return r;
+        } finally {
+            s.close();
+            return null;
+        }
+    }
+
+    public String delete(Object o, Atividade logAuditoria) {
+        logAuditoria.setAcao(Atividade.ACAO_DELETADO); //Definir ação auditoria
+        
+        try {
+            
+            
+            
+        } catch (HibernateException he) {
+            String r = he.toString();
+            return r;
+        } finally {
+            return null;
+        }
     }
 
 }
