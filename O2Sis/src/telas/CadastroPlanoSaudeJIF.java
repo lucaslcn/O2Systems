@@ -252,15 +252,6 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
             }
         } catch (HibernateException he) {
             System.out.println(he);
-            Log log = new Log();
-            log.setData(new Date());
-            log.setHora(new Date());
-            log.setOnde(Atividade.FROM_PLANO);
-            log.setErro(he.toString());
-            
-            LogErro erro = new LogErro(log);
-            String g = erro.registrarErro();
-            System.out.println("Erro ao gravar o Log: "+g);
         }
 
     }//GEN-LAST:event_btnSalvarActionPerformed

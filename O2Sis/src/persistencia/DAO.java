@@ -5,11 +5,15 @@
  */
 package persistencia;
 
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
+import negocio.Log;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import registros.Atividade;
+import registros.LogErro;
 
 /**
  *
@@ -30,6 +34,17 @@ public class DAO {
         } catch (HibernateException he) {
             he.printStackTrace();
             r = he.toString();
+            
+            Log log = new Log();
+            log.setData(new Date());
+            log.setHora(new Date());
+            log.setOnde(Atividade.ACAO_INSERIDO);
+            log.setErro(he.toString());
+            
+            LogErro erro = new LogErro(log);
+            String g = erro.registrarErro();
+            System.out.println("Erro ao gravar o Log: "+g);
+            
             return r;
         } finally {
             s.close();

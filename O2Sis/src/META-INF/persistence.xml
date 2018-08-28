@@ -31,7 +31,7 @@
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://pgsql03-farm76.kinghost.net:5432/syscoffe"/>
       <property name="javax.persistence.jdbc.user" value="syscoffe"/>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-      <property name="javax.persistence.jdbc.password" value="marina2018b"/>
+      <property name="javax.persistence.jdbc.password" value="marinab"/>
     </properties>
   </persistence-unit>
 </persistence>

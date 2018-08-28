@@ -40,34 +40,34 @@ made subject to such option by the copyright holder.
 Contributor(s):
 -->
 <hibernate-configuration>
-    <session-factory>
-        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.url">jdbc:postgresql://pgsql03-farm76.kinghost.net:5432/syscoffe</property>
-        <property name="hibernate.connection.username">syscoffe</property>
-        <property name="hibernate.connection.password">marina2018b</property>
-        <property name="hbm2ddl.auto">update</property>
-        <property name="show_sql">true</property>
-        <mapping class="negocio.Requisicao"/>
-        <mapping class="negocio.ListagemPlanos"/>
-        <mapping class="negocio.ListagemRemedios"/>
-        <mapping class="negocio.Paciente"/>
-        <mapping class="negocio.ListagemFuncao"/>
-        <mapping class="negocio.Estado"/>
-        <mapping class="negocio.Pessoa"/>
-        <mapping class="negocio.Funcao"/>
-        <mapping class="negocio.Receita"/>
-        <mapping class="negocio.ListagemExames"/>
-        <mapping class="negocio.Prontuario"/>
-        <mapping class="negocio.Remedio"/>
-        <mapping class="negocio.AgendamentoExames"/>
-        <mapping class="negocio.Plano"/>
-        <mapping class="negocio.FormaPagamento"/>
-        <mapping class="negocio.Exames"/>
-        <mapping class="negocio.Usuario"/>
-        <mapping class="negocio.Consultas"/>
-        <mapping class="negocio.Funcionario"/>
-        <mapping class="negocio.Cidade"/>
-        <mapping class="negocio.Auditoria"/>
-    </session-factory>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+    <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+    <property name="hibernate.connection.url">jdbc:postgresql://pgsql03-farm76.kinghost.net:5432/syscoffe</property>
+    <property name="hibernate.connection.username">syscoffe</property>
+    <property name="hibernate.connection.password">marinab</property>
+    <property name="hbm2ddl.auto">update</property>
+    <property name="show_sql">true</property>
+    <mapping class="negocio.Requisicao"/>
+    <mapping class="negocio.ListagemPlanos"/>
+    <mapping class="negocio.ListagemRemedios"/>
+    <mapping class="negocio.Paciente"/>
+    <mapping class="negocio.ListagemFuncao"/>
+    <mapping class="negocio.Estado"/>
+    <mapping class="negocio.Pessoa"/>
+    <mapping class="negocio.Funcao"/>
+    <mapping class="negocio.Receita"/>
+    <mapping class="negocio.ListagemExames"/>
+    <mapping class="negocio.Prontuario"/>
+    <mapping class="negocio.Remedio"/>
+    <mapping class="negocio.AgendamentoExames"/>
+    <mapping class="negocio.Plano"/>
+    <mapping class="negocio.FormaPagamento"/>
+    <mapping class="negocio.Exames"/>
+    <mapping class="negocio.Usuario"/>
+    <mapping class="negocio.Consultas"/>
+    <mapping class="negocio.Funcionario"/>
+    <mapping class="negocio.Cidade"/>
+    <mapping class="negocio.Auditoria"/>
+  </session-factory>
 </hibernate-configuration>
