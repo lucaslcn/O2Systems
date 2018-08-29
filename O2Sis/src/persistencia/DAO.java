@@ -30,14 +30,6 @@ public class DAO {
             s = ConexaoDAO.iniciarSessão();
             Transaction t = s.beginTransaction();
             s.save(o);
-            
-            //Inicio Auditoria
-            if (LogAuditoria.status()) {
-                Auditoria auditoria = logAuditoria.registraAtividade();
-                s.save(auditoria);
-            }
-            //Fim Auditoria
-            
             t.commit();
         } catch (HibernateException he) {
             he.printStackTrace();
@@ -45,7 +37,12 @@ public class DAO {
             return r;
         } finally {
             s.close();
-            return null;
+            //Inicio Auditoria
+            if (LogAuditoria.status()) {
+                r = this.insertAuditoria( logAuditoria.registraAtividade() );
+            }
+            //Fim Auditoria
+            return r;
         }
     }
 
@@ -79,14 +76,6 @@ public class DAO {
             s = ConexaoDAO.iniciarSessão();
             Transaction t = s.beginTransaction();
             s.update(o);
-            
-            //Inicio Auditoria
-            if (LogAuditoria.status()) {
-                Auditoria auditoria = logAuditoria.registraAtividade();
-                s.save(auditoria);
-            }
-            //Fim Auditoria
-            
             t.commit();
         } catch (HibernateException he) {
             he.printStackTrace();
@@ -94,7 +83,12 @@ public class DAO {
             return r;
         } finally {
             s.close();
-            return null;
+            //Inicio Auditoria
+            if (LogAuditoria.status()) {
+                r = this.insertAuditoria( logAuditoria.registraAtividade() );
+            }
+            //Fim Auditoria
+            return r;
         }
     }
 
@@ -106,14 +100,6 @@ public class DAO {
             s = ConexaoDAO.iniciarSessão();
             Transaction t = s.beginTransaction();
             s.update(o);
-
-            //Inicio Auditoria
-            if (LogAuditoria.status()) {
-                Auditoria auditoria = logAuditoria.registraAtividade();
-                s.save(auditoria);
-            }
-            //Fim Auditoria
-
             t.commit();
         } catch (HibernateException he) {
             he.printStackTrace();
@@ -121,21 +107,49 @@ public class DAO {
             return r;
         } finally {
             s.close();
-            return null;
+            //Inicio Auditoria
+            if (LogAuditoria.status()) {
+                r = this.insertAuditoria( logAuditoria.registraAtividade() );
+            }
+            //Fim Auditoria
+            return r;
         }
     }
 
     public String delete(Object o, Atividade logAuditoria) {
         logAuditoria.setAcao(Atividade.ACAO_DELETADO); //Definir ação auditoria
-        
+        String r = null;
         try {
             
             
             
         } catch (HibernateException he) {
-            String r = he.toString();
+            r = he.toString();
             return r;
         } finally {
+            //Inicio Auditoria
+            if (LogAuditoria.status()) {
+                r = this.insertAuditoria( logAuditoria.registraAtividade() );
+            }
+            //Fim Auditoria
+            return r;
+        }
+    }
+    
+    private String insertAuditoria(Object o) {
+        String r = null;
+        Session s = null;
+        try {
+            s = ConexaoDAO.iniciarSessão();
+            Transaction t = s.beginTransaction();
+            s.save(o);
+            t.commit();
+        } catch (HibernateException he) {
+            he.printStackTrace();
+            r = he.toString();
+            return r;
+        } finally {
+            s.close();
             return null;
         }
     }
