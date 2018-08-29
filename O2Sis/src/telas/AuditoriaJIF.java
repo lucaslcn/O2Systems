@@ -7,6 +7,7 @@ package telas;
 
 import gema.Mensagens;
 import java.awt.Color;
+import negocio.Usuario;
 import registros.LogAuditoria;
 
 /**
@@ -14,13 +15,13 @@ import registros.LogAuditoria;
  * @author XorNOTE
  */
 public class AuditoriaJIF extends javax.swing.JInternalFrame {
-
+    Usuario usuario;
     /**
      * Creates new form AuditoriaJIF
      */
-    public AuditoriaJIF() {
+    public AuditoriaJIF(Usuario u) {
         initComponents();
-        
+        this.usuario = u;
         if( LogAuditoria.status() ){
             ligado();
         } else {
@@ -148,7 +149,7 @@ public class AuditoriaJIF extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLigadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLigadoActionPerformed
-        String r = onOff(true);
+        String r = onOff();
         if(r == null){
             ligado();
         } else {
@@ -157,7 +158,7 @@ public class AuditoriaJIF extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnLigadoActionPerformed
 
     private void btnDesligadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesligadoActionPerformed
-        String r = onOff(false);
+        String r = onOff();
         if(r == null){
             desligado();
         } else {
@@ -203,8 +204,8 @@ public class AuditoriaJIF extends javax.swing.JInternalFrame {
         jL_status.setForeground(Color.red);
     }
     
-    private String onOff(boolean a){
-        return LogAuditoria.onOff(a);
+    private String onOff(){
+        return LogAuditoria.onOff(this.usuario);
     }
 }
 

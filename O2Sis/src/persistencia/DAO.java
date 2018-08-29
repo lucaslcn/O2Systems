@@ -71,7 +71,9 @@ public class DAO {
     public String update(Object o, Atividade logAuditoria) {
         String r = null;
         Session s = null;
-        logAuditoria.setAcao(Atividade.ACAO_EDITADO); //Definir ação auditoria
+        if(!Atividade.FROM_AUDITORIA.equals(logAuditoria.getOnde())){
+            logAuditoria.setAcao(Atividade.ACAO_EDITADO); //Definir ação auditoria
+        }
         try {
             s = ConexaoDAO.iniciarSessão();
             Transaction t = s.beginTransaction();
@@ -84,7 +86,7 @@ public class DAO {
         } finally {
             s.close();
             //Inicio Auditoria
-            if (LogAuditoria.status()) {
+            if (LogAuditoria.status() || logAuditoria.getOnde().equals(Atividade.FROM_AUDITORIA)) {
                 r = this.insertAuditoria( logAuditoria.registraAtividade() );
             }
             //Fim Auditoria

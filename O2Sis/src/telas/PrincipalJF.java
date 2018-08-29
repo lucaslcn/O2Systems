@@ -321,7 +321,7 @@ public class PrincipalJF extends javax.swing.JFrame {
     }//GEN-LAST:event_itemMenuSobreActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        AuditoriaJIF k = new AuditoriaJIF();
+        AuditoriaJIF k = new AuditoriaJIF(usuario);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
