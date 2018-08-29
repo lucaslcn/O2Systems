@@ -254,28 +254,28 @@ public class PrincipalJF extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void itemMenuFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuFuncionarioActionPerformed
-        CadastroFuncionarioJIF k = new CadastroFuncionarioJIF();
+        CadastroFuncionarioJIF k = new CadastroFuncionarioJIF(this.usuario);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 0);
         k.setVisible(true);
     }//GEN-LAST:event_itemMenuFuncionarioActionPerformed
 
     private void itemMenuPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuPacienteActionPerformed
-        CadastroPacienteJIF k = new CadastroPacienteJIF();
+        CadastroPacienteJIF k = new CadastroPacienteJIF(this.usuario);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 0);
         k.setVisible(true);
     }//GEN-LAST:event_itemMenuPacienteActionPerformed
 
     private void itemMenuPlanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuPlanoActionPerformed
-        CadastroPlanoSaudeJIF k = new CadastroPlanoSaudeJIF(usuario);
+        CadastroPlanoSaudeJIF k = new CadastroPlanoSaudeJIF(this.usuario);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
     }//GEN-LAST:event_itemMenuPlanoActionPerformed
 
     private void itemMenuRemedioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuRemedioActionPerformed
-        CadastroRemedioJIF k = new CadastroRemedioJIF();
+        CadastroRemedioJIF k = new CadastroRemedioJIF(this.usuario);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
@@ -286,21 +286,21 @@ public class PrincipalJF extends javax.swing.JFrame {
     }//GEN-LAST:event_itemMenuSairActionPerformed
 
     private void itemMenuFormaPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuFormaPagamentoActionPerformed
-        CadastroFormaPagamentoJIF k = new CadastroFormaPagamentoJIF();
+        CadastroFormaPagamentoJIF k = new CadastroFormaPagamentoJIF(this.usuario);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
     }//GEN-LAST:event_itemMenuFormaPagamentoActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        CadastroFuncaoJIF k = new CadastroFuncaoJIF();
+        CadastroFuncaoJIF k = new CadastroFuncaoJIF(this.usuario);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        CadastroEstadoJIF k = new CadastroEstadoJIF();
+        CadastroEstadoJIF k = new CadastroEstadoJIF(this.usuario);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
@@ -321,7 +321,7 @@ public class PrincipalJF extends javax.swing.JFrame {
     }//GEN-LAST:event_itemMenuSobreActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        AuditoriaJIF k = new AuditoriaJIF(usuario);
+        AuditoriaJIF k = new AuditoriaJIF(this.usuario);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);

@@ -9,6 +9,7 @@ import persistencia.BasicScreen;
 import dao.PlanoDAO;
 import gema.Gema;
 import gema.Mensagens;
+import gema.ValidaCampo;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import negocio.Log;
@@ -203,34 +204,46 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
-            if (Gema.vazio(jTF_NomePlano.getText(), 1)) {
-//                Pegando dados antigos da tabela;
-                String[] infoOld = auditoria();
-                
-                popular();
-                
-//                Pegando dados novos da tabela
-                String[] infoNew = auditoria();
-                
-                Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
-                
-                String r;
-                if (plano.getIdplano() != null) {
-                    r = new PlanoDAO().update(this.plano, logAuditoria);
-                } else {
-                    r = new PlanoDAO().insert(this.plano, logAuditoria);
-                }
+            String nomePlano = jTF_NomePlano.getText();
 
-                if (r == null) {
-                    Mensagens.retornoAcao(Mensagens.salvo("plano de saúde"));
-                    limpar();
-                    situacaoNovo();
+            String[] campos = {"nome plano"};
+            String[] valor = {nomePlano};
+            Integer[] qtd = {1};
+
+            String p = ValidaCampo.campoVazio(campos, qtd, valor);
+            if (p == null) {
+                if (Gema.vazio(jTF_NomePlano.getText(), 1)) {
+//                Pegando dados antigos da tabela;
+                    String[] infoOld = auditoria();
+
+                    popular();
+
+//                Pegando dados novos da tabela
+                    String[] infoNew = auditoria();
+
+                    Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
+
+                    String r;
+                    if (plano.getIdplano() != null) {
+                        r = new PlanoDAO().update(this.plano, logAuditoria);
+                    } else {
+                        r = new PlanoDAO().insert(this.plano, logAuditoria);
+                    }
+
+                    if (r == null) {
+                        Mensagens.retornoAcao(Mensagens.salvo("plano de saúde"));
+                        limpar();
+                        situacaoNovo();
+                    } else {
+                        Mensagens.retornoAcao(Mensagens.erroSalvar("Plano de saúde"));
+                        jTF_NomePlano.requestFocus();
+                    }
                 } else {
-                    Mensagens.retornoAcao(Mensagens.erroSalvar("Plano de saúde"));
-                    jTF_NomePlano.requestFocus();
+                    Mensagens.retornoAcao(Mensagens.preenchaOsCampos());
                 }
             } else {
-                Mensagens.retornoAcao(Mensagens.preenchaOsCampos());
+                Mensagens.retornoAcao(Mensagens.preenchaOsCampos("Os seguintes campos obrigatórios estão vazios:\n" + p));
+
             }
         } catch (HibernateException he) {
             System.out.println(he);
@@ -252,7 +265,7 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
                 String[] infoNew = auditoria();
 
                 Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
-                
+
                 this.plano.setStatus(false);
                 String r;
                 r = new PlanoDAO().archived(this.plano, logAuditoria);
@@ -346,23 +359,23 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
 
     @Override
     public String[] auditoria() {
-        String[] r =
-        {
-            plano.getIdplano()+"",
-            plano.getNomePlano(),
-            plano.getStatus()+""
-        };
+        String[] r
+                = {
+                    plano.getIdplano() + "",
+                    plano.getNomePlano(),
+                    plano.getStatus() + ""
+                };
         return r;
     }
-    
+
     @Override
-    public Atividade autoAuditoria(String[] iOld, String[] iNew){
+    public Atividade autoAuditoria(String[] iOld, String[] iNew) {
         Atividade logAuditoria = new Atividade();
         logAuditoria.setInformacaoOld(iOld);
         logAuditoria.setInformacaoNew(iNew);
         logAuditoria.setOnde(Atividade.FROM_PLANO);
         logAuditoria.setUsuario(usuario);
-        
+
         return logAuditoria;
     }
 

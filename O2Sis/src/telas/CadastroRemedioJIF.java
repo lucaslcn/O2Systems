@@ -11,6 +11,7 @@ import gema.Gema;
 import gema.Mensagens;
 import javax.swing.JOptionPane;
 import negocio.Remedio;
+import negocio.Usuario;
 import org.hibernate.HibernateException;
 
 /**
@@ -20,14 +21,17 @@ import org.hibernate.HibernateException;
 public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements BasicScreen {
 
     Remedio remedio;
+    Usuario usuario;
 
     /**
      * Creates new form CadastroRemédioJIF
      */
-    public CadastroRemedioJIF() {
+    public CadastroRemedioJIF(Usuario usuario) {
         initComponents();
         limpar();
 
+        this.usuario = usuario;
+        
         CB_Controlado.removeAllItems();
         CB_Controlado.addItem("Não");
         CB_Controlado.addItem("Sim");

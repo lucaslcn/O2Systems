@@ -14,8 +14,10 @@ import java.math.BigInteger;
 import javax.swing.JOptionPane;
 import negocio.Estado;
 import negocio.FormaPagamento;
+import negocio.Usuario;
 import org.hibernate.HibernateException;
 import persistencia.BasicScreen;
+import registros.Atividade;
 
 /**
  *
@@ -24,15 +26,17 @@ import persistencia.BasicScreen;
 public class CadastroEstadoJIF extends javax.swing.JInternalFrame implements BasicScreen {
 
     Estado estado;
+    Usuario usuario;
 
     /**
      * Creates new form EstadoJIF
      */
-    public CadastroEstadoJIF() {
+    public CadastroEstadoJIF(Usuario usuario) {
         initComponents();
         limpar();
         situacaoNovo();
-
+        this.usuario = usuario;
+        btnDeletar.setVisible(false);
     }
 
     /**
@@ -228,12 +232,15 @@ public class CadastroEstadoJIF extends javax.swing.JInternalFrame implements Bas
 
             String r = ValidaCampo.campoVazio(campos, qtd, valor);
             if (r == null) {
+                String[] infoOld = auditoria();
                 popular();
+                String[] infoNew = auditoria();
+                Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
                 String s;
                 if (estado.getIdestado() != null) {
-                    s = new EstadoDAO().update(this.estado);
+                    s = new EstadoDAO().update(this.estado, logAuditoria);
                 } else {
-                    s = new EstadoDAO().insert(this.estado);
+                    s = new EstadoDAO().insert(this.estado, logAuditoria);
                 }
 
                 if (s == null) {
@@ -346,6 +353,24 @@ public class CadastroEstadoJIF extends javax.swing.JInternalFrame implements Bas
 
     @Override
     public String[] auditoria() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String[] r = 
+        {
+            this.estado.getIdestado()+"",
+            this.estado.getUf(),
+            this.estado.getNomeEstado()
+        };
+        
+        return r;
+    }
+
+    @Override
+    public Atividade autoAuditoria(String[] iOld, String[] iNew) {
+        Atividade logAuditoria = new Atividade();
+        logAuditoria.setInformacaoOld(iOld);
+        logAuditoria.setInformacaoNew(iNew);
+        logAuditoria.setOnde(Atividade.FROM_ESTADO);
+        logAuditoria.setUsuario(usuario);
+        
+        return logAuditoria;
     }
 }

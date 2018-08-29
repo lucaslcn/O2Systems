@@ -11,7 +11,9 @@ import gema.Gema;
 import gema.Mensagens;
 import javax.swing.JOptionPane;
 import negocio.Funcao;
+import negocio.Usuario;
 import org.hibernate.HibernateException;
+import registros.Atividade;
 
 /**
  *
@@ -20,13 +22,16 @@ import org.hibernate.HibernateException;
 public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements BasicScreen {
 
     Funcao funcao;
+    Usuario usuario;
 
     /**
      * Creates new form CadastroRemédioJIF
      */
-    public CadastroFuncaoJIF() {
+    public CadastroFuncaoJIF(Usuario usuario) {
         initComponents();
         limpar();
+        
+        this.usuario = usuario;
 
         CB_Usuario.removeAllItems();
         CB_Usuario.addItem("Não");
@@ -369,6 +374,11 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
 
     @Override
     public String[] auditoria() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Atividade autoAuditoria(String[] iOld, String[] iNew) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

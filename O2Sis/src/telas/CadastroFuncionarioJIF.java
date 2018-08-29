@@ -5,17 +5,22 @@
  */
 package telas;
 
+import negocio.Usuario;
+
 /**
  *
  * @author anderson.caye
  */
 public class CadastroFuncionarioJIF extends javax.swing.JInternalFrame {
-
+    
+    Usuario usuario;
+    
     /**
      * Creates new form CadastroPaciente
      */
-    public CadastroFuncionarioJIF() {
+    public CadastroFuncionarioJIF(Usuario usuario) {
         initComponents();
+        this.usuario = usuario;
     }
 
     /**

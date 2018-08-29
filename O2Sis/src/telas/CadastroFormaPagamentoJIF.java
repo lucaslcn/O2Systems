@@ -10,25 +10,31 @@ import negocio.FormaPagamento;
 import persistencia.BasicScreen;
 import gema.Gema;
 import gema.Mensagens;
+import gema.ValidaCampo;
 import javax.swing.JOptionPane;
+import negocio.Usuario;
 import org.hibernate.HibernateException;
+import registros.Atividade;
 
 /**
  *
  * @author Lucas
  */
 public class CadastroFormaPagamentoJIF extends javax.swing.JInternalFrame implements BasicScreen {
-       
+
     FormaPagamento formapagamento;
+    Usuario usuario;
+
     /**
      * Creates new form CadastroFormaPagamentoJIF
      */
-    public CadastroFormaPagamentoJIF() {
+    public CadastroFormaPagamentoJIF(Usuario usuario) {
         initComponents();
         this.setTitle("Cadastro Forma de Pagamento");
         limpar();
         situacaoNovo();
-        
+        this.usuario = usuario;
+
     }
 
     /**
@@ -190,21 +196,37 @@ public class CadastroFormaPagamentoJIF extends javax.swing.JInternalFrame implem
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
-            popular();
-            String r;
-            if (formapagamento.getIdformaPagamento()!= null) {
-                r = new FormaPagamentoDAO().update(this.formapagamento);
-            } else {
-                r = new FormaPagamentoDAO().insert(this.formapagamento);
-            }
+            String formaPgto = jTF_NomeFormaPagamento.getText();
 
-            if (r == null) {
-                Mensagens.retornoAcao(Mensagens.salvo("Forma de pagamento"));
-                limpar();
-                situacaoNovo();
+            String[] campos = {"forma de pagamento"};
+            String[] valor = {formaPgto};
+            Integer[] qtd = {1};
+
+            String p = ValidaCampo.campoVazio(campos, qtd, valor);
+            if (p == null) {
+                String[] infoOld = auditoria();
+                popular();
+                String[] infoNew = auditoria();
+                Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
+                
+                String r;
+                if (formapagamento.getIdformaPagamento() != null) {
+                    r = new FormaPagamentoDAO().update(this.formapagamento, logAuditoria);
+                } else {
+                    r = new FormaPagamentoDAO().insert(this.formapagamento, logAuditoria);
+                }
+
+                if (r == null) {
+                    Mensagens.retornoAcao(Mensagens.salvo("Forma de pagamento"));
+                    limpar();
+                    situacaoNovo();
+                } else {
+                    Mensagens.retornoAcao(Mensagens.erroSalvar("Forma de pagamento"));
+                    jTF_NomeFormaPagamento.requestFocus();
+                }
             } else {
-                Mensagens.retornoAcao(Mensagens.erroSalvar("Forma de pagamento"));
-                jTF_NomeFormaPagamento.requestFocus();
+                Mensagens.retornoAcao(Mensagens.preenchaOsCampos("Os seguintes campos obrigatórios estão vazios:\n" + p));
+
             }
         } catch (HibernateException he) {
             System.out.println(he);
@@ -266,7 +288,7 @@ public class CadastroFormaPagamentoJIF extends javax.swing.JInternalFrame implem
 
     @Override
     public void permissao() {
-        
+
     }
 
 
@@ -284,6 +306,22 @@ public class CadastroFormaPagamentoJIF extends javax.swing.JInternalFrame implem
 
     @Override
     public String[] auditoria() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String[] r = 
+        {
+            formapagamento.getIdformaPagamento()+"",
+            formapagamento.getDescricaoFormaPagamento()
+        };
+        return r;
+    }
+
+    @Override
+    public Atividade autoAuditoria(String[] iOld, String[] iNew) {
+        Atividade logAuditoria = new Atividade();
+        logAuditoria.setInformacaoOld(iOld);
+        logAuditoria.setInformacaoNew(iNew);
+        logAuditoria.setOnde(Atividade.FROM_FORMA_PGTO);
+        logAuditoria.setUsuario(usuario);
+
+        return logAuditoria;
     }
 }
