@@ -35,9 +35,9 @@ public class FormaPagamentoDAO extends DAO implements IDAO_T<FormaPagamento> {
 
         //Executa a busca
         if (Gema.vazio(criterio, 1)) {
-            array = this.selectWithJoin(table, "descricao_forma_pagamento ilike '%" + criterio + "%' order by descricao_forma_pagamento asc");
+            array = this.selectWithJoin(table, "descricao_forma_pagamento ilike '%" + criterio + "%' status = true order by descricao_forma_pagamento asc");
         } else {
-            array = this.select(table + " order by descricao_forma_pagamento asc");
+            array = this.selectWithJoin(table, "status = true order by descricao_forma_pagamento asc");
         }
 
         //Definicao dos dados da tabela.
@@ -100,7 +100,7 @@ public class FormaPagamentoDAO extends DAO implements IDAO_T<FormaPagamento> {
 
     @Override
     public FormaPagamento consultarId(int id) {
-        Object o = this.selectWithJoin("Forma_pagamento", "idforma_pagamento = " + id).get(0);
+        Object o = this.selectWithJoin("FormaPagamento", "idforma_pagamento = " + id).get(0);
         return (FormaPagamento) o;
     }
     

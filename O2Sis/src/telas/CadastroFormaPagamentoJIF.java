@@ -248,7 +248,7 @@ public class CadastroFormaPagamentoJIF extends javax.swing.JInternalFrame implem
 
                 this.formapagamento.setStatus(false);
                 String r;
-                r = new FormaPagamentoDAO().update(this.formapagamento , logAuditoria);
+                r = new FormaPagamentoDAO().archived(this.formapagamento , logAuditoria);
                 situacaoNovo();
                 if (r == null) {
                     Mensagens.retornoAcao(Mensagens.arquivado("Forma de Pagamento")); //Acrecentar o resultado da auditoria a msg.
@@ -261,8 +261,7 @@ public class CadastroFormaPagamentoJIF extends javax.swing.JInternalFrame implem
             } catch (HibernateException he) {
                 System.out.println(he);
             }
-        }
-                                                                         
+        }                                                               
     }//GEN-LAST:event_btnDeletar1ActionPerformed
 
     @Override
@@ -311,7 +310,7 @@ public class CadastroFormaPagamentoJIF extends javax.swing.JInternalFrame implem
     public void situacaoVisualizacao() {
         jTF_NomeFormaPagamento.setEnabled(false);
         btnCancelar.setEnabled(true);
-        btnDeletar1.setEnabled(false);
+        btnDeletar1.setEnabled(true);
         btnEditar.setEnabled(true);
         btnPesquisar.setEnabled(true);
         btnSalvar.setEnabled(false);
