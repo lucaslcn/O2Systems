@@ -9,10 +9,12 @@ import persistencia.BasicScreen;
 import dao.RemedioDAO;
 import gema.Gema;
 import gema.Mensagens;
+import gema.ValidaCampo;
 import javax.swing.JOptionPane;
 import negocio.Remedio;
 import negocio.Usuario;
 import org.hibernate.HibernateException;
+import registros.Atividade;
 
 /**
  *
@@ -31,7 +33,7 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
         limpar();
 
         this.usuario = usuario;
-        
+
         CB_Controlado.removeAllItems();
         CB_Controlado.addItem("Não");
         CB_Controlado.addItem("Sim");
@@ -220,25 +222,41 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
-            if (Gema.vazio(TF_NomeRemedio.getText(), 1)) {
-                popular();
-                String r;
-                if (remedio.getIdremedio() != null) {
-                    r = new RemedioDAO().update(this.remedio);
-                } else {
-                    r = new RemedioDAO().insert(this.remedio);
-                }
+            String nomeRemedio = TF_NomeRemedio.getText();
+            String controlado = CB_Controlado.getItemAt(CB_Controlado.getSelectedIndex());
 
-                if (r == null) {
-                    Mensagens.retornoAcao(Mensagens.salvo("Remédio"));
-                    limpar();
-                    situacaoNovo();
+            String[] campos = {"nome remédio","controlado"};
+            String[] valor = {nomeRemedio, controlado};
+            Integer[] qtd = {1,1};
+
+            String p = ValidaCampo.campoVazio(campos, qtd, valor);
+            if (p == null) {
+                if (Gema.vazio(TF_NomeRemedio.getText(), 1)) {
+                    String[] infoOld = auditoria();
+                    popular();
+                    String[] infoNew = auditoria();
+                    Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
+                    String r;
+                    if (remedio.getIdremedio() != null) {
+                        r = new RemedioDAO().update(this.remedio, logAuditoria);
+                    } else {
+                        r = new RemedioDAO().insert(this.remedio, logAuditoria);
+                    }
+
+                    if (r == null) {
+                        Mensagens.retornoAcao(Mensagens.salvo("Remédio"));
+                        limpar();
+                        situacaoNovo();
+                    } else {
+                        Mensagens.retornoAcao(Mensagens.erroSalvar("Remédio"));
+                        TF_NomeRemedio.requestFocus();
+                    }
                 } else {
-                    Mensagens.retornoAcao(Mensagens.erroSalvar("Remédio"));
-                    TF_NomeRemedio.requestFocus();
+                    Mensagens.retornoAcao(Mensagens.preenchaOsCampos());
                 }
             } else {
-                Mensagens.retornoAcao(Mensagens.preenchaOsCampos());
+                Mensagens.retornoAcao(Mensagens.preenchaOsCampos("Os seguintes campos obrigatórios estão vazios:\n" + p));
+
             }
         } catch (HibernateException he) {
             System.out.println(he);
@@ -258,9 +276,16 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
         if (resposta == JOptionPane.NO_OPTION) {
         } else if (resposta == JOptionPane.YES_OPTION) {
             try {
+//                Pegando dados antigos da tabela;
+                String[] infoOld = auditoria();
+//                Pegando dados novos da tabela
+                String[] infoNew = auditoria();
+
+                Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
+
                 this.remedio.setStatus(false);
                 String r;
-                r = new RemedioDAO().update(this.remedio);
+                r = new RemedioDAO().archived(this.remedio, logAuditoria);
                 situacaoNovo();
                 if (r == null) {
                     Mensagens.retornoAcao(Mensagens.arquivado("Remédio"));
@@ -357,12 +382,29 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
     }
 
     @Override
-    public void permissao() {
-
+    public String[] auditoria() {
+        String[] r
+                = {
+                    remedio.getIdremedio() + "",
+                    remedio.getNomeRemedio(),
+                    remedio.getControlado() + ""
+                };
+        return r;
     }
 
     @Override
-    public String[] auditoria() {
+    public Atividade autoAuditoria(String[] iOld, String[] iNew) {
+        Atividade logAuditoria = new Atividade();
+        logAuditoria.setInformacaoOld(iOld);
+        logAuditoria.setInformacaoNew(iNew);
+        logAuditoria.setOnde(Atividade.FROM_FUNCAO);
+        logAuditoria.setUsuario(usuario);
+
+        return logAuditoria;
+    }
+
+    @Override
+    public void permissao() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

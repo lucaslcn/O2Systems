@@ -213,14 +213,9 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
             String p = ValidaCampo.campoVazio(campos, qtd, valor);
             if (p == null) {
                 if (Gema.vazio(jTF_NomePlano.getText(), 1)) {
-//                Pegando dados antigos da tabela;
                     String[] infoOld = auditoria();
-
                     popular();
-
-//                Pegando dados novos da tabela
                     String[] infoNew = auditoria();
-
                     Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
 
                     String r;
