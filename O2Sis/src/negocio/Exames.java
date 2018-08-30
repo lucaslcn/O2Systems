@@ -6,8 +6,11 @@
 package negocio;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,8 +18,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -35,6 +40,15 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Exames.findByDuracao", query = "SELECT e FROM Exames e WHERE e.duracao = :duracao")})
 public class Exames implements Serializable {
 
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Basic(optional = false)
+    @Column(name = "valor")
+    private BigDecimal valor;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idexames")
+    private List<ListagemExames> listagemExamesList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idexame")
+    private List<AgendamentoExames> agendamentoExamesList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,9 +61,6 @@ public class Exames implements Serializable {
     @Basic(optional = false)
     @Column(name = "prazo_retirada")
     private int prazoRetirada;
-    @Basic(optional = false)
-    @Column(name = "valor")
-    private BigInteger valor;
     @Basic(optional = false)
     @Column(name = "status")
     private boolean status;
@@ -64,7 +75,7 @@ public class Exames implements Serializable {
         this.idexame = idexame;
     }
 
-    public Exames(Integer idexame, String nomeExame, int prazoRetirada, BigInteger valor, boolean status, int duracao) {
+    public Exames(Integer idexame, String nomeExame, int prazoRetirada, BigDecimal valor, boolean status, int duracao) {
         this.idexame = idexame;
         this.nomeExame = nomeExame;
         this.prazoRetirada = prazoRetirada;
@@ -97,13 +108,6 @@ public class Exames implements Serializable {
         this.prazoRetirada = prazoRetirada;
     }
 
-    public BigInteger getValor() {
-        return valor;
-    }
-
-    public void setValor(BigInteger valor) {
-        this.valor = valor;
-    }
 
     public boolean getStatus() {
         return status;
@@ -144,6 +148,32 @@ public class Exames implements Serializable {
     @Override
     public String toString() {
         return "negocio.Exames[ idexame=" + idexame + " ]";
+    }
+
+    public BigDecimal getValor() {
+        return valor;
+    }
+
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
+    }
+
+    @XmlTransient
+    public List<ListagemExames> getListagemExamesList() {
+        return listagemExamesList;
+    }
+
+    public void setListagemExamesList(List<ListagemExames> listagemExamesList) {
+        this.listagemExamesList = listagemExamesList;
+    }
+
+    @XmlTransient
+    public List<AgendamentoExames> getAgendamentoExamesList() {
+        return agendamentoExamesList;
+    }
+
+    public void setAgendamentoExamesList(List<AgendamentoExames> agendamentoExamesList) {
+        this.agendamentoExamesList = agendamentoExamesList;
     }
     
 }

@@ -48,6 +48,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Pessoa.findByStatus", query = "SELECT p FROM Pessoa p WHERE p.status = :status")})
 public class Pessoa implements Serializable {
 
+    @Column(name = "nick")
+    private String nick;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -243,6 +246,14 @@ public class Pessoa implements Serializable {
     @Override
     public String toString() {
         return "negocio.Pessoa[ idpessoa=" + idpessoa + " ]";
+    }
+
+    public String getNick() {
+        return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
     }
     
 }

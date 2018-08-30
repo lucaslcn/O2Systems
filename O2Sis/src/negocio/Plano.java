@@ -6,7 +6,9 @@
 package negocio;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,8 +16,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,6 +34,13 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Plano.findByNomePlano", query = "SELECT p FROM Plano p WHERE p.nomePlano = :nomePlano")
     , @NamedQuery(name = "Plano.findByStatus", query = "SELECT p FROM Plano p WHERE p.status = :status")})
 public class Plano implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idplano")
+    private List<AgendamentoExames> agendamentoExamesList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idplano")
+    private List<ListagemPlanos> listagemPlanosList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idplano")
+    private List<Consultas> consultasList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -104,6 +115,33 @@ public class Plano implements Serializable {
     @Override
     public String toString() {
         return "negocio.Plano[ idplano=" + idplano + " ]";
+    }
+
+    @XmlTransient
+    public List<AgendamentoExames> getAgendamentoExamesList() {
+        return agendamentoExamesList;
+    }
+
+    public void setAgendamentoExamesList(List<AgendamentoExames> agendamentoExamesList) {
+        this.agendamentoExamesList = agendamentoExamesList;
+    }
+
+    @XmlTransient
+    public List<ListagemPlanos> getListagemPlanosList() {
+        return listagemPlanosList;
+    }
+
+    public void setListagemPlanosList(List<ListagemPlanos> listagemPlanosList) {
+        this.listagemPlanosList = listagemPlanosList;
+    }
+
+    @XmlTransient
+    public List<Consultas> getConsultasList() {
+        return consultasList;
+    }
+
+    public void setConsultasList(List<Consultas> consultasList) {
+        this.consultasList = consultasList;
     }
     
 }

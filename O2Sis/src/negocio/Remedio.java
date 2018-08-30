@@ -6,7 +6,9 @@
 package negocio;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,8 +16,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -31,6 +35,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Remedio.findByControlado", query = "SELECT r FROM Remedio r WHERE r.controlado = :controlado")
     , @NamedQuery(name = "Remedio.findByStatus", query = "SELECT r FROM Remedio r WHERE r.status = :status")})
 public class Remedio implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idremedio")
+    private List<ListagemRemedios> listagemRemediosList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -113,6 +120,15 @@ public class Remedio implements Serializable {
     @Override
     public String toString() {
         return "negocio.Remedio[ idremedio=" + idremedio + " ]";
+    }
+
+    @XmlTransient
+    public List<ListagemRemedios> getListagemRemediosList() {
+        return listagemRemediosList;
+    }
+
+    public void setListagemRemediosList(List<ListagemRemedios> listagemRemediosList) {
+        this.listagemRemediosList = listagemRemediosList;
     }
     
 }

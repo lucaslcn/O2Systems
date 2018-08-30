@@ -12,6 +12,7 @@ import dao.PlanoDAO;
 import gema.Gema;
 import gema.Mensagens;
 import gema.ValidaCampo;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import javax.swing.JOptionPane;
 import negocio.Exames;
@@ -404,7 +405,7 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
         this.exame.setDuracao((int) jS_DuracaoTempo.getValue());
 
         String valorPlano = jTF_ValorExame.getText().replace(",", ".");
-        BigInteger valor = new BigInteger(valorPlano);
+        BigDecimal valor = new BigDecimal(valorPlano);
         this.exame.setValor(valor);
 
         this.exame.setStatus(true);
