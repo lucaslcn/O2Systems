@@ -34,6 +34,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "FormaPagamento.findByDescricaoFormaPagamento", query = "SELECT f FROM FormaPagamento f WHERE f.descricaoFormaPagamento = :descricaoFormaPagamento")})
 public class FormaPagamento implements Serializable {
 
+    @Basic(optional = false)
+    @Column(name = "status")
+    private boolean status;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -117,6 +121,14 @@ public class FormaPagamento implements Serializable {
     @Override
     public String toString() {
         return "negocio.FormaPagamento[ idformaPagamento=" + idformaPagamento + " ]";
+    }
+
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
     
 }

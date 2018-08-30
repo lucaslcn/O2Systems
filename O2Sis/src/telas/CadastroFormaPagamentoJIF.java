@@ -48,13 +48,13 @@ public class CadastroFormaPagamentoJIF extends javax.swing.JInternalFrame implem
 
         btnCancelar = new javax.swing.JToggleButton();
         btnPesquisar = new javax.swing.JToggleButton();
-        btnDeletar = new javax.swing.JToggleButton();
         btnEditar = new javax.swing.JToggleButton();
         btnSalvar = new javax.swing.JToggleButton();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jTF_NomeFormaPagamento = new javax.swing.JTextField();
+        btnDeletar1 = new javax.swing.JToggleButton();
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cancel.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
@@ -73,11 +73,6 @@ public class CadastroFormaPagamentoJIF extends javax.swing.JInternalFrame implem
                 btnPesquisarActionPerformed(evt);
             }
         });
-
-        btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_delete.png"))); // NOI18N
-        btnDeletar.setSelected(true);
-        btnDeletar.setText("Deletar");
-        btnDeletar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
         btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_edit.png"))); // NOI18N
         btnEditar.setText("Editar");
@@ -129,6 +124,16 @@ public class CadastroFormaPagamentoJIF extends javax.swing.JInternalFrame implem
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        btnDeletar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_delete.png"))); // NOI18N
+        btnDeletar1.setSelected(true);
+        btnDeletar1.setText("Arquivar");
+        btnDeletar1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnDeletar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeletar1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -141,8 +146,8 @@ public class CadastroFormaPagamentoJIF extends javax.swing.JInternalFrame implem
                         .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(50, 50, 50)
-                        .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(57, 57, 57)
+                        .addComponent(btnDeletar1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -158,13 +163,13 @@ public class CadastroFormaPagamentoJIF extends javax.swing.JInternalFrame implem
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDeletar1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -233,6 +238,33 @@ public class CadastroFormaPagamentoJIF extends javax.swing.JInternalFrame implem
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
+    private void btnDeletar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletar1ActionPerformed
+        int resposta = Mensagens.confirmarexclusao();
+        if (resposta == JOptionPane.YES_OPTION) {
+            try {
+                String[] infoOld = auditoria();
+                String[] infoNew = auditoria();
+                Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
+
+                this.formapagamento.setStatus(false);
+                String r;
+                r = new FormaPagamentoDAO().update(this.formapagamento , logAuditoria);
+                situacaoNovo();
+                if (r == null) {
+                    Mensagens.retornoAcao(Mensagens.arquivado("Forma de Pagamento")); //Acrecentar o resultado da auditoria a msg.
+                    limpar();
+                    situacaoNovo();
+                } else {
+                    Mensagens.retornoAcao(Mensagens.erroArquivado("Forma de Pagamento"));
+
+                }
+            } catch (HibernateException he) {
+                System.out.println(he);
+            }
+        }
+                                                                         
+    }//GEN-LAST:event_btnDeletar1ActionPerformed
+
     @Override
     public void preencher() {
         jTF_NomeFormaPagamento.setText(this.formapagamento.getDescricaoFormaPagamento());
@@ -257,7 +289,7 @@ public class CadastroFormaPagamentoJIF extends javax.swing.JInternalFrame implem
     public void situacaoNovo() {
         jTF_NomeFormaPagamento.setEnabled(true);
         btnCancelar.setEnabled(true);
-        btnDeletar.setEnabled(false);
+        btnDeletar1.setEnabled(false);
         btnEditar.setEnabled(false);
         btnPesquisar.setEnabled(true);
         btnSalvar.setEnabled(true);
@@ -268,7 +300,7 @@ public class CadastroFormaPagamentoJIF extends javax.swing.JInternalFrame implem
     public void situacaoEditar() {
         jTF_NomeFormaPagamento.setEnabled(true);
         btnCancelar.setEnabled(true);
-        btnDeletar.setEnabled(false);
+        btnDeletar1.setEnabled(true);
         btnEditar.setEnabled(false);
         btnPesquisar.setEnabled(false);
         btnSalvar.setEnabled(true);
@@ -279,7 +311,7 @@ public class CadastroFormaPagamentoJIF extends javax.swing.JInternalFrame implem
     public void situacaoVisualizacao() {
         jTF_NomeFormaPagamento.setEnabled(false);
         btnCancelar.setEnabled(true);
-        btnDeletar.setEnabled(false);
+        btnDeletar1.setEnabled(false);
         btnEditar.setEnabled(true);
         btnPesquisar.setEnabled(true);
         btnSalvar.setEnabled(false);
@@ -294,7 +326,7 @@ public class CadastroFormaPagamentoJIF extends javax.swing.JInternalFrame implem
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnCancelar;
-    private javax.swing.JToggleButton btnDeletar;
+    private javax.swing.JToggleButton btnDeletar1;
     private javax.swing.JToggleButton btnEditar;
     private javax.swing.JToggleButton btnPesquisar;
     private javax.swing.JToggleButton btnSalvar;
