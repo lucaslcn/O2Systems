@@ -20,9 +20,9 @@ public class Permissao {
     //Definição de valor minimo de permissao em acesso a telas.
     final public static Integer FROM_AUDITORIA = 1;
     final public static Integer FROM_ = 1;
-    final public static Integer FROM_ = 1;
-    final public static Integer FROM_ = 1;
-    final public static Integer FROM_ = 1;
+//    final public static Integer FROM_ = 1;
+//    final public static Integer FROM_ = 1;
+//    final public static Integer FROM_ = 1;
     
     public static boolean temPermissao(Integer nivelNecessario, Integer nivelPossui){
         if (nivelNecessario >= nivelPossui){
