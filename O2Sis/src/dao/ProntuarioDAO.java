@@ -37,7 +37,7 @@ public class ProntuarioDAO extends DAO implements IDAO_T<Prontuario> {
         if (Gema.vazio(criterio, 1)) {
             array = this.selectWithJoin(table, "nome_exame ilike '%" + criterio + "%' and status = true order by nome_exame asc");
         } else {
-            array = this.select(table + " order by nome_exame asc");
+            array = this.select(table + " order by idprontuario asc");
         }
 
         //Definição dos dados da tabela.
