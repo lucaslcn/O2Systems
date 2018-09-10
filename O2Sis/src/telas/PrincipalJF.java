@@ -232,6 +232,11 @@ public class PrincipalJF extends javax.swing.JFrame {
 
         itemMenuAgendarExames.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
         itemMenuAgendarExames.setText("Agendar Exames");
+        itemMenuAgendarExames.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuAgendarExamesActionPerformed(evt);
+            }
+        });
         menuAgendamento.add(itemMenuAgendarExames);
         menuAgendamento.add(jSeparator6);
 
@@ -345,6 +350,13 @@ public class PrincipalJF extends javax.swing.JFrame {
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
     }//GEN-LAST:event_itemMenuProntuarioActionPerformed
+
+    private void itemMenuAgendarExamesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuAgendarExamesActionPerformed
+        AgendamentoExamesJIF k = new AgendamentoExamesJIF(this.usuario);
+        jDesktopRun.add(k);
+        k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
+        k.setVisible(true);
+    }//GEN-LAST:event_itemMenuAgendarExamesActionPerformed
 
 //    /**
 //     * @param args the command line arguments
