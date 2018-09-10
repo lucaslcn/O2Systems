@@ -6,9 +6,7 @@
 package negocio;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,10 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -50,13 +46,11 @@ public class Prontuario implements Serializable {
     @Column(name = "atendimento")
     private String atendimento;
     @JoinColumn(name = "idreceita", referencedColumnName = "idreceita")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Receita idreceita;
     @JoinColumn(name = "idrequisicao", referencedColumnName = "idrequisicao")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Requisicao idrequisicao;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idprontuario")
-    private List<Consultas> consultasList;
 
     public Prontuario() {
     }
@@ -109,15 +103,6 @@ public class Prontuario implements Serializable {
 
     public void setIdrequisicao(Requisicao idrequisicao) {
         this.idrequisicao = idrequisicao;
-    }
-
-    @XmlTransient
-    public List<Consultas> getConsultasList() {
-        return consultasList;
-    }
-
-    public void setConsultasList(List<Consultas> consultasList) {
-        this.consultasList = consultasList;
     }
 
     @Override

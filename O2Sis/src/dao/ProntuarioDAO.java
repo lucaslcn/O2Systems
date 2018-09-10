@@ -103,7 +103,7 @@ public class ProntuarioDAO extends DAO implements IDAO_T<Prontuario> {
 
     @Override
     public Prontuario consultarId(int id) {
-        Object o = this.selectWithJoin("Prontuario", "idprontiario = " + id).get(0);
+        Object o = this.selectWithJoin("Prontuario", "idprontuario = " + id).get(0);
         return (Prontuario) o;
     }
 

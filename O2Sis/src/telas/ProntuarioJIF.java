@@ -32,8 +32,8 @@ import registros.LogAuditoria;
 public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicScreen {
 
     Prontuario prontuario;
-    Receita receita;
-    Requisicao requisicao;
+//    Receita receita;
+//    Requisicao requisicao;
     Usuario usuario;
 
     /**
@@ -411,18 +411,26 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
 
     private void btn_FinalizarTriagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_FinalizarTriagemActionPerformed
         jTA_CamporTextoTriagem.setEnabled(false);
+        btn_EditarTriagem.setEnabled(true);
+        btn_FinalizarTriagem.setEnabled(false);
     }//GEN-LAST:event_btn_FinalizarTriagemActionPerformed
 
     private void btn_FinalizarAtendimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_FinalizarAtendimentoActionPerformed
         jTA_CamporTextoAtendimento.setEnabled(false);
+        btn_EditarAtendimento.setEnabled(true);
+        btn_FinalizarAtendimento.setEnabled(false);
     }//GEN-LAST:event_btn_FinalizarAtendimentoActionPerformed
 
     private void btn_EditarTriagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EditarTriagemActionPerformed
         jTA_CamporTextoTriagem.setEnabled(true);
+        btn_EditarTriagem.setEnabled(false);
+        btn_FinalizarTriagem.setEnabled(true);
     }//GEN-LAST:event_btn_EditarTriagemActionPerformed
 
     private void btn_EditarAtendimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EditarAtendimentoActionPerformed
         jTA_CamporTextoAtendimento.setEnabled(true);
+        btn_EditarAtendimento.setEnabled(false);
+        btn_FinalizarAtendimento.setEnabled(true);
     }//GEN-LAST:event_btn_EditarAtendimentoActionPerformed
 
 
@@ -459,8 +467,8 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
 //        jTF_NomePaciente.setText(this.prontuario.getConsultasList().get(0).getIdpaciente().getIdpessoa().getNomePessoa());
 //        jTF_CodigoConsulta.setText(this.prontuario.getConsultasList().get(0).getIdconsultas()+"");
         
-        this.receita = this.prontuario.getIdreceita();
-        this.requisicao = this.prontuario.getIdrequisicao();
+//        this.receita = this.prontuario.getIdreceita();
+//        this.requisicao = this.prontuario.getIdrequisicao();
     }
 
     @Override
@@ -477,8 +485,8 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
     public void popular() {
         this.prontuario.setAtendimento(title);   
         this.prontuario.setTriagem(title);
-        this.prontuario.setIdreceita(receita);
-        this.prontuario.setIdrequisicao(requisicao);
+//        this.prontuario.setIdreceita(receita);
+//        this.prontuario.setIdrequisicao(requisicao);
     }
 
     @Override
@@ -504,13 +512,13 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
 
     @Override
     public void situacaoEditar() {
-        jTA_CamporTextoAtendimento.setEnabled(true);
-        jTA_CamporTextoTriagem.setEnabled(true);
+        jTA_CamporTextoAtendimento.setEnabled(false);
+        jTA_CamporTextoTriagem.setEnabled(false);
 
         btn_EditarAtendimento.setEnabled(true);
         btn_EditarTriagem.setEnabled(true);
-        btn_FinalizarAtendimento.setEnabled(true);
-        btn_FinalizarTriagem.setEnabled(true);
+        btn_FinalizarAtendimento.setEnabled(false);
+        btn_FinalizarTriagem.setEnabled(false);
         btn_Exame.setEnabled(true);
         btn_Receita.setEnabled(true);
         
