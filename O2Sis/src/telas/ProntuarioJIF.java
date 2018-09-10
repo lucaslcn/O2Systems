@@ -9,6 +9,7 @@ import dao.AuditoriaDAO;
 import dao.ExameDAO;
 import persistencia.BasicScreen;
 import dao.PlanoDAO;
+import dao.ProntuarioDAO;
 import gema.Gema;
 import gema.Mensagens;
 import gema.ValidaCampo;
@@ -17,6 +18,8 @@ import java.math.BigInteger;
 import javax.swing.JOptionPane;
 import negocio.Exames;
 import negocio.Prontuario;
+import negocio.Receita;
+import negocio.Requisicao;
 import negocio.Usuario;
 import org.hibernate.HibernateException;
 import registros.Atividade;
@@ -29,6 +32,8 @@ import registros.LogAuditoria;
 public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicScreen {
 
     Prontuario prontuario;
+    Receita receita;
+    Requisicao requisicao;
     Usuario usuario;
 
     /**
@@ -340,10 +345,10 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        Exames k = (Exames) Gema.pesquisar(new ExameDAO());
+        Prontuario k = (Prontuario) Gema.pesquisar(new ProntuarioDAO());
 
         if (k != null) {
-            this.exame = k;
+            this.prontuario = k;
             preencher();
             situacaoVisualizacao();
         }
@@ -352,15 +357,12 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
 
-            String nomeExame = jTF_CodigoConsulta.getText();
-            int prazoEntrega = (int) jS_PrazoEntrega.getValue();
-            String valorPlano = jTF_ValorExame.getText().replace(",", ".");
-            int duracaoExame = (int) jS_DuracaoTempo.getValue();
-            System.out.println("Valor: " + valorPlano);
+            String triagem = jTA_CamporTextoTriagem.getText();
+            String atendimento = jTA_CamporTextoAtendimento.getText();
 
-            String[] campos = {"nome do exame", "prazo de entrega", "duração do exame", "valor do plano"};
-            String[] valor = {nomeExame, prazoEntrega + "", duracaoExame + "", valorPlano};
-            Integer[] qtd = {1, 1, 1, 1};
+            String[] campos = {"triagem", "atendimento"};
+            String[] valor = {triagem, atendimento};
+            Integer[] qtd = {1, 1};
 
             String r = ValidaCampo.campoVazio(campos, qtd, valor);
 
@@ -373,11 +375,11 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
                 Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
 
                 String s;
-                if (exame.getIdexame() != null) {
-                    s = new ExameDAO().update(this.exame, logAuditoria);
-                } else {
-                    s = new ExameDAO().insert(this.exame, logAuditoria);
-                }
+//                if (prontuario.getIdprontuario()!= null) {
+                    s = new ExameDAO().update(this.prontuario, logAuditoria);
+//                } else {
+//                    s = new ExameDAO().insert(this.prontuario, logAuditoria);
+//                }
 
                 if (s == null) {
                     Mensagens.retornoAcao(Mensagens.salvo("Exame"));
@@ -453,64 +455,68 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
 
     @Override
     public void preencher() {
-        jTF_CodigoConsulta.setText(this.exame.getNomeExame());
-        jS_DuracaoTempo.setValue(this.exame.getDuracao());
-        jS_PrazoEntrega.setValue(this.exame.getPrazoRetirada());
-        jTF_ValorExame.setText(this.exame.getValor() + "");
+        jTA_CamporTextoAtendimento.setText(this.prontuario.getAtendimento());
+        jTA_CamporTextoTriagem.setText(this.prontuario.getTriagem());
+        jTF_NomePaciente.setText(this.prontuario.getConsultasList().get(0).getIdpaciente().getIdpessoa().getNomePessoa());
+        jTF_CodigoConsulta.setText(this.prontuario.getConsultasList().get(0).getIdconsultas()+"");
+        
+        this.receita = this.prontuario.getIdreceita();
+        this.requisicao = this.prontuario.getIdrequisicao();
     }
 
     @Override
     public void limpar() {
-        this.exame = new Exames();
+        jTA_CamporTextoAtendimento.setText("");
+        jTA_CamporTextoTriagem.setText("");
+        jTF_NomePaciente.setText("");
         jTF_CodigoConsulta.setText("");
-        jS_DuracaoTempo.setValue(5);
-        jS_PrazoEntrega.setValue(1);
-        jTF_ValorExame.setText("");
 
-        jTF_CodigoConsulta.requestFocus();
+        btnPesquisar.requestFocus();
     }
 
     @Override
     public void popular() {
-        this.exame.setNomeExame(jTF_CodigoConsulta.getText());
-        this.exame.setPrazoRetirada((int) jS_PrazoEntrega.getValue());
-        this.exame.setDuracao((int) jS_DuracaoTempo.getValue());
-
-        String valorPlano = jTF_ValorExame.getText().replace(",", ".");
-        BigDecimal valor = new BigDecimal(valorPlano);
-        this.exame.setValor(valor);
-
-        this.exame.setStatus(true);
+        this.prontuario.setAtendimento(title);   
+        this.prontuario.setTriagem(title);
+//        this.prontuario.setIdreceita(receita);
+//        this.prontuario.setIdrequisicao(requisicao);
     }
 
     @Override
     public void situacaoNovo() {
-        jTF_CodigoConsulta.setEnabled(true);
-        jS_DuracaoTempo.setEnabled(true);
-        jS_PrazoEntrega.setEnabled(true);
-        jTF_ValorExame.setEnabled(true);
+        jTA_CamporTextoAtendimento.setEnabled(false);
+        jTA_CamporTextoTriagem.setEnabled(false);
 
+        btn_EditarAtendimento.setEnabled(true);
+        btn_EditarTriagem.setEnabled(true);
+        btn_FinalizarAtendimento.setEnabled(true);
+        btn_FinalizarTriagem.setEnabled(true);
+        btn_Exame.setEnabled(true);
+        btn_Receita.setEnabled(true);
+        
         btnCancelar.setEnabled(true);
-        btnDeletar.setEnabled(false);
+//        btnDeletar.setEnabled(false);
         btnEditar.setEnabled(false);
         btnPesquisar.setEnabled(true);
-        btnSalvar.setEnabled(true);
-
-        jS_DuracaoTempo.setValue(5);
-        jS_PrazoEntrega.setValue(1);
+        btnSalvar.setEnabled(false);
 
         permissao();
     }
 
     @Override
     public void situacaoEditar() {
-        jTF_CodigoConsulta.setEnabled(true);
-        jS_DuracaoTempo.setEnabled(true);
-        jS_PrazoEntrega.setEnabled(true);
-        jTF_ValorExame.setEnabled(true);
+        jTA_CamporTextoAtendimento.setEnabled(true);
+        jTA_CamporTextoTriagem.setEnabled(true);
 
+        btn_EditarAtendimento.setEnabled(true);
+        btn_EditarTriagem.setEnabled(true);
+        btn_FinalizarAtendimento.setEnabled(true);
+        btn_FinalizarTriagem.setEnabled(true);
+        btn_Exame.setEnabled(true);
+        btn_Receita.setEnabled(true);
+        
         btnCancelar.setEnabled(true);
-        btnDeletar.setEnabled(false);
+//        btnDeletar.setEnabled(false);
         btnEditar.setEnabled(false);
         btnPesquisar.setEnabled(false);
         btnSalvar.setEnabled(true);
@@ -519,13 +525,18 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
 
     @Override
     public void situacaoVisualizacao() {
-        jTF_CodigoConsulta.setEnabled(false);
-        jS_DuracaoTempo.setEnabled(false);
-        jS_PrazoEntrega.setEnabled(false);
-        jTF_ValorExame.setEnabled(false);
-
+        jTA_CamporTextoAtendimento.setEnabled(false);
+        jTA_CamporTextoTriagem.setEnabled(false);
+        
+        btn_EditarAtendimento.setEnabled(false);
+        btn_EditarTriagem.setEnabled(false);
+        btn_FinalizarAtendimento.setEnabled(false);
+        btn_FinalizarTriagem.setEnabled(false);
+        btn_Exame.setEnabled(false);
+        btn_Receita.setEnabled(false);
+        
         btnCancelar.setEnabled(true);
-        btnDeletar.setEnabled(true);
+//        btnDeletar.setEnabled(true);
         btnEditar.setEnabled(true);
         btnPesquisar.setEnabled(true);
         btnSalvar.setEnabled(false);
@@ -541,12 +552,11 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
     public String[] auditoria() {
         String[] r
                 = {
-                    exame.getIdexame() + "",
-                    exame.getNomeExame(),
-                    exame.getDuracao() + "",
-                    exame.getPrazoRetirada() + "",
-                    exame.getValor() + "",
-                    exame.getStatus() + ""
+                    prontuario.getIdprontuario()+ "",
+                    prontuario.getTriagem(),
+                    prontuario.getAtendimento()+ "",
+                    prontuario.getIdreceita()+ "",
+                    prontuario.getIdrequisicao() + "",
                 };
         return r;
     }
@@ -556,7 +566,7 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
         Atividade logAuditoria = new Atividade();
         logAuditoria.setInformacaoOld(iOld);
         logAuditoria.setInformacaoNew(iNew);
-        logAuditoria.setOnde(Atividade.FROM_EXAME);
+        logAuditoria.setOnde(Atividade.FROM_PRONTUARIO);
         logAuditoria.setUsuario(usuario);
         return logAuditoria;
     }
