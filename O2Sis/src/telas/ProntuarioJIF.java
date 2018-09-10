@@ -483,8 +483,8 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
 
     @Override
     public void popular() {
-        this.prontuario.setAtendimento(title);   
-        this.prontuario.setTriagem(title);
+        this.prontuario.setAtendimento(jTA_CamporTextoAtendimento.getText());   
+        this.prontuario.setTriagem(jTA_CamporTextoTriagem.getText());
 //        this.prontuario.setIdreceita(receita);
 //        this.prontuario.setIdrequisicao(requisicao);
     }
