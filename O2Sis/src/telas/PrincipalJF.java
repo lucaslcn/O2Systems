@@ -218,7 +218,7 @@ public class PrincipalJF extends javax.swing.JFrame {
         menuAgendamento.setText("Agendamento");
 
         itemMenuConsultasMarcadas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
-        itemMenuConsultasMarcadas.setText("Consultas Marcados");
+        itemMenuConsultasMarcadas.setText("Consultas Marcadas");
         menuAgendamento.add(itemMenuConsultasMarcadas);
 
         itemMenuExamesMarcados.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
@@ -228,6 +228,11 @@ public class PrincipalJF extends javax.swing.JFrame {
 
         itemMenuAgendarConsulta.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
         itemMenuAgendarConsulta.setText("Agendar Consultas");
+        itemMenuAgendarConsulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuAgendarConsultaActionPerformed(evt);
+            }
+        });
         menuAgendamento.add(itemMenuAgendarConsulta);
 
         itemMenuAgendarExames.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
@@ -357,6 +362,14 @@ public class PrincipalJF extends javax.swing.JFrame {
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
     }//GEN-LAST:event_itemMenuAgendarExamesActionPerformed
+
+    private void itemMenuAgendarConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuAgendarConsultaActionPerformed
+        AgendamentoConsultaJIF k = new AgendamentoConsultaJIF(this.usuario);
+        jDesktopRun.add(k);
+        k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
+        k.setVisible(true);
+        
+    }//GEN-LAST:event_itemMenuAgendarConsultaActionPerformed
 
 //    /**
 //     * @param args the command line arguments

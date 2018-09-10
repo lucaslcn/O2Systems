@@ -125,6 +125,11 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        tfHora.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfHoraActionPerformed(evt);
+            }
+        });
 
         btnPesquisarExame.setText("Pesquisar");
         btnPesquisarExame.addActionListener(new java.awt.event.ActionListener() {
@@ -474,6 +479,10 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
     private void tfPacienteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfPacienteFocusLost
         // TODO add your handling code here:
     }//GEN-LAST:event_tfPacienteFocusLost
+
+    private void tfHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfHoraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfHoraActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

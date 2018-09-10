@@ -148,6 +148,7 @@ public class Atividade {
     final public static String FROM_FORMA_PGTO = "Cadastro de Forma de Pagamento";
     final public static String FROM_FUNCAO = "Cadastro de Função";
     final public static String FROM_PRONTUARIO = "Preencher Prontuário";
+    final public static String FROM_CONSULTAS = "Agendamento de Consultas";
 
     //Definição de nome para as ações.
     final public static String ACAO_DELETADO = "Deletado";
