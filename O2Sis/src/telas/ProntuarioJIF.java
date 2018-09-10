@@ -456,8 +456,8 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
     public void preencher() {
         jTA_CamporTextoAtendimento.setText(this.prontuario.getAtendimento());
         jTA_CamporTextoTriagem.setText(this.prontuario.getTriagem());
-        jTF_NomePaciente.setText(this.prontuario.getConsultasList().get(0).getIdpaciente().getIdpessoa().getNomePessoa());
-        jTF_CodigoConsulta.setText(this.prontuario.getConsultasList().get(0).getIdconsultas()+"");
+//        jTF_NomePaciente.setText(this.prontuario.getConsultasList().get(0).getIdpaciente().getIdpessoa().getNomePessoa());
+//        jTF_CodigoConsulta.setText(this.prontuario.getConsultasList().get(0).getIdconsultas()+"");
         
         this.receita = this.prontuario.getIdreceita();
         this.requisicao = this.prontuario.getIdrequisicao();
@@ -477,8 +477,8 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
     public void popular() {
         this.prontuario.setAtendimento(title);   
         this.prontuario.setTriagem(title);
-//        this.prontuario.setIdreceita(receita);
-//        this.prontuario.setIdrequisicao(requisicao);
+        this.prontuario.setIdreceita(receita);
+        this.prontuario.setIdrequisicao(requisicao);
     }
 
     @Override
