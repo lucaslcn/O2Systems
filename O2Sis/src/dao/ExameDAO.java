@@ -48,7 +48,7 @@ public class ExameDAO extends DAO implements IDAO_T<Exames> {
 //              Definir os dados das colunas
                 dadosTabela[i][0] = k.getIdexame();
                 dadosTabela[i][1] = k.getNomeExame();
-                dadosTabela[i][2] = k.getValor();
+                dadosTabela[i][2] = k.getValor().toString();
 
                 i++;
             }

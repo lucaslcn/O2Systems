@@ -22,20 +22,20 @@ public class PacienteDAO extends DAO implements IDAO_T<Exames> {
     public void preencherTabelaBusca(JTable tabela, String criterio) {
         List array = null;
 //        Total de colunas
-        int columAll = 3;
+        int columAll = 2;
 //        Definição do cabecalho.
         Object[] cabecalho = new Object[columAll];
         cabecalho[0] = "CPF";
         cabecalho[1] = "Nome";
 
 //        Preencha com o nome da tabela.
-        String table = "Pessoa";
+        String table = "Paciente, Pessoa";
 
         //Executa a busca
         if (Gema.vazio(criterio, 1)) {
             array = this.selectWithJoin(table, "nome_pessoa ilike '%" + criterio + "%' order by nome_pessoa asc");
         } else {
-            array = this.selectWithJoin(table, " status = true order by nome_pessoaasc");
+            array = this.selectWithJoin(table, "paciente.idPessoa = pessoa.idPessoa AND status = true order by nome_pessoa asc");
         }
 
         //Definição dos dados da tabela.
@@ -52,7 +52,7 @@ public class PacienteDAO extends DAO implements IDAO_T<Exames> {
             }
         } catch (HibernateException he) {
             Mensagens.retornoAcao(
-                    Mensagens.problemaPopularTabela("Pessoa")
+                    Mensagens.problemaPopularTabela("Paciente")
                     + Mensagens.mensagemTecnica(he.toString())
             );
         }

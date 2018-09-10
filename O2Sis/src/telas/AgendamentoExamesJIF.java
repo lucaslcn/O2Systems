@@ -7,12 +7,15 @@ package telas;
 
 import dao.AgendamentoExamesDAO;
 import dao.ExameDAO;
+import dao.PacienteDAO;
 import dao.PessoaDAO;
 import dao.PlanoDAO;
+import gema.Formatacao;
 import gema.Gema;
 import gema.Mensagens;
 import gema.ValidaCampo;
 import java.math.BigDecimal;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import negocio.AgendamentoExames;
 import negocio.Exames;
@@ -82,7 +85,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados Básicos"));
 
-        jLabel3.setText("CPF do Paciente (*)");
+        jLabel3.setText("Paciente (*)");
 
         tf_NomeExame.setEditable(false);
         tf_NomeExame.addActionListener(new java.awt.event.ActionListener() {
@@ -368,7 +371,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
 
-            int pessoa = this.paciente.getIdpessoa();
+            int pessoa = this.paciente.getIdpaciente();
             int exame = this.exame.getIdexame();
             String data = tfData.getText();
             String hora = tfHora.getText();
@@ -509,7 +512,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
     }
     
     public void preencherpessoa() {
-        tfPaciente.setText(Integer.toString(this.pessoa.getIdpessoa()));
+        tfPaciente.setText(Integer.toString(this.paciente.getIdpaciente()));
     }
     
     public void preencherexame() {
@@ -535,14 +538,12 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
 
     @Override
     public void popular() {
-        this.ae.setIdpaciente(this.pessoa);
+        this.ae.setIdpaciente(this.paciente);
         this.ae.setIdexame(this.exame);
         this.ae.setIdplano(this.plano);
-
-        String valorPlano = jTF_ValorExame.getText().replace(",", ".");
-        BigDecimal valor = new BigDecimal(valorPlano);
-        this.ae.setValor(valor);
-
+        this.ae.setDataExame(tfData.getData);
+        this.ae.setHoraExame(tfHora.getText());
+        
         this.exame.setStatus(true);
     }
 
