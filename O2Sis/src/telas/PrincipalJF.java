@@ -65,6 +65,8 @@ public class PrincipalJF extends javax.swing.JFrame {
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         itemMenuAgendarConsulta = new javax.swing.JMenuItem();
         itemMenuAgendarExames = new javax.swing.JMenuItem();
+        jSeparator6 = new javax.swing.JPopupMenu.Separator();
+        itemMenuProntuario = new javax.swing.JMenuItem();
         menuRelatorios = new javax.swing.JMenu();
 
         jMenuItem5.setText("jMenuItem5");
@@ -231,6 +233,16 @@ public class PrincipalJF extends javax.swing.JFrame {
         itemMenuAgendarExames.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
         itemMenuAgendarExames.setText("Agendar Exames");
         menuAgendamento.add(itemMenuAgendarExames);
+        menuAgendamento.add(jSeparator6);
+
+        itemMenuProntuario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, 0));
+        itemMenuProntuario.setText("Prontuário");
+        itemMenuProntuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuProntuarioActionPerformed(evt);
+            }
+        });
+        menuAgendamento.add(itemMenuProntuario);
 
         jMenuBar1.add(menuAgendamento);
 
@@ -327,6 +339,13 @@ public class PrincipalJF extends javax.swing.JFrame {
         k.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void itemMenuProntuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuProntuarioActionPerformed
+        ProntuarioJIF k = new ProntuarioJIF(this.usuario);
+        jDesktopRun.add(k);
+        k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
+        k.setVisible(true);
+    }//GEN-LAST:event_itemMenuProntuarioActionPerformed
+
 //    /**
 //     * @param args the command line arguments
 //     */
@@ -374,6 +393,7 @@ public class PrincipalJF extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemMenuFuncionario;
     private javax.swing.JMenuItem itemMenuPaciente;
     private javax.swing.JMenuItem itemMenuPlano;
+    private javax.swing.JMenuItem itemMenuProntuario;
     private javax.swing.JMenuItem itemMenuRemedio;
     private javax.swing.JMenuItem itemMenuSair;
     private javax.swing.JMenuItem itemMenuSobre;
@@ -391,6 +411,7 @@ public class PrincipalJF extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
+    private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JMenu menuAgendamento;
     private javax.swing.JMenu menuCadastro;
     private javax.swing.JMenu menuO2System;
