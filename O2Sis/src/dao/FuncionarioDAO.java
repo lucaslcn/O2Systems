@@ -26,17 +26,17 @@ public class FuncionarioDAO extends DAO implements IDAO_T<Funcionario> {
         int columAll = 2;
 //        Definição do cabecalho.
         Object[] cabecalho = new Object[columAll];
-        cabecalho[0] = "CPF";
-        cabecalho[1] = "Nome";
+        cabecalho[0] = "Código Funcionário";
+        cabecalho[1] = "Nome Funcionário";
 
 //        Preencha com o nome da tabela.
-        String table = "Funcionario, Pessoa";
+        String table = "Funcionario";
 
         //Executa a busca
         if (Gema.vazio(criterio, 1)) {
             array = this.selectWithJoin(table, "nome_pessoa ilike '%" + criterio + "%' order by nome_pessoa asc");
         } else {
-            array = this.selectWithJoin(table, "funcionario.idPessoa = pessoa.idPessoa AND status = true order by nome_pessoa asc");
+            array = this.select(table+ " order by idfuncionario asc");
         }
 
         //Definição dos dados da tabela.
@@ -46,7 +46,7 @@ public class FuncionarioDAO extends DAO implements IDAO_T<Funcionario> {
             for (Object o : array) {
                 Funcionario k = (Funcionario) o;
 //              Definir os dados das colunas
-                dadosTabela[i][0] = k.getIdpessoa().getCpf();
+                dadosTabela[i][0] = k.getIdfuncionario();
                 dadosTabela[i][1] = k.getIdpessoa().getNomePessoa();
 
                 i++;
@@ -89,7 +89,7 @@ public class FuncionarioDAO extends DAO implements IDAO_T<Funcionario> {
                     column.setPreferredWidth(145);
                     break;
                 case 1:
-                    column.setPreferredWidth(290);
+                    column.setPreferredWidth(435);
                     break;
                 case 2:
                     column.setPreferredWidth(145);

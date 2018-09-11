@@ -23,22 +23,24 @@ public class ConsultasDAO extends DAO implements IDAO_T<Consultas> {
     public void preencherTabelaBusca(JTable tabela, String criterio) {
         List array = null;
 //        Total de colunas
-        int columAll = 2;
+        int columAll = 5;
 //        Definição do cabecalho.
         Object[] cabecalho = new Object[columAll];
-        cabecalho[0] = "Paciente";
-        cabecalho[1] = "Data";
-        cabecalho[2] = "Hora";
-        cabecalho[3] = "Funcionario";
+        
+        cabecalho[0] = "Código Consulta";
+        cabecalho[1] = "Paciente";
+        cabecalho[2] = "Data";
+        cabecalho[3] = "Hora";
+        cabecalho[4] = "Funcionario";
 
 //        Preencha com o nome da tabela.
-        String table = "Consulta";
+        String table = "Consultas";
 
         //Executa a busca
         if (Gema.vazio(criterio, 1)) {
             array = this.selectWithJoin(table, "nome_pessoa ilike '%" + criterio + "%' order by nome_pessoa asc");
         } else {
-            array = this.select(table+ " order by data_consulta, hora_consulta, idpaciente, idfuncionario asc");
+            array = this.select(table+ " order by data_consulta asc");
         }
 
         //Definição dos dados da tabela.
@@ -48,10 +50,11 @@ public class ConsultasDAO extends DAO implements IDAO_T<Consultas> {
             for (Object o : array) {
                 Consultas k = (Consultas) o;
 //              Definir os dados das colunas
-                dadosTabela[i][0] = k.getIdpaciente().getIdpaciente();
-                dadosTabela[i][1] = k.getDataConsulta().toString();
-                dadosTabela[i][2] = k.getHoraConsulta().toString();
-                dadosTabela[i][3] = k.getIdfuncionario().getIdfuncionario();
+                dadosTabela[i][0] = k.getIdconsultas();
+                dadosTabela[i][1] = k.getIdpaciente().getIdpessoa().getNomePessoa();
+                dadosTabela[i][2] = k.getDataConsulta().toString();
+                dadosTabela[i][3] = k.getHoraConsulta().getHours()+":"+k.getHoraConsulta().getMinutes();
+                dadosTabela[i][4] = k.getIdfuncionario().getIdpessoa().getNomePessoa();
                 
 
                 i++;

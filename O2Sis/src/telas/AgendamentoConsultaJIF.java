@@ -8,6 +8,7 @@ package telas;
 import dao.AgendamentoExamesDAO;
 import dao.ConsultasDAO;
 import dao.ExameDAO;
+import dao.FormaPagamentoDAO;
 import dao.FuncionarioDAO;
 import dao.PacienteDAO;
 import dao.PlanoDAO;
@@ -18,6 +19,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import negocio.Consultas;
 import negocio.Exames;
+import negocio.FormaPagamento;
 import negocio.Funcionario;
 import negocio.Paciente;
 import negocio.Plano;
@@ -37,12 +39,14 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
     Consultas consultas;
     Plano plano;
     Usuario usuario;
+
     /**
      * Creates new form AgendamentoConsulta
      */
     public AgendamentoConsultaJIF(Usuario usuario) {
         initComponents();
-        btnCancelar.setVisible(false);
+        limpar();
+        btnDeletar.setVisible(false);
         this.usuario = usuario;
     }
 
@@ -70,11 +74,10 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
         btnPesquisar2 = new javax.swing.JToggleButton();
         tfdPaciente = new javax.swing.JTextField();
         tfData = new javax.swing.JFormattedTextField();
-        btnEditar = new javax.swing.JToggleButton();
         btnCancelar = new javax.swing.JToggleButton();
         btnPesquisar3 = new javax.swing.JToggleButton();
         btnDeletar = new javax.swing.JToggleButton();
-        btnEditar1 = new javax.swing.JToggleButton();
+        btnEditar = new javax.swing.JToggleButton();
         btnSalvar = new javax.swing.JToggleButton();
 
         setTitle("Agendamento de consultas");
@@ -211,15 +214,6 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
                 .addContainerGap(33, Short.MAX_VALUE))
         );
 
-        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_edit.png"))); // NOI18N
-        btnEditar.setText("Editar");
-        btnEditar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnEditar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarActionPerformed(evt);
-            }
-        });
-
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cancel.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -248,12 +242,12 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
             }
         });
 
-        btnEditar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_edit.png"))); // NOI18N
-        btnEditar1.setText("Editar");
-        btnEditar1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnEditar1.addActionListener(new java.awt.event.ActionListener() {
+        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_edit.png"))); // NOI18N
+        btnEditar.setText("Editar");
+        btnEditar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditar1ActionPerformed(evt);
+                btnEditarActionPerformed(evt);
             }
         });
 
@@ -282,15 +276,10 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEditar1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(275, 275, 275)
-                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(275, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -299,19 +288,14 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEditar1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPesquisar3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(158, 158, 158)
-                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(147, Short.MAX_VALUE)))
         );
 
         pack();
@@ -322,19 +306,19 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
 
         if (k != null) {
             this.paciente = k;
-            preencher();
+            preencherPaciente();
         }
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void btnPesquisar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisar1ActionPerformed
         Funcionario k = (Funcionario) Gema.pesquisar(new FuncionarioDAO());
-        
-        if (k != null){
+
+        if (k != null) {
             this.funcionario = k;
-            preencher();
+            preencherProfissional();
         }
-        
-        
+
+
     }//GEN-LAST:event_btnPesquisar1ActionPerformed
 
     private void tfdPlanoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdPlanoFocusLost
@@ -342,17 +326,13 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
     }//GEN-LAST:event_tfdPlanoFocusLost
 
     private void btnPesquisar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisar2ActionPerformed
-           Plano k = (Plano) Gema.pesquisar(new PlanoDAO());
+        Plano k = (Plano) Gema.pesquisar(new PlanoDAO());
 
         if (k != null) {
             this.plano = k;
-            preencher();
+            preencherPlano();
         }
     }//GEN-LAST:event_btnPesquisar2ActionPerformed
-
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        situacaoEditar();
-    }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         int resposta = Mensagens.questionarAcao();
@@ -399,9 +379,9 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
 //        }
     }//GEN-LAST:event_btnDeletarActionPerformed
 
-    private void btnEditar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditar1ActionPerformed
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         situacaoEditar();
-    }//GEN-LAST:event_btnEditar1ActionPerformed
+    }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
@@ -413,7 +393,7 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
             int plano = this.plano.getIdplano();
 
             String[] campos = {"paciente", "profissional", "data", "hora", "plano"};
-            String[] valor = {paciente + "", funcionario + "", data, hora, plano+""};
+            String[] valor = {paciente + "", funcionario + "", data, hora, plano + ""};
             Integer[] qtd = {1, 1, 1, 1, 1};
 
             String r = ValidaCampo.campoVazio(campos, qtd, valor);
@@ -427,7 +407,7 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
                 Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
 
                 String s;
-                if (consultas.getIdconsultas()!= null) {
+                if (consultas.getIdconsultas() != null) {
                     s = new AgendamentoExamesDAO().update(this.consultas, logAuditoria);
                 } else {
                     s = new AgendamentoExamesDAO().insert(this.consultas, logAuditoria);
@@ -451,21 +431,29 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
 
     @Override
     public void preencher() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        paciente = consultas.getIdpaciente();
+        tfdPaciente.setText(paciente.getIdpessoa().getNomePessoa());
+        funcionario = consultas.getIdfuncionario();
+        tfdProfissional.setText(funcionario.getIdpessoa().getNomePessoa());
+        plano = consultas.getIdplano();
+        tfdPlano.setText(plano.getNomePlano());
+        
+        tfHora.setText(consultas.getHoraConsulta().getHours()+":"+consultas.getHoraConsulta().getMinutes());
+        tfData.setText(consultas.getDataConsulta().getDay()+"/"+consultas.getDataConsulta().getMonth()+"/"+consultas.getDataConsulta().getYear());
+        
     }
-    
-        public void preencherPaciente() {
-        tfdPaciente.setText(Integer.toString(this.paciente.getIdpaciente()));
+
+    public void preencherPaciente() {
+        tfdPaciente.setText(this.paciente.getIdpessoa().getNomePessoa());
     }
     
     public void preencherProfissional() {
-        tfdProfissional.setText(Integer.toString(this.funcionario.getIdfuncionario()));
+        tfdProfissional.setText(this.funcionario.getIdpessoa().getNomePessoa());
     }
-    
+
     public void preencherPlano() {
-        tfdPlano.setText(Integer.toString(this.plano.getIdplano()));
+        tfdPlano.setText(this.plano.getNomePlano());
     }
-    
 
     @Override
     public void limpar() {
@@ -473,6 +461,11 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
         this.paciente = new Paciente();
         this.funcionario = new Funcionario();
         this.plano = new Plano();
+        
+        this.consultas.setIdpaciente(paciente);
+        this.consultas.setIdfuncionario(funcionario);
+        this.consultas.setIdplano(plano);
+        
         tfdPaciente.setText("");
         tfdProfissional.setText("");
         tfdPlano.setText("");
@@ -485,8 +478,19 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
         this.consultas.setIdpaciente(paciente);
         this.consultas.setIdfuncionario(funcionario);
         this.consultas.setIdplano(plano);
-        this.consultas.setDataConsulta(new Date(tfData.getText()));
-        this.consultas.setDataConsulta(new Date(tfHora.getText()));
+        this.consultas.setIdformaPagamento(new FormaPagamentoDAO().consultarId(2));
+        
+        String[] data = tfData.getText().split("/");
+        String[] hora = tfHora.getText().split(":");
+        
+        int year = Integer.parseInt(data[2]);
+        int month = Integer.parseInt(data[1]);
+        int day = Integer.parseInt(data[0]);
+        int hour = Integer.parseInt(hora[0]);
+        int min = Integer.parseInt(hora[1]);
+        
+        this.consultas.setDataConsulta(new Date(year, month, day, hour, min));
+        this.consultas.setHoraConsulta(new Date(year, month, day, hour, min));
     }
 
     @Override
@@ -539,21 +543,20 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
 
     @Override
     public void permissao() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public String[] auditoria() {
         String[] r
                 = {
-                    consultas.getIdconsultas()+ "",
+                    consultas.getIdconsultas() + "",
                     consultas.getDataConsulta() + "",
-                    consultas.getHoraConsulta()+ "",
-                    consultas.getIdpaciente().getIdpaciente()+ "",
-                    consultas.getIdfuncionario()+ "",
+                    consultas.getHoraConsulta() + "",
+                    consultas.getIdpaciente().getIdpaciente() + "",
+                    consultas.getIdfuncionario() + "",
                     consultas.getIdprontuario() + "",
-                    consultas.getIdplano()+ ""
-                    
+                    consultas.getIdplano() + ""
+
                 };
         return r;
     }
@@ -573,7 +576,6 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
     private javax.swing.JToggleButton btnCancelar;
     private javax.swing.JToggleButton btnDeletar;
     private javax.swing.JToggleButton btnEditar;
-    private javax.swing.JToggleButton btnEditar1;
     private javax.swing.JToggleButton btnPesquisar;
     private javax.swing.JToggleButton btnPesquisar1;
     private javax.swing.JToggleButton btnPesquisar2;

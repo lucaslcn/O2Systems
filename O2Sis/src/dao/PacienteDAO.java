@@ -10,13 +10,14 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import negocio.Exames;
+import negocio.Paciente;
 import org.hibernate.HibernateException;
 
 /**
  *
  * @author elias.flach
  */
-public class PacienteDAO extends DAO implements IDAO_T<Exames> {
+public class PacienteDAO extends DAO implements IDAO_T<Paciente> {
 
     @Override
     public void preencherTabelaBusca(JTable tabela, String criterio) {
@@ -25,17 +26,17 @@ public class PacienteDAO extends DAO implements IDAO_T<Exames> {
         int columAll = 2;
 //        Definição do cabecalho.
         Object[] cabecalho = new Object[columAll];
-        cabecalho[0] = "CPF";
-        cabecalho[1] = "Nome";
+        cabecalho[0] = "Código Paciente";
+        cabecalho[1] = "Nome Paciente";
 
 //        Preencha com o nome da tabela.
-        String table = "Paciente, Pessoa";
+        String table = "Paciente";
 
         //Executa a busca
         if (Gema.vazio(criterio, 1)) {
             array = this.selectWithJoin(table, "nome_pessoa ilike '%" + criterio + "%' order by nome_pessoa asc");
         } else {
-            array = this.selectWithJoin(table, "paciente.idPessoa = pessoa.idPessoa AND status = true order by nome_pessoa asc");
+            array = this.select(table+ " order by idpaciente asc");
         }
 
         //Definição dos dados da tabela.
@@ -43,10 +44,10 @@ public class PacienteDAO extends DAO implements IDAO_T<Exames> {
         int i = 0;
         try {
             for (Object o : array) {
-                Pessoa k = (Pessoa) o;
+                Paciente k = (Paciente) o;
 //              Definir os dados das colunas
-                dadosTabela[i][0] = k.getCpf();
-                dadosTabela[i][1] = k.getNomePessoa();
+                dadosTabela[i][0] = k.getIdpaciente();
+                dadosTabela[i][1] = k.getIdpessoa().getNomePessoa();
 
                 i++;
             }
@@ -88,7 +89,7 @@ public class PacienteDAO extends DAO implements IDAO_T<Exames> {
                     column.setPreferredWidth(145);
                     break;
                 case 1:
-                    column.setPreferredWidth(290);
+                    column.setPreferredWidth(435);
                     break;
                 case 2:
                     column.setPreferredWidth(145);
@@ -99,9 +100,9 @@ public class PacienteDAO extends DAO implements IDAO_T<Exames> {
     }
 
     @Override
-    public Exames consultarId(int id) {
-        Object o = this.selectWithJoin("Exames", "idexame = " + id).get(0);
-        return (Exames) o;
+    public Paciente consultarId(int id) {
+        Object o = this.selectWithJoin("Paciente", "idpaciente = " + id).get(0);
+        return (Paciente) o;
     }
 
 }
