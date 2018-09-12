@@ -38,6 +38,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Usuario.findByStatus", query = "SELECT u FROM Usuario u WHERE u.status = :status")})
 public class Usuario implements Serializable {
 
+    @JoinColumn(name = "idpermissao", referencedColumnName = "idpermissao")
+    @ManyToOne
+    private Permissao idpermissao;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -135,6 +139,14 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "negocio.Usuario[ idusuario=" + idusuario + " ]";
+    }
+
+    public Permissao getIdpermissao() {
+        return idpermissao;
+    }
+
+    public void setIdpermissao(Permissao idpermissao) {
+        this.idpermissao = idpermissao;
     }
     
 }

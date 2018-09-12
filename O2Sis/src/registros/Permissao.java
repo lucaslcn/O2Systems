@@ -12,25 +12,25 @@ package registros;
 public class Permissao {
 
     //Definição de valor minimo de permissao em ações.
-    final public static Integer[] ACAO_EDITAR = {1, 0};
-    final public static Integer[] ACAO_INSERIR = {1, 0};
-    final public static Integer[] ACAO_VISUALIZAR = {1, 0};
-    final public static Integer[] ACAO_ARQUIVAR = {1, 0};
-    final public static Integer[] ACAO_DELETAR = {1, 0};
+    final public static Integer[] ACAO_EDITAR = {4, 0};
+    final public static Integer[] ACAO_INSERIR = {4, 0};
+    final public static Integer[] ACAO_VISUALIZAR = {2, 0};
+    final public static Integer[] ACAO_ARQUIVAR = {4, 0};
+    final public static Integer[] ACAO_DELETAR = {4, 0};
 
     //Definição de valor minimo de permissao em acesso a telas.
-    final public static Integer[] FROM_AUDITORIA = {1, 0};
-    final public static Integer[] FROM_AGEN_CONSULTA = {1, 0};
-    final public static Integer[] FROM_AGEN_EXAME = {1, 0};
-    final public static Integer[] FROM_CAD_ESTADO = {1, 0};
-    final public static Integer[] FROM_CAD_EXAME = {1, 0};
-    final public static Integer[] FROM_CAD_FORMA_PGTO = {1, 0};
-    final public static Integer[] FROM_CAD_FUNCAO = {1, 0};
-    final public static Integer[] FROM_CAD_FUNCIONARIO = {1, 0};
-    final public static Integer[] FROM_CAD_PACIENTE = {1, 0};
-    final public static Integer[] FROM_CAD_PALANO_SAUDE = {1, 0};
-    final public static Integer[] FROM_CAD_REMEDIO = {1, 0};
-    final public static Integer[] FROM_PRONTUARIO = {1, 0};
+    final public static Integer[] FROM_AUDITORIA = {9, 0};
+    final public static Integer[] FROM_AGEN_CONSULTA = {2, 0};
+    final public static Integer[] FROM_AGEN_EXAME = {2, 0};
+    final public static Integer[] FROM_CAD_ESTADO = {2, 0};
+    final public static Integer[] FROM_CAD_EXAME = {4, 0};
+    final public static Integer[] FROM_CAD_FORMA_PGTO = {4, 0};
+    final public static Integer[] FROM_CAD_FUNCAO = {7, 0};
+    final public static Integer[] FROM_CAD_FUNCIONARIO = {7, 0};
+    final public static Integer[] FROM_CAD_PACIENTE = {2, 0};
+    final public static Integer[] FROM_CAD_PALANO_SAUDE = {2, 0};
+    final public static Integer[] FROM_CAD_REMEDIO = {4, 0};
+    final public static Integer[] FROM_PRONTUARIO = {5, 0};
 
     /**
      * verifica a permissão para a utilização de recursos do sistema
