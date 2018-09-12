@@ -12,6 +12,7 @@ import dao.FormaPagamentoDAO;
 import dao.FuncionarioDAO;
 import dao.PacienteDAO;
 import dao.PlanoDAO;
+import dao.ProntuarioDAO;
 import gema.Gema;
 import gema.Mensagens;
 import gema.ValidaCampo;
@@ -23,6 +24,7 @@ import negocio.FormaPagamento;
 import negocio.Funcionario;
 import negocio.Paciente;
 import negocio.Plano;
+import negocio.Prontuario;
 import negocio.Usuario;
 import org.hibernate.HibernateException;
 import persistencia.BasicScreen;
@@ -440,7 +442,7 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
         
         tfHora.setText(consultas.getHoraConsulta().getHours()+":"+consultas.getHoraConsulta().getMinutes());
         tfData.setText(consultas.getDataConsulta().getDay()+"/"+consultas.getDataConsulta().getMonth()+"/"+consultas.getDataConsulta().getYear());
-        
+        System.out.println(consultas.getDataConsulta().getDay()+"/"+consultas.getDataConsulta().getMonth()+"/"+consultas.getDataConsulta().getYear());
     }
 
     public void preencherPaciente() {
@@ -479,6 +481,7 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
         this.consultas.setIdfuncionario(funcionario);
         this.consultas.setIdplano(plano);
         this.consultas.setIdformaPagamento(new FormaPagamentoDAO().consultarId(2));
+        this.consultas.setIdprontuario(new ProntuarioDAO().consultarId(1));
         
         String[] data = tfData.getText().split("/");
         String[] hora = tfHora.getText().split(":");

@@ -6,6 +6,7 @@
 package negocio;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,8 +17,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -32,6 +35,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Prontuario.findByTriagem", query = "SELECT p FROM Prontuario p WHERE p.triagem = :triagem")
     , @NamedQuery(name = "Prontuario.findByAtendimento", query = "SELECT p FROM Prontuario p WHERE p.atendimento = :atendimento")})
 public class Prontuario implements Serializable {
+
+    @OneToMany(mappedBy = "idprontuario")
+    private List<Consultas> consultasList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -128,6 +134,15 @@ public class Prontuario implements Serializable {
     @Override
     public String toString() {
         return "negocio.Prontuario[ idprontuario=" + idprontuario + " ]";
+    }
+
+    @XmlTransient
+    public List<Consultas> getConsultasList() {
+        return consultasList;
+    }
+
+    public void setConsultasList(List<Consultas> consultasList) {
+        this.consultasList = consultasList;
     }
     
 }
