@@ -47,7 +47,6 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
     public AgendamentoExamesJIF(Usuario usuario) {
         initComponents();
         limpar();
-        btnDeletar.setVisible(false);
         this.usuario = usuario;
     }
 
@@ -233,7 +232,6 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
         });
 
         btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_delete.png"))); // NOI18N
-        btnDeletar.setSelected(true);
         btnDeletar.setText("Arquivar");
         btnDeletar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnDeletar.addActionListener(new java.awt.event.ActionListener() {
@@ -368,11 +366,11 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
                 r = new ExameDAO().update(this.exame, logAuditoria);
                 situacaoNovo();
                 if (r == null) {
-                    Mensagens.retornoAcao(Mensagens.arquivado("Exame")); //Acrecentar o resultado da auditoria a msg.
+                    Mensagens.retornoAcao(Mensagens.arquivado("Agendamento Exame")); //Acrecentar o resultado da auditoria a msg.
                     limpar();
                     situacaoNovo();
                } else {
-                   Mensagens.retornoAcao(Mensagens.erroArquivado("Exame"));
+                   Mensagens.retornoAcao(Mensagens.erroArquivado("Agendamento Exame"));
 
                 }
             } catch (HibernateException he) {
@@ -436,7 +434,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
         paciente = ae.getIdpaciente();
         tfdPaciente.setText(paciente.getIdpessoa().getNomePessoa());
         exame = ae.getIdexame();
-        tfdExames.setText(exame.getIdexame().get());
+        tfdExames.setText(exame.getNomeExame());
         plano = ae.getIdplano();
         tfdPlano.setText(plano.getNomePlano());
         
@@ -450,7 +448,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
     }
     
     public void preencherExame() {
-        tfdExames.setText(this.exame.getIdexame().getNomeExame());
+        tfdExames.setText(this.exame.getNomeExame());
     }
 
     public void preencherPlano() {
