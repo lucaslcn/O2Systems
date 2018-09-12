@@ -6,21 +6,23 @@
 package telas;
 
 import dao.AgendamentoExamesDAO;
+import dao.ConsultasDAO;
 import dao.ExameDAO;
+import dao.FormaPagamentoDAO;
+import dao.FuncionarioDAO;
 import dao.PacienteDAO;
-import dao.PessoaDAO;
 import dao.PlanoDAO;
-import gema.Formatacao;
 import gema.Gema;
 import gema.Mensagens;
 import gema.ValidaCampo;
-import java.math.BigDecimal;
-import javax.swing.JFormattedTextField;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import negocio.AgendamentoExames;
+import negocio.Consultas;
 import negocio.Exames;
+import negocio.FormaPagamento;
+import negocio.Funcionario;
 import negocio.Paciente;
-import negocio.Pessoa;
 import negocio.Plano;
 import negocio.Usuario;
 import org.hibernate.HibernateException;
@@ -29,25 +31,24 @@ import registros.Atividade;
 
 /**
  *
- * @author elias
+ * @author Lucas
  */
-public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements BasicScreen{
+public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements BasicScreen {
 
-    AgendamentoExames ae;
-    Usuario usuario;
-    Plano plano;
-    Exames exame;
     Paciente paciente;
+    Exames exame;
+    AgendamentoExames ae;
+    Plano plano;
+    Usuario usuario;
 
     /**
-     * Creates new form AgendamentoExamesJIF
+     * Creates new form AgendamentoConsulta
      */
     public AgendamentoExamesJIF(Usuario usuario) {
         initComponents();
         limpar();
-        situacaoNovo();
+        btnDeletar.setVisible(false);
         this.usuario = usuario;
-
     }
 
     /**
@@ -59,118 +60,95 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        tf_NomeExame = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        tf_Exame = new javax.swing.JTextField();
-        tfPlanoSaude = new javax.swing.JTextField();
-        tfData = new javax.swing.JFormattedTextField();
-        tfHora = new javax.swing.JFormattedTextField();
-        btnPesquisarExame = new javax.swing.JButton();
-        btnPesquisarPlano = new javax.swing.JButton();
-        btnPesquisarCPF = new javax.swing.JButton();
-        tf_NomePessoa = new javax.swing.JTextField();
-        tf_NomePlano = new javax.swing.JTextField();
-        tfPaciente = new javax.swing.JTextField();
-        btnCancelar = new javax.swing.JToggleButton();
         btnPesquisar = new javax.swing.JToggleButton();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        tfdExames = new javax.swing.JTextField();
+        btnPesquisar1 = new javax.swing.JToggleButton();
+        tfHora = new javax.swing.JFormattedTextField();
+        jLabel11 = new javax.swing.JLabel();
+        tfdPlano = new javax.swing.JTextField();
+        btnPesquisar2 = new javax.swing.JToggleButton();
+        tfdPaciente = new javax.swing.JTextField();
+        tfData = new javax.swing.JFormattedTextField();
+        btnCancelar = new javax.swing.JToggleButton();
+        btnPesquisar3 = new javax.swing.JToggleButton();
         btnDeletar = new javax.swing.JToggleButton();
         btnEditar = new javax.swing.JToggleButton();
         btnSalvar = new javax.swing.JToggleButton();
-        jLabel1 = new javax.swing.JLabel();
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados Básicos"));
+        setTitle("Agendamento de Exames");
+        setName("Agendamento de consultas"); // NOI18N
 
-        jLabel3.setText("Paciente (*)");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Agendamento de Exame");
 
-        tf_NomeExame.setEditable(false);
-        tf_NomeExame.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tf_NomeExameActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setText("Exame (*)");
-
-        jLabel9.setText("Data (*)");
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados da consulta"));
 
         jLabel10.setText("Hora (*)");
 
-        jLabel11.setText("Plano Saúde (*)");
-
-        tf_Exame.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                tf_ExameFocusLost(evt);
+        btnPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/magnifier.png"))); // NOI18N
+        btnPesquisar.setText("Pesquisar");
+        btnPesquisar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarActionPerformed(evt);
             }
         });
 
-        tfPlanoSaude.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                tfPlanoSaudeFocusLost(evt);
+        jLabel9.setText("Data (*)");
+
+        jLabel3.setText("Paciente (*)");
+
+        jLabel4.setText("Exame (*)");
+
+        tfdExames.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+
+        btnPesquisar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/magnifier.png"))); // NOI18N
+        btnPesquisar1.setText("Pesquisar");
+        btnPesquisar1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnPesquisar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisar1ActionPerformed(evt);
             }
         });
-
-        try {
-            tfData.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
 
         try {
             tfHora.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        tfHora.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfHoraActionPerformed(evt);
-            }
-        });
 
-        btnPesquisarExame.setText("Pesquisar");
-        btnPesquisarExame.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPesquisarExameActionPerformed(evt);
-            }
-        });
+        jLabel11.setText("Plano Saúde (*)");
 
-        btnPesquisarPlano.setText("Pesquisar");
-        btnPesquisarPlano.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPesquisarPlanoActionPerformed(evt);
-            }
-        });
-
-        btnPesquisarCPF.setText("Pesquisar");
-        btnPesquisarCPF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPesquisarCPFActionPerformed(evt);
-            }
-        });
-
-        tf_NomePessoa.setEditable(false);
-        tf_NomePessoa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tf_NomePessoaActionPerformed(evt);
-            }
-        });
-
-        tf_NomePlano.setEditable(false);
-        tf_NomePlano.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tf_NomePlanoActionPerformed(evt);
-            }
-        });
-
-        tfPaciente.addFocusListener(new java.awt.event.FocusAdapter() {
+        tfdPlano.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                tfPacienteFocusLost(evt);
+                tfdPlanoFocusLost(evt);
             }
         });
+
+        btnPesquisar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/magnifier.png"))); // NOI18N
+        btnPesquisar2.setText("Pesquisar");
+        btnPesquisar2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnPesquisar2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisar2ActionPerformed(evt);
+            }
+        });
+
+        tfdPaciente.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tfdPaciente.setText("Anderson Caye");
+
+        try {
+            tfData.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -179,68 +157,61 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tfPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnPesquisarCPF)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel9))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(tfData, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel10)
+                                .addGap(18, 18, 18)
+                                .addComponent(tfHora, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(tfdPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(tfdExames, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_NomePessoa))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tfData, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tfHora, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tf_Exame, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnPesquisarExame)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_NomeExame, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnPesquisar1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnPesquisar2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tfPlanoSaude, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnPesquisarPlano)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_NomePlano, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(113, 113, 113))
+                        .addGap(10, 10, 10)
+                        .addComponent(tfdPlano, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(113, 113, 113)))
+                .addGap(51, 51, 51))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(btnPesquisarCPF)
-                    .addComponent(tf_NomePessoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(tf_Exame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPesquisarExame)
-                    .addComponent(tf_NomeExame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(tfdPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(40, 40, 40))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(tfdExames, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4)
+                        .addComponent(btnPesquisar1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(13, 13, 13)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
+                    .addComponent(tfData, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
-                    .addComponent(tfData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfHora, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(tfPlanoSaude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPesquisarPlano)
-                    .addComponent(tf_NomePlano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(tfdPlano, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPesquisar2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cancel.png"))); // NOI18N
@@ -252,12 +223,12 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
             }
         });
 
-        btnPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/magnifier.png"))); // NOI18N
-        btnPesquisar.setText("Pesquisar");
-        btnPesquisar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+        btnPesquisar3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/magnifier.png"))); // NOI18N
+        btnPesquisar3.setText("Pesquisar");
+        btnPesquisar3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnPesquisar3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPesquisarActionPerformed(evt);
+                btnPesquisar3ActionPerformed(evt);
             }
         });
 
@@ -289,10 +260,6 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Cadastro Exames");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -300,39 +267,74 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 165, Short.MAX_VALUE)
+                        .addComponent(btnPesquisar3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnPesquisar3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
+        jPanel1.getAccessibleContext().setAccessibleName("Dados do Agendamento");
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+        Paciente k = (Paciente) Gema.pesquisar(new PacienteDAO());
+
+        if (k != null) {
+            this.paciente = k;
+            preencherPaciente();
+        }
+    }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    private void btnPesquisar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisar1ActionPerformed
+        Exames k = (Exames) Gema.pesquisar(new ExameDAO());
+
+        if (k != null) {
+            this.exame = k;
+            preencherExame();
+        }
+
+
+    }//GEN-LAST:event_btnPesquisar1ActionPerformed
+
+    private void tfdPlanoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdPlanoFocusLost
+        tfdPlano.setText(this.plano.getNomePlano());
+    }//GEN-LAST:event_tfdPlanoFocusLost
+
+    private void btnPesquisar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisar2ActionPerformed
+        Plano k = (Plano) Gema.pesquisar(new PlanoDAO());
+
+        if (k != null) {
+            this.plano = k;
+            preencherPlano();
+        }
+    }//GEN-LAST:event_btnPesquisar2ActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         int resposta = Mensagens.questionarAcao();
@@ -343,30 +345,40 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
-        int resposta = Mensagens.confirmarexclusao();
-        if (resposta == JOptionPane.YES_OPTION) {
-            try {
-                String[] infoOld = auditoria();
-                String[] infoNew = auditoria();
-                Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
+    private void btnPesquisar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisar3ActionPerformed
+        AgendamentoExames k = (AgendamentoExames) Gema.pesquisar(new AgendamentoExamesDAO());
 
-                this.exame.setStatus(false);
-                String r;
-                r = new ExameDAO().update(this.exame, logAuditoria);
-                situacaoNovo();
-                if (r == null) {
-                    Mensagens.retornoAcao(Mensagens.arquivado("Exame")); //Acrecentar o resultado da auditoria a msg.
-                    limpar();
-                    situacaoNovo();
-                } else {
-                    Mensagens.retornoAcao(Mensagens.erroArquivado("Exame"));
-
-                }
-            } catch (HibernateException he) {
-                System.out.println(he);
-            }
+        if (k != null) {
+            this.ae = k;
+            preencher();
+            situacaoVisualizacao();
         }
+    }//GEN-LAST:event_btnPesquisar3ActionPerformed
+
+    private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
+//        int resposta = Mensagens.confirmarexclusao();
+//        if (resposta == JOptionPane.YES_OPTION) {
+//            try {
+//                String[] infoOld = auditoria();
+//                String[] infoNew = auditoria();
+//                Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
+//
+//                this.exame.setStatus(false);
+//                String r;
+//                r = new ExameDAO().update(this.exame, logAuditoria);
+//                situacaoNovo();
+//                if (r == null) {
+//                    Mensagens.retornoAcao(Mensagens.arquivado("Exame")); //Acrecentar o resultado da auditoria a msg.
+//                    limpar();
+//                    situacaoNovo();
+//                } else {
+//                    Mensagens.retornoAcao(Mensagens.erroArquivado("Exame"));
+//
+//                }
+//            } catch (HibernateException he) {
+//                System.out.println(he);
+//            }
+//        }
     }//GEN-LAST:event_btnDeletarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
@@ -376,15 +388,15 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
 
-            int pessoa = this.paciente.getIdpaciente();
+            int paciente = this.paciente.getIdpaciente();
             int exame = this.exame.getIdexame();
             String data = tfData.getText();
             String hora = tfHora.getText();
             int plano = this.plano.getIdplano();
 
-            String[] campos = {"pessoa", "exame", "data", "hora"};
-            String[] valor = {pessoa + "", exame + "", hora, data};
-            Integer[] qtd = {1, 1, 1, 1};
+            String[] campos = {"paciente", "exame", "data", "hora", "plano"};
+            String[] valor = {paciente + "", exame + "", data, hora, plano + ""};
+            Integer[] qtd = {1, 1, 1, 1, 1};
 
             String r = ValidaCampo.campoVazio(campos, qtd, valor);
 
@@ -397,19 +409,19 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
                 Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
 
                 String s;
-                if (ae.getIdagendamentoExames()!= null) {
+                if (ae.getIdexame()!= null) {
                     s = new AgendamentoExamesDAO().update(this.ae, logAuditoria);
                 } else {
                     s = new AgendamentoExamesDAO().insert(this.ae, logAuditoria);
                 }
 
                 if (s == null) {
-                    Mensagens.retornoAcao(Mensagens.salvo("Agendamento do Exame"));
+                    Mensagens.retornoAcao(Mensagens.salvo("Agendamento Exame"));
                     limpar();
                     situacaoNovo();
                 } else {
-                    Mensagens.retornoAcao(Mensagens.erroSalvar("Agendamento do Exame"));
-                    tfPaciente.requestFocus();
+                    Mensagens.retornoAcao(Mensagens.erroSalvar("Agendamento Exame"));
+                    tfdPaciente.requestFocus();
                 }
             } else {
                 Mensagens.retornoAcao(Mensagens.preenchaOsCampos("Os seguintes campos obrigatórios estão vazios:\n" + r));
@@ -419,150 +431,77 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
-    private void tf_NomeExameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_NomeExameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tf_NomeExameActionPerformed
-
-    private void btnPesquisarCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarCPFActionPerformed
-        Paciente k = (Paciente) Gema.pesquisar(new PacienteDAO());
-
-        if (k != null) {
-            this.paciente = k;
-            preencherpessoa();
-        }
-    }//GEN-LAST:event_btnPesquisarCPFActionPerformed
-
-    private void btnPesquisarExameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarExameActionPerformed
-        Exames k = (Exames) Gema.pesquisar(new ExameDAO());
-
-        if (k != null) {
-            this.exame = k;
-            preencherexame();
-        }
-    }//GEN-LAST:event_btnPesquisarExameActionPerformed
-
-    private void btnPesquisarPlanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarPlanoActionPerformed
-        Plano k = (Plano) Gema.pesquisar(new PlanoDAO());
-
-        if (k != null) {
-            this.plano = k;
-            preencherplano();
-        }
-    }//GEN-LAST:event_btnPesquisarPlanoActionPerformed
-
-    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        Exames k = (Exames) Gema.pesquisar(new ExameDAO());
-
-        if (k != null) {
-            this.exame = k;
-            preencher();
-            situacaoVisualizacao();
-        }
-    }//GEN-LAST:event_btnPesquisarActionPerformed
-
-    private void tf_NomePessoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_NomePessoaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tf_NomePessoaActionPerformed
-
-    private void tf_NomePlanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_NomePlanoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tf_NomePlanoActionPerformed
-
-    private void tf_ExameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_ExameFocusLost
-        tf_NomeExame.setText(this.exame.getNomeExame());
-    }//GEN-LAST:event_tf_ExameFocusLost
-
-    private void tfPlanoSaudeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfPlanoSaudeFocusLost
-        tf_NomePlano.setText(this.plano.getNomePlano());
-    }//GEN-LAST:event_tfPlanoSaudeFocusLost
-
-    private void tfPacienteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfPacienteFocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfPacienteFocusLost
-
-    private void tfHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfHoraActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfHoraActionPerformed
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton btnCancelar;
-    private javax.swing.JToggleButton btnDeletar;
-    private javax.swing.JToggleButton btnEditar;
-    private javax.swing.JToggleButton btnPesquisar;
-    private javax.swing.JButton btnPesquisarCPF;
-    private javax.swing.JButton btnPesquisarExame;
-    private javax.swing.JButton btnPesquisarPlano;
-    private javax.swing.JToggleButton btnSalvar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JFormattedTextField tfData;
-    private javax.swing.JFormattedTextField tfHora;
-    private javax.swing.JTextField tfPaciente;
-    private javax.swing.JTextField tfPlanoSaude;
-    private javax.swing.JTextField tf_Exame;
-    private javax.swing.JTextField tf_NomeExame;
-    private javax.swing.JTextField tf_NomePessoa;
-    private javax.swing.JTextField tf_NomePlano;
-    // End of variables declaration//GEN-END:variables
-
     @Override
     public void preencher() {
-      //tfPaciente.setText(Integer.toString(this.ae.getIdpaciente()));
-      //tf_Exame.setValue(this.ae.getDuracao());
-      //tfData.setValue(this.ae.getPrazoRetirada());
-      //tfHora.setText(this.ae.getValor() + "");
-      //tfPlanoSaude.setText(this.ae.getValor() + "");
+        paciente = ae.getIdpaciente();
+        tfdPaciente.setText(paciente.getIdpessoa().getNomePessoa());
+        exame = ae.getIdexame();
+        tfdExames.setText(exame.getIdexame().getNomeExame());
+        plano = ae.getIdplano();
+        tfdPlano.setText(plano.getNomePlano());
+        
+        tfHora.setText(ae.getHoraExame().getHours()+":"+ae.getHoraExame().getMinutes());
+        tfData.setText(ae.getDataExame().getDay()+"/"+ae.getDataExame().getMonth()+"/"+ae.getDataExame().getYear());
+        
+    }
+
+    public void preencherPaciente() {
+        tfdPaciente.setText(this.paciente.getIdpessoa().getNomePessoa());
     }
     
-    public void preencherpessoa() {
-        tfPaciente.setText(Integer.toString(this.paciente.getIdpaciente()));
+    public void preencherExame() {
+        tfdExames.setText(this.exame.getIdexame().getNomeExame());
     }
-    
-    public void preencherexame() {
-        tf_Exame.setText(Integer.toString(this.exame.getIdexame()));
+
+    public void preencherPlano() {
+        tfdPlano.setText(this.plano.getNomePlano());
     }
-    
-    public void preencherplano() {
-        tfPlanoSaude.setText(Integer.toString(this.plano.getIdplano()));
-    }
-    
 
     @Override
     public void limpar() {
         this.ae = new AgendamentoExames();
+        this.paciente = new Paciente();
+        this.exame = new Exames();
+        this.plano = new Plano();
+        
+        this.ae.setIdpaciente(paciente);
+        this.ae.setIdexame(exame);
+        this.ae.setIdplano(plano);
+        
+        tfdPaciente.setText("");
+        tfdExames.setText("");
+        tfdPlano.setText("");
         tfData.setText("");
         tfHora.setText("");
-        tfPlanoSaude.setText("");
-        tf_Exame.setText("");
-        tfPaciente.setText("");
-        
-        tfPaciente.requestFocus();
     }
 
     @Override
     public void popular() {
-        this.ae.setIdpaciente(this.paciente);
-        this.ae.setIdexame(this.exame);
-        this.ae.setIdplano(this.plano);
-        this.ae.setDataExame(tfData.getData);
-        this.ae.setHoraExame(tfHora.getText());
+        this.ae.setIdpaciente(paciente);
+        this.ae.setIdexame(exame);
+        this.ae.setIdplano(plano);
+        this.ae.setIdformaPagamento(new FormaPagamentoDAO().consultarId(2));
         
-        this.exame.setStatus(true);
+        String[] data = tfData.getText().split("/");
+        String[] hora = tfHora.getText().split(":");
+        
+        int year = Integer.parseInt(data[2]);
+        int month = Integer.parseInt(data[1]);
+        int day = Integer.parseInt(data[0]);
+        int hour = Integer.parseInt(hora[0]);
+        int min = Integer.parseInt(hora[1]);
+        
+        this.ae.setDataExame(new Date(year, month, day, hour, min));
+        this.ae.setHoraExame(new Date(year, month, day, hour, min));
     }
 
     @Override
     public void situacaoNovo() {
+        tfdPaciente.setEnabled(false);
+        tfdExames.setEnabled(false);
         tfData.setEnabled(true);
         tfHora.setEnabled(true);
-        tfPaciente.setEnabled(true);
-        tfPlanoSaude.setEnabled(true);
-        tf_Exame.setEnabled(true);
+        tfdPlano.setEnabled(true);
 
         btnCancelar.setEnabled(true);
         btnDeletar.setEnabled(false);
@@ -574,30 +513,30 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
 
     @Override
     public void situacaoEditar() {
+        tfdPaciente.setEnabled(false);
+        tfdExames.setEnabled(false);
         tfData.setEnabled(true);
         tfHora.setEnabled(true);
-        tfPaciente.setEnabled(true);
-        tfPlanoSaude.setEnabled(true);
-        tf_Exame.setEnabled(true);
+        tfdPlano.setEnabled(false);
 
         btnCancelar.setEnabled(true);
         btnDeletar.setEnabled(false);
         btnEditar.setEnabled(false);
-        btnPesquisar.setEnabled(false);
+        btnPesquisar.setEnabled(true);
         btnSalvar.setEnabled(true);
         permissao();
     }
 
     @Override
     public void situacaoVisualizacao() {
+        tfdPaciente.setEnabled(false);
+        tfdExames.setEnabled(false);
         tfData.setEnabled(false);
         tfHora.setEnabled(false);
-        tfPaciente.setEnabled(false);
-        tfPlanoSaude.setEnabled(false);
-        tf_Exame.setEnabled(false);
+        tfdPlano.setEnabled(false);
 
         btnCancelar.setEnabled(true);
-        btnDeletar.setEnabled(true);
+        btnDeletar.setEnabled(false);
         btnEditar.setEnabled(true);
         btnPesquisar.setEnabled(true);
         btnSalvar.setEnabled(false);
@@ -606,19 +545,19 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
 
     @Override
     public void permissao() {
-
     }
 
     @Override
     public String[] auditoria() {
         String[] r
                 = {
-                    exame.getIdexame() + "",
-                    exame.getNomeExame(),
-                    exame.getDuracao() + "",
-                    exame.getPrazoRetirada() + "",
-                    exame.getValor() + "",
-                    exame.getStatus() + ""
+                    ae.getIdagendamentoExames()+ "",
+                    ae.getDataExame()+ "",
+                    ae.getHoraExame()+ "",
+                    ae.getIdpaciente().getIdpaciente() + "",
+                    ae.getIdexame()+ "",
+                    ae.getIdplano() + ""
+
                 };
         return r;
     }
@@ -628,8 +567,32 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
         Atividade logAuditoria = new Atividade();
         logAuditoria.setInformacaoOld(iOld);
         logAuditoria.setInformacaoNew(iNew);
-        logAuditoria.setOnde(Atividade.FROM_EXAME);
+        logAuditoria.setOnde(Atividade.FROM_CONSULTAS);
         logAuditoria.setUsuario(usuario);
         return logAuditoria;
     }
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton btnCancelar;
+    private javax.swing.JToggleButton btnDeletar;
+    private javax.swing.JToggleButton btnEditar;
+    private javax.swing.JToggleButton btnPesquisar;
+    private javax.swing.JToggleButton btnPesquisar1;
+    private javax.swing.JToggleButton btnPesquisar2;
+    private javax.swing.JToggleButton btnPesquisar3;
+    private javax.swing.JToggleButton btnSalvar;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JFormattedTextField tfData;
+    private javax.swing.JFormattedTextField tfHora;
+    private javax.swing.JTextField tfdExames;
+    private javax.swing.JTextField tfdPaciente;
+    private javax.swing.JTextField tfdPlano;
+    // End of variables declaration//GEN-END:variables
 }
