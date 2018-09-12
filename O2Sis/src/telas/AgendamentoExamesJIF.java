@@ -356,29 +356,29 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
     }//GEN-LAST:event_btnPesquisar3ActionPerformed
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
-//        int resposta = Mensagens.confirmarexclusao();
-//        if (resposta == JOptionPane.YES_OPTION) {
-//            try {
-//                String[] infoOld = auditoria();
-//                String[] infoNew = auditoria();
-//                Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
-//
-//                this.exame.setStatus(false);
-//                String r;
-//                r = new ExameDAO().update(this.exame, logAuditoria);
-//                situacaoNovo();
-//                if (r == null) {
-//                    Mensagens.retornoAcao(Mensagens.arquivado("Exame")); //Acrecentar o resultado da auditoria a msg.
-//                    limpar();
-//                    situacaoNovo();
-//                } else {
-//                    Mensagens.retornoAcao(Mensagens.erroArquivado("Exame"));
-//
-//                }
-//            } catch (HibernateException he) {
-//                System.out.println(he);
-//            }
-//        }
+        int resposta = Mensagens.confirmarexclusao();
+        if (resposta == JOptionPane.YES_OPTION) {
+            try {
+                String[] infoOld = auditoria();
+                String[] infoNew = auditoria();
+                Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
+
+                this.ae.setStatus(false);
+                String r;
+                r = new ExameDAO().update(this.exame, logAuditoria);
+                situacaoNovo();
+                if (r == null) {
+                    Mensagens.retornoAcao(Mensagens.arquivado("Exame")); //Acrecentar o resultado da auditoria a msg.
+                    limpar();
+                    situacaoNovo();
+               } else {
+                   Mensagens.retornoAcao(Mensagens.erroArquivado("Exame"));
+
+                }
+            } catch (HibernateException he) {
+                System.out.println(he);
+            }
+        }
     }//GEN-LAST:event_btnDeletarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
@@ -436,7 +436,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
         paciente = ae.getIdpaciente();
         tfdPaciente.setText(paciente.getIdpessoa().getNomePessoa());
         exame = ae.getIdexame();
-        tfdExames.setText(exame.getIdexame().getNomeExame());
+        tfdExames.setText(exame.getIdexame().get());
         plano = ae.getIdplano();
         tfdPlano.setText(plano.getNomePlano());
         
