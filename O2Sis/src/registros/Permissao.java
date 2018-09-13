@@ -33,14 +33,14 @@ public class Permissao {
     final public static int[] FROM_PRONTUARIO = {5, 0};
     final public static int[] FROM_DADOS_USUARIO = {7, 0};
     final public static int[] FROM_DADOS_ACESSO = {1, 0};
-    final public static int[] FROM_CONSULAS_MARCADAS = {4, 0};
-    final public static int[] FROM_EXAMES_MARCADOS = {4, 0};
+    final public static int[] FROM_CONSULAS_MARCADAS = {2, 0};
+    final public static int[] FROM_EXAMES_MARCADOS = {2, 0};
     
     //Botões especificos
     final public static int[] AUDITORIA_BTN_DESLIGAR = {10, 0};
     final public static int[] AUDITORIA_BTN_LIGAR = {10, 0};
-    final public static int[] PRONTUARIO_TRIAGEM = {5, 5};
-    final public static int[] PRONTUARIO_ATENDIMENTO = {6, 6};
+    final public static int[] PRONTUARIO_TRIAGEM = {5, 0};
+    final public static int[] PRONTUARIO_ATENDIMENTO = {6, 0};
     
     /**
      * verifica a permissão para a utilização de recursos do sistema

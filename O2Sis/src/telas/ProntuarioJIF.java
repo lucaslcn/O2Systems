@@ -39,6 +39,7 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
 
     /**
      * Creates new form CadastroPlanoSaudeJIF
+     * @param usuario
      */
     public ProntuarioJIF(Usuario usuario) {
         initComponents();
@@ -71,12 +72,12 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
         jTF_CodigoConsulta = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jTF_NomePaciente = new javax.swing.JTextField();
-        jPanel2 = new javax.swing.JPanel();
+        jPanelTriagem = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTA_CamporTextoTriagem = new javax.swing.JTextArea();
         btn_EditarTriagem = new javax.swing.JButton();
         btn_FinalizarTriagem = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
+        jPanelAtendimento = new javax.swing.JPanel();
         btn_Receita = new javax.swing.JButton();
         btn_Exame = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -180,7 +181,7 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Triagem"));
+        jPanelTriagem.setBorder(javax.swing.BorderFactory.createTitledBorder("Triagem"));
 
         jTA_CamporTextoTriagem.setColumns(20);
         jTA_CamporTextoTriagem.setRows(5);
@@ -202,14 +203,14 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelTriagemLayout = new javax.swing.GroupLayout(jPanelTriagem);
+        jPanelTriagem.setLayout(jPanelTriagemLayout);
+        jPanelTriagemLayout.setHorizontalGroup(
+            jPanelTriagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelTriagemLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanelTriagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelTriagemLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btn_EditarTriagem, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -217,19 +218,19 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
                     .addComponent(jScrollPane1))
                 .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        jPanelTriagemLayout.setVerticalGroup(
+            jPanelTriagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelTriagemLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelTriagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_FinalizarTriagem, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_EditarTriagem, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25))
         );
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Atendimento"));
+        jPanelAtendimento.setBorder(javax.swing.BorderFactory.createTitledBorder("Atendimento"));
 
         btn_Receita.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_add.png"))); // NOI18N
         btn_Receita.setText("Criar Receita");
@@ -260,15 +261,15 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
             }
         });
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelAtendimentoLayout = new javax.swing.GroupLayout(jPanelAtendimento);
+        jPanelAtendimento.setLayout(jPanelAtendimentoLayout);
+        jPanelAtendimentoLayout.setHorizontalGroup(
+            jPanelAtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelAtendimentoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelAtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGroup(jPanelAtendimentoLayout.createSequentialGroup()
                         .addComponent(btn_Receita, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btn_Exame, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -278,13 +279,13 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
                         .addComponent(btn_FinalizarAtendimento, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        jPanelAtendimentoLayout.setVerticalGroup(
+            jPanelAtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelAtendimentoLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelAtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_Receita, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_Exame, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_EditarAtendimento, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -308,8 +309,8 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
                         .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanelTriagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelAtendimento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -320,9 +321,9 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelTriagem, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelAtendimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -451,8 +452,8 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanelAtendimento;
+    private javax.swing.JPanel jPanelTriagem;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTA_CamporTextoAtendimento;
@@ -553,8 +554,8 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
 
     @Override
     public void permissao() {
-        jTA_CamporTextoTriagem.setEnabled(Permissao.canUse(Permissao.PRONTUARIO_TRIAGEM, usuario.getIdpermissao().getValorpermissao(), jTA_CamporTextoTriagem.isEnabled()));
-        jTA_CamporTextoAtendimento.setEnabled(Permissao.canUse(Permissao.PRONTUARIO_ATENDIMENTO, usuario.getIdpermissao().getValorpermissao(), jTA_CamporTextoAtendimento.isEnabled()));
+//        jTA_CamporTextoTriagem.setEnabled(Permissao.canUse(Permissao.PRONTUARIO_TRIAGEM, usuario.getIdpermissao().getValorpermissao(), jTA_CamporTextoTriagem.isEnabled()));
+//        jTA_CamporTextoAtendimento.setEnabled(Permissao.canUse(Permissao.PRONTUARIO_ATENDIMENTO, usuario.getIdpermissao().getValorpermissao(), jTA_CamporTextoAtendimento.isEnabled()));
     }
 
     @Override

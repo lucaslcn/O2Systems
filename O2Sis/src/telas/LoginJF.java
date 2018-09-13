@@ -9,6 +9,7 @@ import dao.LoginDAO;
 import dao.PlanoDAO;
 import dao.UsuarioDAO;
 import gema.Mensagens;
+import java.awt.event.KeyEvent;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -72,6 +73,11 @@ public class LoginJF extends javax.swing.JFrame {
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);
+            }
+        });
+        btnLogin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnLoginKeyPressed(evt);
             }
         });
 
@@ -172,28 +178,25 @@ public class LoginJF extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        Usuario u = null;
-        try{
-            u = new LoginDAO().acessar(jTF_user.getText(), criptoSenha(jPF_pass.getText()));
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
-        if (u != null) {
-            PrincipalJF principal = new PrincipalJF(u);
-            //PrincipalJF principal = new PrincipalJF((Usuario) new UsuarioDAO().consultarId(1);//  selectWithJoin("Usuario", "nick = 'admin' AND status = true").get(0));
-            principal.setVisible(true);
-            dispose();
-        } else {
-            jTF_user.requestFocus();
-            Mensagens.retornoAcao("Problemas para reaalizar o login.\nUsuario ou senha incorretos.");
-        }
-
-        
+        login();
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnLogin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogin1ActionPerformed
         System.exit(0);
     }//GEN-LAST:event_btnLogin1ActionPerformed
+
+    private void btnLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnLoginKeyPressed
+        int codigo = evt.getKeyCode();
+        int tecla = KeyEvent.VK_ENTER;
+
+        if(codigo == tecla){
+            try {
+                this.login();
+            } catch (Exception ex) {
+                Logger.getLogger(LoginJF.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnLoginKeyPressed
 
     /**
      * @param args the command line arguments
@@ -253,5 +256,23 @@ public class LoginJF extends javax.swing.JFrame {
         MessageDigest m = MessageDigest.getInstance("MD5");
         m.update(s.getBytes(), 0, s.length());
         return (new BigInteger(1, m.digest()).toString(16));
+    }
+
+    private void login() {
+        Usuario u = null;
+        try{
+            u = new LoginDAO().acessar(jTF_user.getText(), criptoSenha(jPF_pass.getText()));
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        if (u != null) {
+            PrincipalJF principal = new PrincipalJF(u);
+            //PrincipalJF principal = new PrincipalJF((Usuario) new UsuarioDAO().consultarId(1);//  selectWithJoin("Usuario", "nick = 'admin' AND status = true").get(0));
+            principal.setVisible(true);
+            dispose();
+        } else {
+            jTF_user.requestFocus();
+            Mensagens.retornoAcao("Problemas para reaalizar o login.\nUsuario ou senha incorretos.");
+        }
     }
 }
