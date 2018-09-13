@@ -63,24 +63,6 @@ public class DAO {
             return o;
         }
     }
-    
-    public List selectOther(String table) {
-        table = "from " + table;
-        System.out.println(table);
-        List o = null;
-        Session s = null;
-        try {
-            s = ConexaoDAO.iniciarSessão();
-            s.beginTransaction();
-            org.hibernate.Query q = s.createQuery(table);
-            o = q.list();
-            s.close();
-        } catch (HibernateException he) {
-            he.printStackTrace();
-        } finally {
-            return o;
-        }
-    }
 
     public List selectWithJoin(String table, String join) {
         return this.select(table + " where " + join);

@@ -163,7 +163,7 @@ public class LoginJF extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         
-        //boolena b = new DAO().;
+        //boolena b = (boolean) new DAO().selectOther("");
         
         PrincipalJF principal = new PrincipalJF((Usuario) new UsuarioDAO().selectWithJoin("Usuario", "nick = 'admin' AND status = true").get(0));
         //PrincipalJF principal = new PrincipalJF((Usuario) new UsuarioDAO().consultarId(1);//  selectWithJoin("Usuario", "nick = 'admin' AND status = true").get(0));
