@@ -24,6 +24,7 @@ import negocio.Usuario;
 import org.hibernate.HibernateException;
 import registros.Atividade;
 import registros.LogAuditoria;
+import registros.Permissao;
 
 /**
  *
@@ -552,7 +553,8 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
 
     @Override
     public void permissao() {
-
+        jTA_CamporTextoTriagem.setEnabled(Permissao.canUse(Permissao.PRONTUARIO_TRIAGEM, usuario.getIdpermissao().getValorpermissao(), jTA_CamporTextoTriagem.isEnabled()));
+        jTA_CamporTextoAtendimento.setEnabled(Permissao.canUse(Permissao.PRONTUARIO_ATENDIMENTO, usuario.getIdpermissao().getValorpermissao(), jTA_CamporTextoAtendimento.isEnabled()));
     }
 
     @Override

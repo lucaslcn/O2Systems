@@ -5,8 +5,10 @@
  */
 package telas;
 
+import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import dao.UsuarioDAO;
 import negocio.Usuario;
+import registros.Permissao;
 
 /**
  *
@@ -23,6 +25,7 @@ public class PrincipalJF extends javax.swing.JFrame {
         this.setExtendedState(MAXIMIZED_BOTH);
         initComponents();
         this.usuario = usuario;
+        permissao();
     }
 
     /**
@@ -43,12 +46,12 @@ public class PrincipalJF extends javax.swing.JFrame {
         itemMenuDadosAcesso = new javax.swing.JMenuItem();
         itemMenuUsuario = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        itemMenuAuditoria = new javax.swing.JMenuItem();
         itemMenuSobre = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
+        itemMenuLogout = new javax.swing.JMenuItem();
         itemMenuSair = new javax.swing.JMenuItem();
         menuCadastro = new javax.swing.JMenu();
-        itemMenuConsultar = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         itemMenuFuncionario = new javax.swing.JMenuItem();
         itemMenuPaciente = new javax.swing.JMenuItem();
@@ -104,13 +107,13 @@ public class PrincipalJF extends javax.swing.JFrame {
         menuO2System.add(itemMenuUsuario);
         menuO2System.add(jSeparator5);
 
-        jMenuItem4.setText("Auditoria");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        itemMenuAuditoria.setText("Auditoria");
+        itemMenuAuditoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                itemMenuAuditoriaActionPerformed(evt);
             }
         });
-        menuO2System.add(jMenuItem4);
+        menuO2System.add(itemMenuAuditoria);
 
         itemMenuSobre.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F11, 0));
         itemMenuSobre.setText("Sobre");
@@ -121,6 +124,14 @@ public class PrincipalJF extends javax.swing.JFrame {
         });
         menuO2System.add(itemMenuSobre);
         menuO2System.add(jSeparator4);
+
+        itemMenuLogout.setText("Logout");
+        itemMenuLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuLogoutActionPerformed(evt);
+            }
+        });
+        menuO2System.add(itemMenuLogout);
 
         itemMenuSair.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F12, 0));
         itemMenuSair.setText("Sair");
@@ -134,10 +145,6 @@ public class PrincipalJF extends javax.swing.JFrame {
         jMenuBar1.add(menuO2System);
 
         menuCadastro.setText("Cadastro");
-
-        itemMenuConsultar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
-        itemMenuConsultar.setText("Consultar");
-        menuCadastro.add(itemMenuConsultar);
         menuCadastro.add(jSeparator2);
 
         itemMenuFuncionario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
@@ -342,12 +349,12 @@ public class PrincipalJF extends javax.swing.JFrame {
         k.setVisible(true);
     }//GEN-LAST:event_itemMenuSobreActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    private void itemMenuAuditoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuAuditoriaActionPerformed
         AuditoriaJIF k = new AuditoriaJIF(this.usuario);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    }//GEN-LAST:event_itemMenuAuditoriaActionPerformed
 
     private void itemMenuProntuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuProntuarioActionPerformed
         ProntuarioJIF k = new ProntuarioJIF(this.usuario);
@@ -370,6 +377,12 @@ public class PrincipalJF extends javax.swing.JFrame {
         k.setVisible(true);
         
     }//GEN-LAST:event_itemMenuAgendarConsultaActionPerformed
+
+    private void itemMenuLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuLogoutActionPerformed
+        LoginJF login = new LoginJF();
+        login.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_itemMenuLogoutActionPerformed
 
 //    /**
 //     * @param args the command line arguments
@@ -409,13 +422,14 @@ public class PrincipalJF extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem itemMenuAgendarConsulta;
     private javax.swing.JMenuItem itemMenuAgendarExames;
-    private javax.swing.JMenuItem itemMenuConsultar;
+    private javax.swing.JMenuItem itemMenuAuditoria;
     private javax.swing.JMenuItem itemMenuConsultasMarcadas;
     private javax.swing.JMenuItem itemMenuDadosAcesso;
     private javax.swing.JMenuItem itemMenuExame;
     private javax.swing.JMenuItem itemMenuExamesMarcados;
     private javax.swing.JMenuItem itemMenuFormaPagamento;
     private javax.swing.JMenuItem itemMenuFuncionario;
+    private javax.swing.JMenuItem itemMenuLogout;
     private javax.swing.JMenuItem itemMenuPaciente;
     private javax.swing.JMenuItem itemMenuPlano;
     private javax.swing.JMenuItem itemMenuProntuario;
@@ -429,7 +443,6 @@ public class PrincipalJF extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
@@ -442,4 +455,22 @@ public class PrincipalJF extends javax.swing.JFrame {
     private javax.swing.JMenu menuO2System;
     private javax.swing.JMenu menuRelatorios;
     // End of variables declaration//GEN-END:variables
+
+    private void permissao() {
+        itemMenuAuditoria.setEnabled(Permissao.canUse(Permissao.FROM_AUDITORIA, usuario.getIdpermissao().getValorpermissao(), itemMenuAuditoria.isEnabled()));
+        
+        itemMenuAgendarConsulta.setEnabled(Permissao.canUse(Permissao.FROM_AGEN_CONSULTA, usuario.getIdpermissao().getValorpermissao(), itemMenuAgendarConsulta.isEnabled()));
+        itemMenuAgendarExames.setEnabled(Permissao.canUse(Permissao.FROM_AGEN_EXAME, usuario.getIdpermissao().getValorpermissao(), itemMenuAgendarExames.isEnabled()));
+        itemMenuConsultasMarcadas.setEnabled(Permissao.canUse(Permissao.FROM_CONSULAS_MARCADAS, usuario.getIdpermissao().getValorpermissao(), itemMenuConsultasMarcadas.isEnabled()));
+        itemMenuDadosAcesso.setEnabled(Permissao.canUse(Permissao.FROM_DADOS_ACESSO, usuario.getIdpermissao().getValorpermissao(), itemMenuDadosAcesso.isEnabled()));
+        itemMenuExame.setEnabled(Permissao.canUse(Permissao.FROM_CAD_EXAME, usuario.getIdpermissao().getValorpermissao(), itemMenuExame.isEnabled()));
+        itemMenuExamesMarcados.setEnabled(Permissao.canUse(Permissao.FROM_EXAMES_MARCADOS, usuario.getIdpermissao().getValorpermissao(), itemMenuExamesMarcados.isEnabled()));
+        itemMenuFormaPagamento.setEnabled(Permissao.canUse(Permissao.FROM_CAD_FORMA_PGTO, usuario.getIdpermissao().getValorpermissao(), itemMenuFormaPagamento.isEnabled()));
+        itemMenuFuncionario.setEnabled(Permissao.canUse(Permissao.FROM_CAD_FUNCIONARIO, usuario.getIdpermissao().getValorpermissao(), itemMenuFuncionario.isEnabled()));
+        itemMenuPaciente.setEnabled(Permissao.canUse(Permissao.FROM_CAD_PACIENTE, usuario.getIdpermissao().getValorpermissao(), itemMenuPaciente.isEnabled()));
+        itemMenuPlano.setEnabled(Permissao.canUse(Permissao.FROM_CAD_PALANO_SAUDE, usuario.getIdpermissao().getValorpermissao(), itemMenuPlano.isEnabled()));
+        itemMenuProntuario.setEnabled(Permissao.canUse(Permissao.FROM_PRONTUARIO, usuario.getIdpermissao().getValorpermissao(), itemMenuProntuario.isEnabled()));
+        itemMenuRemedio.setEnabled(Permissao.canUse(Permissao.FROM_CAD_REMEDIO, usuario.getIdpermissao().getValorpermissao(), itemMenuAuditoria.isEnabled()));
+        itemMenuUsuario.setEnabled(Permissao.canUse(Permissao.FROM_DADOS_USUARIO, usuario.getIdpermissao().getValorpermissao(), itemMenuUsuario.isEnabled()));
+    }
 }

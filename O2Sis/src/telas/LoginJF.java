@@ -5,10 +5,18 @@
  */
 package telas;
 
+import dao.LoginDAO;
 import dao.PlanoDAO;
 import dao.UsuarioDAO;
+import gema.Mensagens;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import negocio.Usuario;
+import org.hibernate.HibernateException;
 import persistencia.DAO;
 import registros.LogAuditoria;
 
@@ -17,7 +25,9 @@ import registros.LogAuditoria;
  * @author anderson.caye
  */
 public class LoginJF extends javax.swing.JFrame {
+
     AvisoInicioSistemaJF a;
+
     /**
      * Creates new form Login
      */
@@ -162,13 +172,23 @@ public class LoginJF extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        Usuario u = null;
+        try{
+            u = new LoginDAO().acessar(jTF_user.getText(), criptoSenha(jPF_pass.getText()));
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        if (u != null) {
+            PrincipalJF principal = new PrincipalJF(u);
+            //PrincipalJF principal = new PrincipalJF((Usuario) new UsuarioDAO().consultarId(1);//  selectWithJoin("Usuario", "nick = 'admin' AND status = true").get(0));
+            principal.setVisible(true);
+            dispose();
+        } else {
+            jTF_user.requestFocus();
+            Mensagens.retornoAcao("Problemas para reaalizar o login.\nUsuario ou senha incorretos.");
+        }
+
         
-        //boolena b = (boolean) new DAO().selectOther("");
-        
-        PrincipalJF principal = new PrincipalJF((Usuario) new UsuarioDAO().selectWithJoin("Usuario", "nick = 'admin' AND status = true").get(0));
-        //PrincipalJF principal = new PrincipalJF((Usuario) new UsuarioDAO().consultarId(1);//  selectWithJoin("Usuario", "nick = 'admin' AND status = true").get(0));
-        principal.setVisible(true);
-        dispose();
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnLogin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogin1ActionPerformed
@@ -227,5 +247,11 @@ public class LoginJF extends javax.swing.JFrame {
     private void caregando() {
         this.a = new AvisoInicioSistemaJF();
         a.setVisible(true);
+    }
+
+    private static String criptoSenha(String s) throws Exception {
+        MessageDigest m = MessageDigest.getInstance("MD5");
+        m.update(s.getBytes(), 0, s.length());
+        return (new BigInteger(1, m.digest()).toString(16));
     }
 }

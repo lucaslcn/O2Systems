@@ -9,6 +9,7 @@ import gema.Mensagens;
 import java.awt.Color;
 import negocio.Usuario;
 import registros.LogAuditoria;
+import registros.Permissao;
 
 /**
  *
@@ -192,6 +193,8 @@ public class AuditoriaJIF extends javax.swing.JInternalFrame {
         
         jL_status.setText("Ligada");
         jL_status.setForeground(Color.GREEN);
+        
+        permissao();
     }
     
     private void desligado(){
@@ -202,10 +205,19 @@ public class AuditoriaJIF extends javax.swing.JInternalFrame {
         
         jL_status.setText("Desligada");
         jL_status.setForeground(Color.red);
+        
+        permissao();
     }
     
     private String onOff(){
         return LogAuditoria.onOff(this.usuario);
+    }
+    
+    private void permissao(){
+        int [] desligado = {10,0};
+        int [] ligado = {10,0};
+        btnDesligado.setEnabled( Permissao.canUse(Permissao.AUDITORIA_BTN_DESLIGAR, usuario.getIdpermissao().getValorpermissao(), btnDesligado.isEnabled()) );
+        btnLigado.setEnabled(Permissao.canUse(Permissao.AUDITORIA_BTN_LIGAR, usuario.getIdpermissao().getValorpermissao(), btnLigado.isEnabled()) );
     }
 }
 
