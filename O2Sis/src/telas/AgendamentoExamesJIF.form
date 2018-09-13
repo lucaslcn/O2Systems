@@ -294,7 +294,6 @@
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/icons/application_delete.png"/>
         </Property>
-        <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="Arquivar"/>
         <Property name="horizontalAlignment" type="int" value="2"/>
       </Properties>
