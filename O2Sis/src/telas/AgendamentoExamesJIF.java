@@ -12,10 +12,16 @@ import dao.FormaPagamentoDAO;
 import dao.FuncionarioDAO;
 import dao.PacienteDAO;
 import dao.PlanoDAO;
+import gema.Formatacao;
 import gema.Gema;
 import gema.Mensagens;
 import gema.ValidaCampo;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import negocio.AgendamentoExames;
 import negocio.Consultas;
@@ -269,7 +275,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnPesquisar3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnPesquisar3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -286,7 +292,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -407,7 +413,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
                 Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
 
                 String s;
-                if (ae.getIdexame()!= null) {
+                if (ae.getIdagendamentoExames() != null) {
                     s = new AgendamentoExamesDAO().update(this.ae, logAuditoria);
                 } else {
                     s = new AgendamentoExamesDAO().insert(this.ae, logAuditoria);
@@ -434,12 +440,15 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
         paciente = ae.getIdpaciente();
         tfdPaciente.setText(paciente.getIdpessoa().getNomePessoa());
         exame = ae.getIdexame();
-        tfdExames.setText(exame.getNomeExame());
+        tfdExames.setText(ae.getIdexame().getNomeExame());
         plano = ae.getIdplano();
-        tfdPlano.setText(plano.getNomePlano());
+        tfdPlano.setText(ae.getIdplano().getNomePlano());
+        
         
         tfHora.setText(ae.getHoraExame().getHours()+":"+ae.getHoraExame().getMinutes());
         tfData.setText(ae.getDataExame().getDay()+"/"+ae.getDataExame().getMonth()+"/"+ae.getDataExame().getYear());
+        System.out.println(ae.getDataExame().getDay()+"/"+ae.getDataExame().getMonth()+"/"+ae.getDataExame().getYear());
+        System.out.println(ae.getDataExame().toString());
         
     }
 
@@ -479,6 +488,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
         this.ae.setIdexame(exame);
         this.ae.setIdplano(plano);
         this.ae.setIdformaPagamento(new FormaPagamentoDAO().consultarId(2));
+        this.ae.setStatus(true);
         
         String[] data = tfData.getText().split("/");
         String[] hora = tfHora.getText().split(":");
@@ -489,8 +499,22 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
         int hour = Integer.parseInt(hora[0]);
         int min = Integer.parseInt(hora[1]);
         
-        this.ae.setDataExame(new Date(year, month, day, hour, min));
+        Date dataExame = null;
+        Date dataEntrega = null;
+        SimpleDateFormat formato = new SimpleDateFormat ("dd/MM/yyyy");
+        try {
+            dataExame = formato.parse(tfData.getText());
+            dataEntrega = formato.parse(tfData.getText());
+        } catch (ParseException ex) {
+            Logger.getLogger(AgendamentoExamesJIF.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        this.ae.setDataExame(dataExame);
         this.ae.setHoraExame(new Date(year, month, day, hour, min));
+        this.ae.setDataEntrega(dataEntrega);
+        
+        
     }
 
     @Override

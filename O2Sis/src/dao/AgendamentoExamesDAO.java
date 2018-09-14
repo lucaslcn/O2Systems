@@ -1,5 +1,6 @@
 package dao;
 
+import gema.Formatacao;
 import javax.swing.JTable;
 import negocio.Pessoa;
 import persistencia.DAO;
@@ -9,6 +10,7 @@ import gema.Mensagens;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import negocio.AgendamentoExames;
 import negocio.Exames;
 import negocio.Plano;
 import org.hibernate.HibernateException;
@@ -17,18 +19,20 @@ import org.hibernate.HibernateException;
  *
  * @author elias.flach
  */
-public class AgendamentoExamesDAO extends DAO implements IDAO_T<Exames> {
+public class AgendamentoExamesDAO extends DAO implements IDAO_T<AgendamentoExames> {
 
     @Override
     public void preencherTabelaBusca(JTable tabela, String criterio) {
         List array = null;
 //        Total de colunas
-        int columAll = 3;
+        int columAll = 5;
 //        Definição do cabecalho.
         Object[] cabecalho = new Object[columAll];
         cabecalho[0] = "Código";
-        cabecalho[1] = "Nome do Exame";
-        cabecalho[2] = "Valor";
+        cabecalho[1] = "Nome do Paciente";
+        cabecalho[2] = "Nome do Exame";
+        cabecalho[3] = "Data";
+        cabecalho[4] = "Hora";
 
 //        Preencha com o nome da tabela.
         String table = "AgendamentoExames";
@@ -37,7 +41,7 @@ public class AgendamentoExamesDAO extends DAO implements IDAO_T<Exames> {
         if (Gema.vazio(criterio, 1)) {
             array = this.selectWithJoin(table, "nome_exame ilike '%" + criterio + "%' and status = true order by nome_exame asc");
         } else {
-            array = this.selectWithJoin(table, " status = true order by nome_exame asc");
+            array = this.selectWithJoin(table, " status = true order by idagendamento_exames ASC");
         }
 
         //Definição dos dados da tabela.
@@ -45,17 +49,19 @@ public class AgendamentoExamesDAO extends DAO implements IDAO_T<Exames> {
         int i = 0;
         try {
             for (Object o : array) {
-                Exames k = (Exames) o;
+                AgendamentoExames k = (AgendamentoExames) o;
 //              Definir os dados das colunas
-                dadosTabela[i][0] = k.getIdexame();
-                dadosTabela[i][1] = k.getNomeExame();
-                dadosTabela[i][2] = k.getValor();
+                dadosTabela[i][0] = k.getIdagendamentoExames();
+                dadosTabela[i][1] = k.getIdpaciente().getIdpessoa().getNomePessoa();
+                dadosTabela[i][2] = k.getIdexame().getNomeExame();
+                dadosTabela[i][3] = Formatacao.ajustaDataDMA(k.getDataExame().toString());
+                dadosTabela[i][4] = k.getHoraExame();
 
                 i++;
             }
         } catch (HibernateException he) {
             Mensagens.retornoAcao(
-                    Mensagens.problemaPopularTabela("Exames")
+                    Mensagens.problemaPopularTabela("Agendamento Exames")
                     + Mensagens.mensagemTecnica(he.toString())
             );
         }
@@ -102,9 +108,9 @@ public class AgendamentoExamesDAO extends DAO implements IDAO_T<Exames> {
     }
 
     @Override
-    public Exames consultarId(int id) {
-        Object o = this.selectWithJoin("Exames", "idexame = " + id).get(0);
-        return (Exames) o;
+    public AgendamentoExames consultarId(int id) {
+        Object o = this.selectWithJoin("AgendamentoExames", "idagendamento_exames = " + id).get(0);
+        return (AgendamentoExames) o;
     }
 
     public void preencherTabelaBuscaNomeCliente(JTable tabela, String criterio) {
