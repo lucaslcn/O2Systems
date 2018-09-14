@@ -535,14 +535,14 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
 
     @Override
     public void situacaoEditar() {
-        tfdPaciente.setEnabled(false);
-        tfdExames.setEnabled(false);
+        tfdPaciente.setEnabled(true);
+        tfdExames.setEnabled(true);
         tfData.setEnabled(true);
         tfHora.setEnabled(true);
-        tfdPlano.setEnabled(false);
+        tfdPlano.setEnabled(true);
 
         btnCancelar.setEnabled(true);
-        btnDeletar.setEnabled(false);
+        btnDeletar.setEnabled(true);
         btnEditar.setEnabled(false);
         btnPesquisar.setEnabled(true);
         btnSalvar.setEnabled(true);
