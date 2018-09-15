@@ -27,6 +27,14 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
         limpar();
         atualizaTabelas();
         
+//        for (int i = 7; i < 15; i++) {
+//            gravaRapido(i, 1);
+//            gravaRapido(i, 2);
+//            gravaRapido(i, 3);
+//            gravaRapido(i, 4);
+//            gravaRapido(i, 6);
+//        }
+        
     }
 
     /* This method is called from within the constructor to initialize the form.
@@ -193,8 +201,8 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnInserirPermissao, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDeletarPermissao, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -505,9 +513,9 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
             
             String r;
             if(acao.getIdacaotela()!= null){
-                r = new TelaDAO().update(this.acao, logAuditoria);
+                r = new AcaoDAO().update(this.acao, logAuditoria);
             } else {
-                r = new TelaDAO().insert(this.acao, logAuditoria);
+                r = new AcaoDAO().insert(this.acao, logAuditoria);
             }
             
             if(r == null){
@@ -702,5 +710,36 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
                 };
         return r;
     }
+    
+//    public void gravaRapido(int tela, int acao){
+//        limpar();
+//        String[] oldInfo = {"","",""};
+//        this.tela = new TelaDAO().consultarId(tela);
+//        this.acao = new AcaoDAO().consultarId(acao);
+//        if(this.tela != null && this.acao != null){
+//            listaAcao.setIdtela(this.tela);
+//            listaAcao.setIdacaotela(this.acao);
+//            String[] newInfo = auditoriaTelaAcao();
+//            
+//            Atividade logAuditoria = autoAuditoria(oldInfo, newInfo, Atividade.FROM_LISTA_TELA_ACAO);
+//            
+//            String r;
+//            if(listaAcao.getIdlistaacao() != null){
+//                r = new ListaacaoDAO().update(this.listaAcao, logAuditoria);
+//            } else {
+//                r = new ListaacaoDAO().insert(this.listaAcao, logAuditoria);
+//            }
+//            
+//            if(r == null){
+//                Mensagens.retornoAcao( Mensagens.salvo("Permissão") );
+//                atualizaTabelas();
+//                limpar();
+//            } else {
+//                Mensagens.retornoAcao( Mensagens.erroSalvar("Permissão") + Mensagens.mensagemTecnica(r) );
+//            }
+//            
+//            
+//        }
+//    }
     
 }

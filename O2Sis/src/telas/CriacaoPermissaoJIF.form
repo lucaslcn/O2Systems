@@ -171,8 +171,8 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="btnInserirPermissao" min="-2" pref="30" max="-2" attributes="0"/>
-                          <EmptySpace pref="38" max="32767" attributes="0"/>
-                          <Component id="jScrollPane3" min="-2" pref="140" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jScrollPane3" pref="172" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="btnDeletarPermissao" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
