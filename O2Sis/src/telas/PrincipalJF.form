@@ -244,6 +244,21 @@
             <Property name="text" type="java.lang.String" value="Relat&#xf3;rios"/>
           </Properties>
         </Menu>
+        <Menu class="javax.swing.JMenu" name="meniDesenvolvedor">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Desenvolvedor"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="itemMenu_CriarPermissao">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Criar Permiss&#xe3;o"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemMenu_CriarPermissaoActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
       </SubComponents>
     </Menu>
   </NonVisualComponents>

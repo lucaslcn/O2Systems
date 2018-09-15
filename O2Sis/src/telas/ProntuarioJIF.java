@@ -24,7 +24,7 @@ import negocio.Usuario;
 import org.hibernate.HibernateException;
 import registros.Atividade;
 import registros.LogAuditoria;
-import registros.Permissao;
+import registros.PermissaoG;
 
 /**
  *

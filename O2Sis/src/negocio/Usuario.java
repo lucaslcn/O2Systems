@@ -38,6 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Usuario.findByStatus", query = "SELECT u FROM Usuario u WHERE u.status = :status")})
 public class Usuario implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idusuario")
+    private List<Listapermissao> listapermissaoList;
+
     @JoinColumn(name = "idpermissao", referencedColumnName = "idpermissao")
     @ManyToOne
     private Permissao idpermissao;
@@ -147,6 +150,15 @@ public class Usuario implements Serializable {
 
     public void setIdpermissao(Permissao idpermissao) {
         this.idpermissao = idpermissao;
+    }
+
+    @XmlTransient
+    public List<Listapermissao> getListapermissaoList() {
+        return listapermissaoList;
+    }
+
+    public void setListapermissaoList(List<Listapermissao> listapermissaoList) {
+        this.listapermissaoList = listapermissaoList;
     }
     
 }

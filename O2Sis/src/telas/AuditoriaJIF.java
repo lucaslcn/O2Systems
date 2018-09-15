@@ -9,7 +9,7 @@ import gema.Mensagens;
 import java.awt.Color;
 import negocio.Usuario;
 import registros.LogAuditoria;
-import registros.Permissao;
+import registros.PermissaoG;
 
 /**
  *
@@ -214,10 +214,7 @@ public class AuditoriaJIF extends javax.swing.JInternalFrame {
     }
     
     private void permissao(){
-        int [] desligado = {10,0};
-        int [] ligado = {10,0};
-        btnDesligado.setEnabled( Permissao.canUse(Permissao.AUDITORIA_BTN_DESLIGAR, usuario.getIdpermissao().getValorpermissao(), btnDesligado.isEnabled()) );
-        btnLigado.setEnabled(Permissao.canUse(Permissao.AUDITORIA_BTN_LIGAR, usuario.getIdpermissao().getValorpermissao(), btnLigado.isEnabled()) );
+    
     }
 }
 

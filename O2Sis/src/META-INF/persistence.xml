@@ -29,6 +29,10 @@
     <class>negocio.Parametros</class>
     <class>dao.Consultas</class>
     <class>negocio.Permissao</class>
+    <class>negocio.Listaacao</class>
+    <class>negocio.Acaotela</class>
+    <class>negocio.Tela</class>
+    <class>negocio.Listapermissao</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://pgsql03-farm76.kinghost.net:5432/syscoffe"/>
       <property name="javax.persistence.jdbc.user" value="syscoffe"/>
