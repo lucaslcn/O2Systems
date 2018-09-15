@@ -147,6 +147,9 @@ public class Atividade {
     final public static String FROM_EXAME = "Cadastro de Exame";
     final public static String FROM_FORMA_PGTO = "Cadastro de Forma de Pagamento";
     final public static String FROM_FUNCAO = "Cadastro de Função";
+    final public static String FROM_TELA = "Cadastro de Tela do Sistema";
+    final public static String FROM_ACAO = "Cadastro de Ação do Sistema";
+    final public static String FROM_LISTA_TELA_ACAO = "Cadastro de Ação da Tela do Sistema";
     final public static String FROM_PRONTUARIO = "Preencher Prontuário";
     final public static String FROM_CONSULTAS = "Agendamento de Consultas";
 

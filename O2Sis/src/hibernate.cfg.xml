@@ -71,5 +71,9 @@ Contributor(s):
     <mapping class="negocio.Auditoria"/>
     <mapping class="negocio.Parametros"/>
     <mapping class="negocio.Permissao"/>
+    <mapping class="negocio.Listapermissao"/>
+    <mapping class="negocio.Tela"/>
+    <mapping class="negocio.Acaotela"/>
+    <mapping class="negocio.Listaacao"/>
   </session-factory>
 </hibernate-configuration>

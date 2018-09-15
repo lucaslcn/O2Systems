@@ -8,6 +8,8 @@ package gema;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import persistencia.*;
+import telas.AvisoInicioSistemaJF;
+import telas.AvisoLoadingJD;
 import telas.PesquisaSimplesJD;
 
 /**

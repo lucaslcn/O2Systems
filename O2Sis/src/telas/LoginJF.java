@@ -90,8 +90,18 @@ public class LoginJF extends javax.swing.JFrame {
         });
 
         jTF_user.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTF_user.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTF_userKeyPressed(evt);
+            }
+        });
 
         jPF_pass.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jPF_pass.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jPF_passKeyPressed(evt);
+            }
+        });
 
         jL_iconUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/user_gray.png"))); // NOI18N
 
@@ -197,6 +207,32 @@ public class LoginJF extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnLoginKeyPressed
+
+    private void jTF_userKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTF_userKeyPressed
+        int codigo = evt.getKeyCode();
+        int tecla = KeyEvent.VK_ENTER;
+
+        if(codigo == tecla){
+            try {
+                this.login();
+            } catch (Exception ex) {
+                Logger.getLogger(LoginJF.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jTF_userKeyPressed
+
+    private void jPF_passKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPF_passKeyPressed
+        int codigo = evt.getKeyCode();
+        int tecla = KeyEvent.VK_ENTER;
+
+        if(codigo == tecla){
+            try {
+                this.login();
+            } catch (Exception ex) {
+                Logger.getLogger(LoginJF.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jPF_passKeyPressed
 
     /**
      * @param args the command line arguments
