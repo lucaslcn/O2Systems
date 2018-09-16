@@ -11,6 +11,7 @@ import gema.Gema;
 import gema.Mensagens;
 import gema.ValidaCampo;
 import java.math.BigInteger;
+import java.util.TreeMap;
 import javax.swing.JOptionPane;
 import negocio.Estado;
 import negocio.FormaPagamento;
@@ -27,15 +28,17 @@ public class CadastroEstadoJIF extends javax.swing.JInternalFrame implements Bas
 
     Estado estado;
     Usuario usuario;
+    TreeMap<Integer, Boolean> can;
 
     /**
      * Creates new form EstadoJIF
      */
-    public CadastroEstadoJIF(Usuario usuario) {
+    public CadastroEstadoJIF(Usuario usuario, TreeMap<Integer, Boolean> can) {
         initComponents();
         limpar();
         situacaoNovo();
         this.usuario = usuario;
+        this.can = can;
         btnDeletar.setVisible(false);
     }
 

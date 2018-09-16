@@ -25,6 +25,7 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
     Tela tela;
     Acaotela acao;
     Listaacao listaAcao;
+    Listaacao listaAcaoOld;
     TreeMap<Integer, Boolean> can;
     
     /*  Creates new form CriacaoPermissaoJIF */
@@ -34,6 +35,11 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
         this.can = can;
         limpar();
         atualizaTabelas();
+        
+        jL_msgAcao.setVisible(false);
+        jL_msgPermissao.setVisible(false);
+        jL_msgTela.setVisible(false);
+        
         
 //        for (int i = 7; i < 15; i++) {
 //            gravaRapido(i, 1);
@@ -68,6 +74,7 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
         btnPesquisarNomeTela = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jL_msgPermissao = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jTF_nomeTela = new javax.swing.JTextField();
@@ -77,6 +84,7 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
         btnDeletarTela = new javax.swing.JButton();
         btnEditarTela = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        jL_msgTela = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         btnInserirAcao = new javax.swing.JButton();
@@ -86,6 +94,7 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable_nomeAcao = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
+        jL_msgAcao = new javax.swing.JLabel();
 
         setTitle("Criação das Pemissões");
         setPreferredSize(new java.awt.Dimension(630, 560));
@@ -143,6 +152,11 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
         btnDeletarPermissao.setText("Deletar");
 
         btnEditarPermissao.setText("Editar");
+        btnEditarPermissao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarPermissaoActionPerformed(evt);
+            }
+        });
 
         btnPesquisarNomeAção.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/magnifier.png"))); // NOI18N
         btnPesquisarNomeAção.addActionListener(new java.awt.event.ActionListener() {
@@ -163,35 +177,42 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Nome Ação");
 
+        jL_msgPermissao.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jL_msgPermissao.setText("Por favor, aguarde! Atualizando tabelas...");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTF_nomeTelaPermissao)
-                            .addComponent(jTF_nomeAcaoPermissao, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnPesquisarNomeTela, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnPesquisarNomeAção, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel5))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTF_nomeTelaPermissao)
+                                    .addComponent(jTF_nomeAcaoPermissao, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnPesquisarNomeTela, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnPesquisarNomeAção, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addComponent(btnDeletarPermissao, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnEditarPermissao, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnInserirPermissao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnInserirPermissao, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(jL_msgPermissao)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnDeletarPermissao, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEditarPermissao, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -214,7 +235,8 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDeletarPermissao, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEditarPermissao, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEditarPermissao, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jL_msgPermissao))
                 .addContainerGap())
         );
 
@@ -281,6 +303,9 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Nome da Tela # Sessão");
 
+        jL_msgTela.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jL_msgTela.setText("Por favor, aguarde! Atualizando tabelas...");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -297,6 +322,8 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
                         .addComponent(btnInserirTela, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnDeletarTela, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(48, 48, 48)
+                        .addComponent(jL_msgTela)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnEditarTela, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -314,7 +341,8 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDeletarTela, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEditarTela, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEditarTela, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jL_msgTela))
                 .addContainerGap())
         );
 
@@ -381,6 +409,9 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Nome da Ação");
 
+        jL_msgAcao.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jL_msgAcao.setText("Por favor, aguarde! Atualizando tabelas...");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -397,6 +428,8 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(btnDeletarAcao, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(51, 51, 51)
+                        .addComponent(jL_msgAcao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnEditarAcao, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -414,7 +447,8 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDeletarAcao, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEditarAcao, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEditarAcao, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jL_msgAcao))
                 .addGap(35, 35, 35))
         );
 
@@ -471,6 +505,7 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnFecharActionPerformed
 
     private void btnInserirTelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirTelaActionPerformed
+        jL_msgTela.setVisible(true);
         String nomeTela = jTF_nomeTela.getText().trim();
         if(Gema.vazio(nomeTela, 1)){
             String[] oldInfo = auditoriaTela();
@@ -498,6 +533,7 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
         } else {
             Mensagens.retornoAcao( Mensagens.preenchaOsCampos() );
         }
+        jL_msgTela.setVisible(false);
     }//GEN-LAST:event_btnInserirTelaActionPerformed
 
     private void btnEditarTelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarTelaActionPerformed
@@ -511,6 +547,7 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditarTelaActionPerformed
 
     private void btnInserirAcaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirAcaoActionPerformed
+        jL_msgAcao.setVisible(true);
         String nomeAcao = jTF_nomeAcao.getText().trim();
         if(Gema.vazio(nomeAcao, 1)){
             String[] oldInfo = auditoriaAcao();
@@ -538,6 +575,7 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
         } else {
             Mensagens.retornoAcao( Mensagens.preenchaOsCampos() );
         }
+        jL_msgAcao.setVisible(false);
     }//GEN-LAST:event_btnInserirAcaoActionPerformed
 
     private void btnEditarAcaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarAcaoActionPerformed
@@ -551,6 +589,7 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditarAcaoActionPerformed
 
     private void btnInserirPermissaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirPermissaoActionPerformed
+        jL_msgPermissao.setVisible(true);
         String nomeAcao = jTF_nomeAcaoPermissao.getText().trim();
         String nomeTela = jTF_nomeTelaPermissao.getText().trim();
         
@@ -559,22 +598,32 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
         Integer[] qtd = {1, 1};
         String s = ValidaCampo.campoVazio(campos, qtd, valor);
         if(s == null){
-            String[] oldInfo = auditoriaTelaAcao();
-            this.acao.setNomeAcao(nomeAcao);
+            String[] oldInfo;
+            if(listaAcao.getIdlistaacao() != null){
+                oldInfo = auditoriaTelaAcaoOld();
+            } else {
+                oldInfo = auditoriaTelaAcao();
+            }
             String[] newInfo = auditoriaTelaAcao();
             
             Atividade logAuditoria = autoAuditoria(oldInfo, newInfo, Atividade.FROM_LISTA_TELA_ACAO);
             
             String r;
+            boolean edit;
             if(listaAcao.getIdlistaacao() != null){
                 r = new TelaDAO().update(this.listaAcao, logAuditoria);
+                edit = true;
             } else {
                 r = new TelaDAO().insert(this.listaAcao, logAuditoria);
+                edit = false;
             }
             
             if(r == null){
                 Mensagens.retornoAcao( Mensagens.salvo("Permissão") + "\nPor favor aguarde! Adicionando nova permissão aos usuários cadastrados." );
-                adicionarAoUsuario(listaAcao.getIdtela().getIdtela(), listaAcao.getIdacaotela().getIdacaotela());
+                if(edit){
+                } else {
+                    adicionarAoUsuario(listaAcao.getIdtela().getIdtela(), listaAcao.getIdacaotela().getIdacaotela());
+                }
                 atualizaTabelas();
                 limpar();
             } else {
@@ -585,6 +634,7 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
         } else {
             Mensagens.retornoAcao(Mensagens.preenchaOsCampos("Os seguintes campos obrigatórios estão vazios:\n" + s));
         }
+        jL_msgPermissao.setVisible(false);
     }//GEN-LAST:event_btnInserirPermissaoActionPerformed
 
     private void btnPesquisarNomeAçãoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarNomeAçãoActionPerformed
@@ -605,6 +655,18 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnPesquisarNomeTelaActionPerformed
 
+    private void btnEditarPermissaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarPermissaoActionPerformed
+        int linha_selecionada = jTable_Permissao.getSelectedRow();
+        Listaacao resultado = new ListaacaoDAO().consultarId( Integer.parseInt(jTable_Permissao.getValueAt(linha_selecionada, 0).toString()) );
+        if ( resultado != null ){
+            this.listaAcao = resultado;
+            this.listaAcaoOld = resultado;
+            jTF_nomeAcaoPermissao.setText(this.listaAcao.getIdacaotela().getNomeAcao());
+            jTF_nomeTelaPermissao.setText(this.listaAcao.getIdtela().getNomeTela());
+            btnPesquisarNomeTela.requestFocus();
+        }
+    }//GEN-LAST:event_btnEditarPermissaoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDeletarAcao;
@@ -619,6 +681,9 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnInserirTela;
     private javax.swing.JButton btnPesquisarNomeAção;
     private javax.swing.JButton btnPesquisarNomeTela;
+    private javax.swing.JLabel jL_msgAcao;
+    private javax.swing.JLabel jL_msgPermissao;
+    private javax.swing.JLabel jL_msgTela;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -792,6 +857,16 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
         
         Mensagens.retornoAcao( f );
         
+    }
+
+    private String[] auditoriaTelaAcaoOld() {
+        String[] r
+                = {
+                    listaAcaoOld.getIdlistaacao() +"",
+                    listaAcaoOld.getIdtela().getIdtela() + "",
+                    listaAcaoOld.getIdacaotela().getIdacaotela() +""
+                };
+        return r;
     }
     
 }

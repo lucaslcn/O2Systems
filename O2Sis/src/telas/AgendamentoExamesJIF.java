@@ -20,6 +20,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -46,14 +47,16 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
     AgendamentoExames ae;
     Plano plano;
     Usuario usuario;
+    TreeMap<Integer, Boolean> can;
 
     /**
      * Creates new form AgendamentoConsulta
      */
-    public AgendamentoExamesJIF(Usuario usuario) {
+    public AgendamentoExamesJIF(Usuario usuario, TreeMap<Integer, Boolean> can) {
         initComponents();
         limpar();
         this.usuario = usuario;
+        this.can = can;
     }
 
     /**

@@ -14,6 +14,7 @@ import gema.Mensagens;
 import gema.ValidaCampo;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.TreeMap;
 import javax.swing.JOptionPane;
 import negocio.Exames;
 import negocio.Usuario;
@@ -29,15 +30,17 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
 
     Exames exame;
     Usuario usuario;
+    TreeMap<Integer, Boolean> can;
 
     /**
      * Creates new form CadastroPlanoSaudeJIF
      */
-    public CadastroExameJIF(Usuario usuario) {
+    public CadastroExameJIF(Usuario usuario, TreeMap<Integer, Boolean> can) {
         initComponents();
         limpar();
         situacaoNovo();
         this.usuario = usuario;
+        this.can = can;
     }
 
     /**

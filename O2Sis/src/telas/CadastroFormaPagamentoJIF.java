@@ -11,6 +11,7 @@ import persistencia.BasicScreen;
 import gema.Gema;
 import gema.Mensagens;
 import gema.ValidaCampo;
+import java.util.TreeMap;
 import javax.swing.JOptionPane;
 import negocio.Usuario;
 import org.hibernate.HibernateException;
@@ -24,16 +25,18 @@ public class CadastroFormaPagamentoJIF extends javax.swing.JInternalFrame implem
 
     FormaPagamento formapagamento;
     Usuario usuario;
+    TreeMap<Integer, Boolean> can;
 
     /**
      * Creates new form CadastroFormaPagamentoJIF
      */
-    public CadastroFormaPagamentoJIF(Usuario usuario) {
+    public CadastroFormaPagamentoJIF(Usuario usuario, TreeMap<Integer, Boolean> can) {
         initComponents();
         this.setTitle("Cadastro Forma de Pagamento");
         limpar();
         situacaoNovo();
         this.usuario = usuario;
+        this.can = can;
 
     }
 

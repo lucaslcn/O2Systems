@@ -341,28 +341,28 @@ public class PrincipalJF extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void itemMenuFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuFuncionarioActionPerformed
-        CadastroFuncionarioJIF k = new CadastroFuncionarioJIF(this.usuario, this.permissao);
+        CadastroFuncionarioJIF k = new CadastroFuncionarioJIF(this.usuario, this.can);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 0);
         k.setVisible(true);
     }//GEN-LAST:event_itemMenuFuncionarioActionPerformed
 
     private void itemMenuPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuPacienteActionPerformed
-        CadastroPacienteJIF k = new CadastroPacienteJIF(this.usuario, this.permissao);
+        CadastroPacienteJIF k = new CadastroPacienteJIF(this.usuario, this.can);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 0);
         k.setVisible(true);
     }//GEN-LAST:event_itemMenuPacienteActionPerformed
 
     private void itemMenuPlanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuPlanoActionPerformed
-        CadastroPlanoSaudeJIF k = new CadastroPlanoSaudeJIF(this.usuario, this.permissao);
+        CadastroPlanoSaudeJIF k = new CadastroPlanoSaudeJIF(this.usuario, this.can);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
     }//GEN-LAST:event_itemMenuPlanoActionPerformed
 
     private void itemMenuRemedioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuRemedioActionPerformed
-        CadastroRemedioJIF k = new CadastroRemedioJIF(this.usuario, this.permissao);
+        CadastroRemedioJIF k = new CadastroRemedioJIF(this.usuario, this.can);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
@@ -373,28 +373,28 @@ public class PrincipalJF extends javax.swing.JFrame {
     }//GEN-LAST:event_itemMenuSairActionPerformed
 
     private void itemMenuFormaPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuFormaPagamentoActionPerformed
-        CadastroFormaPagamentoJIF k = new CadastroFormaPagamentoJIF(this.usuario, this.permissao);
+        CadastroFormaPagamentoJIF k = new CadastroFormaPagamentoJIF(this.usuario, this.can);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
     }//GEN-LAST:event_itemMenuFormaPagamentoActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        CadastroFuncaoJIF k = new CadastroFuncaoJIF(this.usuario, this.permissao);
+        CadastroFuncaoJIF k = new CadastroFuncaoJIF(this.usuario, this.can);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        CadastroEstadoJIF k = new CadastroEstadoJIF(this.usuario, this.permissao);
+        CadastroEstadoJIF k = new CadastroEstadoJIF(this.usuario, this.can);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void itemMenuExameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuExameActionPerformed
-        CadastroExameJIF k = new CadastroExameJIF(this.usuario, this.permissao);
+        CadastroExameJIF k = new CadastroExameJIF(this.usuario, this.can);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
@@ -422,14 +422,14 @@ public class PrincipalJF extends javax.swing.JFrame {
     }//GEN-LAST:event_itemMenuProntuarioActionPerformed
 
     private void itemMenuAgendarExamesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuAgendarExamesActionPerformed
-        AgendamentoExamesJIF k = new AgendamentoExamesJIF(this.usuario, this.permissao);
+        AgendamentoExamesJIF k = new AgendamentoExamesJIF(this.usuario, this.can);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
     }//GEN-LAST:event_itemMenuAgendarExamesActionPerformed
 
     private void itemMenuAgendarConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuAgendarConsultaActionPerformed
-        AgendamentoConsultaJIF k = new AgendamentoConsultaJIF(this.usuario, this.permissao);
+        AgendamentoConsultaJIF k = new AgendamentoConsultaJIF(this.usuario, this.can);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);

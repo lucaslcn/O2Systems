@@ -10,6 +10,7 @@ import dao.FuncaoDAO;
 import gema.Gema;
 import gema.Mensagens;
 import gema.ValidaCampo;
+import java.util.TreeMap;
 import javax.swing.JOptionPane;
 import negocio.Funcao;
 import negocio.Usuario;
@@ -24,15 +25,17 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
 
     Funcao funcao;
     Usuario usuario;
+    TreeMap<Integer, Boolean> can;
 
     /**
      * Creates new form CadastroRemédioJIF
      */
-    public CadastroFuncaoJIF(Usuario usuario) {
+    public CadastroFuncaoJIF(Usuario usuario, TreeMap<Integer, Boolean> can) {
         initComponents();
         limpar();
 
         this.usuario = usuario;
+        this.can = can;
 
         cB_Usuario.removeAllItems();
         cB_Usuario.addItem("Não");

@@ -10,6 +10,7 @@ import dao.RemedioDAO;
 import gema.Gema;
 import gema.Mensagens;
 import gema.ValidaCampo;
+import java.util.TreeMap;
 import javax.swing.JOptionPane;
 import negocio.Remedio;
 import negocio.Usuario;
@@ -24,15 +25,17 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
 
     Remedio remedio;
     Usuario usuario;
+    TreeMap<Integer, Boolean> can;
 
     /**
      * Creates new form CadastroRemédioJIF
      */
-    public CadastroRemedioJIF(Usuario usuario) {
+    public CadastroRemedioJIF(Usuario usuario, TreeMap<Integer, Boolean> can) {
         initComponents();
         limpar();
 
         this.usuario = usuario;
+        this.can = can;
 
         CB_Controlado.removeAllItems();
         CB_Controlado.addItem("Não");

@@ -17,6 +17,7 @@ import gema.Gema;
 import gema.Mensagens;
 import gema.ValidaCampo;
 import java.util.Date;
+import java.util.TreeMap;
 import javax.swing.JOptionPane;
 import negocio.Consultas;
 import negocio.Exames;
@@ -41,15 +42,17 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
     Consultas consultas;
     Plano plano;
     Usuario usuario;
+    TreeMap<Integer, Boolean> can;
 
     /**
      * Creates new form AgendamentoConsulta
      */
-    public AgendamentoConsultaJIF(Usuario usuario) {
+    public AgendamentoConsultaJIF(Usuario usuario, TreeMap<Integer, Boolean> can) {
         initComponents();
         limpar();
         btnDeletar.setVisible(false);
         this.usuario = usuario;
+        this.can = can;
     }
 
     /**

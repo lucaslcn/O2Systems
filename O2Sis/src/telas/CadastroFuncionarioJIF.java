@@ -5,6 +5,7 @@
  */
 package telas;
 
+import java.util.TreeMap;
 import negocio.Usuario;
 
 /**
@@ -14,13 +15,15 @@ import negocio.Usuario;
 public class CadastroFuncionarioJIF extends javax.swing.JInternalFrame {
     
     Usuario usuario;
+    TreeMap<Integer, Boolean> can;
     
     /**
      * Creates new form CadastroPaciente
      */
-    public CadastroFuncionarioJIF(Usuario usuario) {
+    public CadastroFuncionarioJIF(Usuario usuario,TreeMap<Integer, Boolean> can) {
         initComponents();
         this.usuario = usuario;
+        this.can = can;
     }
 
     /**
