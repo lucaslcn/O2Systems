@@ -15,8 +15,10 @@ import gema.Mensagens;
 import gema.ValidaCampo;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.TreeMap;
 import javax.swing.JOptionPane;
 import negocio.Exames;
+import negocio.Listapermissao;
 import negocio.Prontuario;
 import negocio.Receita;
 import negocio.Requisicao;
@@ -33,6 +35,7 @@ import registros.PermissaoG;
 public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicScreen {
 
     Prontuario prontuario;
+    TreeMap<Integer, Boolean> can;
 //    Receita receita;
 //    Requisicao requisicao;
     Usuario usuario;
@@ -40,8 +43,9 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
     /**
      * Creates new form CadastroPlanoSaudeJIF
      * @param usuario
+     * @param permissao
      */
-    public ProntuarioJIF(Usuario usuario) {
+    public ProntuarioJIF(Usuario usuario, TreeMap<Integer, Boolean> can) {
         initComponents();
         
         jTA_CamporTextoAtendimento.setEnabled(false);
@@ -50,6 +54,7 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
         limpar();
         situacaoNovo();
         this.usuario = usuario;
+        this.can = can;
     }
 
     /**

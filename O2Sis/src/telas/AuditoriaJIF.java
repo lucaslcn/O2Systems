@@ -7,6 +7,7 @@ package telas;
 
 import gema.Mensagens;
 import java.awt.Color;
+import java.util.TreeMap;
 import negocio.Usuario;
 import registros.LogAuditoria;
 import registros.PermissaoG;
@@ -17,12 +18,14 @@ import registros.PermissaoG;
  */
 public class AuditoriaJIF extends javax.swing.JInternalFrame {
     Usuario usuario;
+    TreeMap<Integer, Boolean> can;
     /**
      * Creates new form AuditoriaJIF
      */
-    public AuditoriaJIF(Usuario u) {
+    public AuditoriaJIF(Usuario u, TreeMap<Integer, Boolean> can) {
         initComponents();
         this.usuario = u;
+        this.can = can;
         if( LogAuditoria.status() ){
             ligado();
         } else {
@@ -214,7 +217,9 @@ public class AuditoriaJIF extends javax.swing.JInternalFrame {
     }
     
     private void permissao(){
-    
+        btnDesligado.setEnabled(PermissaoG.canUse(btnDesligado.isEnabled(), can.get(15)));
+        btnLigado.setEnabled(PermissaoG.canUse(btnLigado.isEnabled(), can.get(14)));
+        btnRegistros.setEnabled(PermissaoG.canUse(btnRegistros.isEnabled(), can.get(16)));
     }
 }
 

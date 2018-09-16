@@ -59,6 +59,10 @@ public class Mensagens {
         return "Preencha todos os campos obrigatórios!";
     }
     
+    public static String selecioneAlgumItem(){
+        return "Por favor, selecione um algum item!";
+    }
+    
     public static String preenchaOsCampos(String texto){
         return "Preencha todos os campos obrigatórios!\n" + texto;
     }

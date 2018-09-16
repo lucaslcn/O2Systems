@@ -3,11 +3,17 @@ package telas;
 import dao.AcaoDAO;
 import dao.ListaacaoDAO;
 import dao.ExameDAO;
+import dao.ListapermissaoDAO;
 import dao.TelaDAO;
+import dao.UsuarioDAO;
 import gema.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeMap;
 import negocio.Acaotela;
 import negocio.Exames;
 import negocio.Listaacao;
+import negocio.Listapermissao;
 import negocio.Tela;
 import negocio.Usuario;
 import registros.Atividade;
@@ -19,11 +25,13 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
     Tela tela;
     Acaotela acao;
     Listaacao listaAcao;
+    TreeMap<Integer, Boolean> can;
     
     /*  Creates new form CriacaoPermissaoJIF */
-    public CriacaoPermissaoJIF(Usuario usuario) {
+    public CriacaoPermissaoJIF(Usuario usuario, TreeMap<Integer, Boolean> can) {
         initComponents();
         this.usuario = usuario;
+        this.can = can;
         limpar();
         atualizaTabelas();
         
@@ -565,7 +573,8 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
             }
             
             if(r == null){
-                Mensagens.retornoAcao( Mensagens.salvo("Permissão") );
+                Mensagens.retornoAcao( Mensagens.salvo("Permissão") + "\nPor favor aguarde! Adicionando nova permissão aos usuários cadastrados." );
+                adicionarAoUsuario(listaAcao.getIdtela().getIdtela(), listaAcao.getIdacaotela().getIdacaotela());
                 atualizaTabelas();
                 limpar();
             } else {
@@ -741,5 +750,48 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
 //            
 //        }
 //    }
+
+    private void adicionarAoUsuario(Integer idtela, Integer idacaotela) {
+        List<Usuario> users = new UsuarioDAO().select("Usuario");
+        Listaacao listaacao = (Listaacao) new ListaacaoDAO().selectWithJoin("Listaacao", "idtela = "+idtela+" AND idacaotela = " + idacaotela).get(0);
+        int totalUsers = users.size();
+        int falhas = 0;
+        int sucesso = totalUsers;
+        ArrayList<String> falha = new ArrayList();
+        
+        Listapermissao lista;
+        for(Usuario user : users){
+                lista = new Listapermissao();
+                lista.setIdusuario(user);
+                lista.setIdlistaacao(listaacao);
+                Atividade logAuditoria = new Atividade();
+                String[] o = {"","","",""};
+                String[] n = {lista.getIdlistapermissao()+ "",lista.getIdlistaacao().getIdlistaacao() + "",lista.getIdusuario()+ "","false"};
+                logAuditoria.setInformacaoOld(o);
+                logAuditoria.setInformacaoNew(n);
+                logAuditoria.setOnde(Atividade.FROM_USER_TELA_ACAO);
+                logAuditoria.setUsuario(usuario);
+                String s = new ListapermissaoDAO().insert(lista, logAuditoria);
+                if(s!=null){
+                    falha.add("User: " + user.getIdusuario() + " - " + user.getNick() +"\n"+ listaacao.getIdlistaacao() + " - "+ listaacao.getIdtela().getNomeTela() + " - " + listaacao.getIdacaotela().getNomeAcao());
+                    falhas++;
+                }
+        }
+        sucesso = totalUsers - falhas;
+        String f = "Foi finalizado a ação para adicionar a nova permisaão aos usuários cadastrados\n"
+                + "Total de usuários encontrados: " + totalUsers + "\n"
+                + "Total de ações de sucesso....: " + sucesso + "\n"
+                + "Total de ações com falha.....: " + falhas + "\n"
+                ;
+        if(falhas > 0){
+            f += "\n\n Os seguintes usuários obtiveram falhas durante a operação:\n";
+            for (String string : falha) {
+                f = string+"\n";
+            }
+        }
+        
+        Mensagens.retornoAcao( f );
+        
+    }
     
 }

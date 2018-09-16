@@ -150,6 +150,8 @@ public class Atividade {
     final public static String FROM_TELA = "Cadastro de Tela do Sistema";
     final public static String FROM_ACAO = "Cadastro de Ação do Sistema";
     final public static String FROM_LISTA_TELA_ACAO = "Cadastro de Ação da Tela do Sistema";
+    final public static String FROM_USER_TELA_ACAO = "Cadastro de Ação da Tela para o Usuário";
+    final public static String FROM_GESTOR_USUARIO = "Gerenciador de Usuário";
     final public static String FROM_PRONTUARIO = "Preencher Prontuário";
     final public static String FROM_CONSULTAS = "Agendamento de Consultas";
 

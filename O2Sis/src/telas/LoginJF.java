@@ -5,6 +5,9 @@
  */
 package telas;
 
+import com.sun.org.apache.bcel.internal.generic.AALOAD;
+import dao.ListaacaoDAO;
+import dao.ListapermissaoDAO;
 import dao.LoginDAO;
 import dao.PlanoDAO;
 import dao.UsuarioDAO;
@@ -13,12 +16,17 @@ import java.awt.event.KeyEvent;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import negocio.Listaacao;
+import negocio.Listapermissao;
 import negocio.Usuario;
 import org.hibernate.HibernateException;
 import persistencia.DAO;
+import registros.Atividade;
 import registros.LogAuditoria;
 
 /**
@@ -296,8 +304,10 @@ public class LoginJF extends javax.swing.JFrame {
 
     private void login() {
         Usuario u = null;
+        Listapermissao permissao = null;
         try{
             u = new LoginDAO().acessar(jTF_user.getText(), criptoSenha(jPF_pass.getText()));
+            
         } catch (Exception ex) {
             System.out.println(ex);
         }
@@ -311,4 +321,36 @@ public class LoginJF extends javax.swing.JFrame {
             Mensagens.retornoAcao("Problemas para reaalizar o login.\nUsuario ou senha incorretos.");
         }
     }
+    
+//    private void pontaPé(){
+//        List<Usuario> users = new UsuarioDAO().select("Usuario");
+//        List<Listaacao> acoes = new ListaacaoDAO().select("Listaacao");
+//        Usuario u = new UsuarioDAO().consultarId(4);
+//        ArrayList<String> falhas = new ArrayList();
+//        for (Usuario user : users) {
+//            Listapermissao lista;
+//            for (Listaacao acoe : acoes) {
+//                lista = new Listapermissao();
+//                lista.setIdusuario(user);
+//                lista.setIdlistaacao(acoe);
+//                Atividade logAuditoria = new Atividade();
+//                String[] o = {"","","",""};
+//                String[] n = {lista.getIdlistapermissao()+ "",lista.getIdlistaacao().getIdlistaacao() + "",lista.getIdusuario()+ "","false"};
+//                logAuditoria.setInformacaoOld(o);
+//                logAuditoria.setInformacaoNew(n);
+//                logAuditoria.setOnde(Atividade.FROM_USER_TELA_ACAO);
+//                logAuditoria.setUsuario(u);
+//                String s = new ListapermissaoDAO().insert(lista, logAuditoria);
+//                if(s!=null){
+//                    falhas.add("User: " + user.getIdusuario() + " - " + user.getNick()
+//                    +"\n"+ acoe.getIdtela().getNomeTela() + " - " + acoe.getIdacaotela().getNomeAcao());
+//                }
+//            }
+//        }
+//        if(falhas.size() > 0){
+//            for (String falha : falhas) {
+//                System.out.println(falha);
+//            }
+//        }
+//    }
 }

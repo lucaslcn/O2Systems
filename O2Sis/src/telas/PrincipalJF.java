@@ -6,7 +6,11 @@
 package telas;
 
 import com.sun.org.apache.bcel.internal.generic.AALOAD;
+import dao.ListapermissaoDAO;
 import dao.UsuarioDAO;
+import java.util.List;
+import java.util.TreeMap;
+import negocio.Listapermissao;
 import negocio.Usuario;
 import registros.PermissaoG;
 
@@ -17,6 +21,8 @@ import registros.PermissaoG;
 public class PrincipalJF extends javax.swing.JFrame {
 
     Usuario usuario;
+    List<Listapermissao> permissao;
+    TreeMap<Integer, Boolean> can;
         
     /**
      * Creates new form Principal
@@ -25,6 +31,9 @@ public class PrincipalJF extends javax.swing.JFrame {
         this.setExtendedState(MAXIMIZED_BOTH);
         initComponents();
         this.usuario = usuario;
+        this.permissao = (List<Listapermissao>) new ListapermissaoDAO().selectWithJoin("Listapermissao", "idusuario = "+ this.usuario.getIdusuario() +" order by idlistapermissao asc");
+        can = new TreeMap();
+        this.montaTree();
         permissao();
     }
 
@@ -101,11 +110,21 @@ public class PrincipalJF extends javax.swing.JFrame {
         jMenuBar1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         menuO2System.setText("O2 Systems");
+        menuO2System.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuO2SystemActionPerformed(evt);
+            }
+        });
 
         itemMenuDadosAcesso.setText("Dados de Acesso");
         menuO2System.add(itemMenuDadosAcesso);
 
         itemMenuUsuario.setText("Usuários");
+        itemMenuUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuUsuarioActionPerformed(evt);
+            }
+        });
         menuO2System.add(itemMenuUsuario);
         menuO2System.add(jSeparator5);
 
@@ -147,6 +166,11 @@ public class PrincipalJF extends javax.swing.JFrame {
         jMenuBar1.add(menuO2System);
 
         menuCadastro.setText("Cadastro");
+        menuCadastro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuCadastroActionPerformed(evt);
+            }
+        });
         menuCadastro.add(jSeparator2);
 
         itemMenuFuncionario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
@@ -225,9 +249,19 @@ public class PrincipalJF extends javax.swing.JFrame {
         jMenuBar1.add(menuCadastro);
 
         menuAgendamento.setText("Agendamento");
+        menuAgendamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuAgendamentoActionPerformed(evt);
+            }
+        });
 
         itemMenuConsultasMarcadas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
         itemMenuConsultasMarcadas.setText("Consultas Marcadas");
+        itemMenuConsultasMarcadas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuConsultasMarcadasActionPerformed(evt);
+            }
+        });
         menuAgendamento.add(itemMenuConsultasMarcadas);
 
         itemMenuExamesMarcados.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
@@ -266,9 +300,19 @@ public class PrincipalJF extends javax.swing.JFrame {
         jMenuBar1.add(menuAgendamento);
 
         menuRelatorios.setText("Relatórios");
+        menuRelatorios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuRelatoriosActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(menuRelatorios);
 
         meniDesenvolvedor.setText("Desenvolvedor");
+        meniDesenvolvedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                meniDesenvolvedorActionPerformed(evt);
+            }
+        });
 
         itemMenu_CriarPermissao.setText("Criar Permissão");
         itemMenu_CriarPermissao.addActionListener(new java.awt.event.ActionListener() {
@@ -297,28 +341,28 @@ public class PrincipalJF extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void itemMenuFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuFuncionarioActionPerformed
-        CadastroFuncionarioJIF k = new CadastroFuncionarioJIF(this.usuario);
+        CadastroFuncionarioJIF k = new CadastroFuncionarioJIF(this.usuario, this.permissao);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 0);
         k.setVisible(true);
     }//GEN-LAST:event_itemMenuFuncionarioActionPerformed
 
     private void itemMenuPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuPacienteActionPerformed
-        CadastroPacienteJIF k = new CadastroPacienteJIF(this.usuario);
+        CadastroPacienteJIF k = new CadastroPacienteJIF(this.usuario, this.permissao);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 0);
         k.setVisible(true);
     }//GEN-LAST:event_itemMenuPacienteActionPerformed
 
     private void itemMenuPlanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuPlanoActionPerformed
-        CadastroPlanoSaudeJIF k = new CadastroPlanoSaudeJIF(this.usuario);
+        CadastroPlanoSaudeJIF k = new CadastroPlanoSaudeJIF(this.usuario, this.permissao);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
     }//GEN-LAST:event_itemMenuPlanoActionPerformed
 
     private void itemMenuRemedioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuRemedioActionPerformed
-        CadastroRemedioJIF k = new CadastroRemedioJIF(this.usuario);
+        CadastroRemedioJIF k = new CadastroRemedioJIF(this.usuario, this.permissao);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
@@ -329,28 +373,28 @@ public class PrincipalJF extends javax.swing.JFrame {
     }//GEN-LAST:event_itemMenuSairActionPerformed
 
     private void itemMenuFormaPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuFormaPagamentoActionPerformed
-        CadastroFormaPagamentoJIF k = new CadastroFormaPagamentoJIF(this.usuario);
+        CadastroFormaPagamentoJIF k = new CadastroFormaPagamentoJIF(this.usuario, this.permissao);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
     }//GEN-LAST:event_itemMenuFormaPagamentoActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        CadastroFuncaoJIF k = new CadastroFuncaoJIF(this.usuario);
+        CadastroFuncaoJIF k = new CadastroFuncaoJIF(this.usuario, this.permissao);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        CadastroEstadoJIF k = new CadastroEstadoJIF(this.usuario);
+        CadastroEstadoJIF k = new CadastroEstadoJIF(this.usuario, this.permissao);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void itemMenuExameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuExameActionPerformed
-        CadastroExameJIF k = new CadastroExameJIF(this.usuario);
+        CadastroExameJIF k = new CadastroExameJIF(this.usuario, this.permissao);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
@@ -364,28 +408,28 @@ public class PrincipalJF extends javax.swing.JFrame {
     }//GEN-LAST:event_itemMenuSobreActionPerformed
 
     private void itemMenuAuditoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuAuditoriaActionPerformed
-        AuditoriaJIF k = new AuditoriaJIF(this.usuario);
+        AuditoriaJIF k = new AuditoriaJIF(this.usuario, this.can);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
     }//GEN-LAST:event_itemMenuAuditoriaActionPerformed
 
     private void itemMenuProntuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuProntuarioActionPerformed
-        ProntuarioJIF k = new ProntuarioJIF(this.usuario);
+        ProntuarioJIF k = new ProntuarioJIF(this.usuario, this.can);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
     }//GEN-LAST:event_itemMenuProntuarioActionPerformed
 
     private void itemMenuAgendarExamesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuAgendarExamesActionPerformed
-        AgendamentoExamesJIF k = new AgendamentoExamesJIF(this.usuario);
+        AgendamentoExamesJIF k = new AgendamentoExamesJIF(this.usuario, this.permissao);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
     }//GEN-LAST:event_itemMenuAgendarExamesActionPerformed
 
     private void itemMenuAgendarConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuAgendarConsultaActionPerformed
-        AgendamentoConsultaJIF k = new AgendamentoConsultaJIF(this.usuario);
+        AgendamentoConsultaJIF k = new AgendamentoConsultaJIF(this.usuario, this.permissao);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
@@ -398,11 +442,42 @@ public class PrincipalJF extends javax.swing.JFrame {
     }//GEN-LAST:event_itemMenuLogoutActionPerformed
 
     private void itemMenu_CriarPermissaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenu_CriarPermissaoActionPerformed
-        CriacaoPermissaoJIF k = new CriacaoPermissaoJIF(this.usuario);
+        CriacaoPermissaoJIF k = new CriacaoPermissaoJIF(this.usuario, this.can);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
     }//GEN-LAST:event_itemMenu_CriarPermissaoActionPerformed
+
+    private void menuO2SystemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuO2SystemActionPerformed
+        atualizaPermissao();
+    }//GEN-LAST:event_menuO2SystemActionPerformed
+
+    private void menuCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCadastroActionPerformed
+        atualizaPermissao();
+    }//GEN-LAST:event_menuCadastroActionPerformed
+
+    private void menuAgendamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAgendamentoActionPerformed
+        atualizaPermissao();
+    }//GEN-LAST:event_menuAgendamentoActionPerformed
+
+    private void menuRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuRelatoriosActionPerformed
+        atualizaPermissao();
+    }//GEN-LAST:event_menuRelatoriosActionPerformed
+
+    private void meniDesenvolvedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_meniDesenvolvedorActionPerformed
+        atualizaPermissao();
+    }//GEN-LAST:event_meniDesenvolvedorActionPerformed
+
+    private void itemMenuUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuUsuarioActionPerformed
+        GestorUsuarioJIF k = new GestorUsuarioJIF(this.usuario, this.can);
+        jDesktopRun.add(k);
+        k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
+        k.setVisible(true);
+    }//GEN-LAST:event_itemMenuUsuarioActionPerformed
+
+    private void itemMenuConsultasMarcadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuConsultasMarcadasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_itemMenuConsultasMarcadasActionPerformed
 
 //    /**
 //     * @param args the command line arguments
@@ -479,6 +554,31 @@ public class PrincipalJF extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void permissao() {
+        itemMenuAuditoria.setEnabled(PermissaoG.canUse(itemMenuAuditoria.isEnabled(), can.get(13)));
         
+        itemMenuAgendarConsulta.setEnabled(PermissaoG.canUse(itemMenuAgendarConsulta.isEnabled(), can.get(57)));
+        itemMenuAgendarExames.setEnabled(PermissaoG.canUse(itemMenuAgendarExames.isEnabled(), can.get(62)));
+//        itemMenuConsultasMarcadas.setEnabled(PermissaoG.canUse(itemMenuConsultasMarcadas.isEnabled(), false));
+//        itemMenuDadosAcesso.setEnabled(PermissaoG.canUse(itemMenuDadosAcesso.isEnabled(), false));
+        itemMenuExame.setEnabled(PermissaoG.canUse(itemMenuExame.isEnabled(), can.get(42)));
+//        itemMenuExamesMarcados.setEnabled(PermissaoG.canUse(itemMenuExamesMarcados.isEnabled(), false)); 
+        itemMenuFormaPagamento.setEnabled(PermissaoG.canUse(itemMenuFormaPagamento.isEnabled(), can.get(47)));
+        itemMenuFuncionario.setEnabled(PermissaoG.canUse(itemMenuFuncionario.isEnabled(), can.get(17)));
+        itemMenuPaciente.setEnabled(PermissaoG.canUse(itemMenuPaciente.isEnabled(), can.get(22)));
+        itemMenuPlano.setEnabled(PermissaoG.canUse(itemMenuPlano.isEnabled(), can.get(32)));
+        itemMenuProntuario.setEnabled(PermissaoG.canUse(itemMenuProntuario.isEnabled(), can.get(67)));
+        itemMenuRemedio.setEnabled(PermissaoG.canUse(itemMenuRemedio.isEnabled(), can.get(37)));
+//        itemMenuUsuario.setEnabled(PermissaoG.canUse(itemMenuUsuario.isEnabled(), can.get(13)));
+    }
+    
+    private void montaTree(){
+        for (Listapermissao use : permissao) {
+            this.can.put(use.getIdlistaacao().getIdlistaacao(), use.getPermissao());
+        }
+    }
+    
+    private void atualizaPermissao() {
+        
+        permissao();
     }
 }
