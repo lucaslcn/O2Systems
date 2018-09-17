@@ -48,8 +48,8 @@ public class ProntuarioDAO extends DAO implements IDAO_T<Prontuario> {
                 Prontuario k = (Prontuario) o;
 //              Definir os dados das colunas
                 dadosTabela[i][0] = k.getIdprontuario();
-                dadosTabela[i][1] = "---";//k.getConsultasList().get(0).getIdconsultas();
-                dadosTabela[i][2] = "---";//k.getConsultasList().get(0).getIdpaciente().getIdpessoa().getNomePessoa();
+                dadosTabela[i][1] = "Aqui vai ta o código";//k.getConsultasList().get(0).getIdconsultas();
+                dadosTabela[i][2] = "Aqui vai o nome do paciente";//k.getConsultasList().get(0).getIdpaciente().getIdpessoa().getNomePessoa();
 
                 i++;
             }

@@ -5,7 +5,9 @@
  */
 package telas;
 
+import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import dao.AuditoriaDAO;
+import dao.ConsultasDAO;
 import dao.ExameDAO;
 import persistencia.BasicScreen;
 import dao.PlanoDAO;
@@ -17,12 +19,14 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.TreeMap;
 import javax.swing.JOptionPane;
+import negocio.Consultas;
 import negocio.Exames;
 import negocio.Listapermissao;
 import negocio.Prontuario;
 import negocio.Receita;
 import negocio.Requisicao;
 import negocio.Usuario;
+import oracle.jrockit.jfr.tools.ConCatRepository;
 import org.hibernate.HibernateException;
 import registros.Atividade;
 import registros.LogAuditoria;
@@ -35,6 +39,7 @@ import registros.PermissaoG;
 public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicScreen {
 
     Prontuario prontuario;
+    Consultas consulta;
     TreeMap<Integer, Boolean> can;
 //    Receita receita;
 //    Requisicao requisicao;
@@ -47,14 +52,11 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
      */
     public ProntuarioJIF(Usuario usuario, TreeMap<Integer, Boolean> can) {
         initComponents();
-        
-        jTA_CamporTextoAtendimento.setEnabled(false);
-        jTA_CamporTextoTriagem.setEnabled(false);
-        
-        limpar();
-        situacaoNovo();
         this.usuario = usuario;
         this.can = can;
+        limpar();
+        situacaoNovo();
+        
     }
 
     /**
@@ -80,15 +82,11 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
         jPanelTriagem = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTA_CamporTextoTriagem = new javax.swing.JTextArea();
-        btn_EditarTriagem = new javax.swing.JButton();
-        btn_FinalizarTriagem = new javax.swing.JButton();
         jPanelAtendimento = new javax.swing.JPanel();
         btn_Receita = new javax.swing.JButton();
         btn_Exame = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTA_CamporTextoAtendimento = new javax.swing.JTextArea();
-        btn_FinalizarAtendimento = new javax.swing.JButton();
-        btn_EditarAtendimento = new javax.swing.JButton();
 
         jLabel2.setText("jLabel2");
 
@@ -192,35 +190,13 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
         jTA_CamporTextoTriagem.setRows(5);
         jScrollPane1.setViewportView(jTA_CamporTextoTriagem);
 
-        btn_EditarTriagem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pencil.png"))); // NOI18N
-        btn_EditarTriagem.setText("Editar");
-        btn_EditarTriagem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_EditarTriagemActionPerformed(evt);
-            }
-        });
-
-        btn_FinalizarTriagem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/tick.png"))); // NOI18N
-        btn_FinalizarTriagem.setText("Finalizar");
-        btn_FinalizarTriagem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_FinalizarTriagemActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanelTriagemLayout = new javax.swing.GroupLayout(jPanelTriagem);
         jPanelTriagem.setLayout(jPanelTriagemLayout);
         jPanelTriagemLayout.setHorizontalGroup(
             jPanelTriagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelTriagemLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelTriagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelTriagemLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btn_EditarTriagem, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_FinalizarTriagem, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanelTriagemLayout.setVerticalGroup(
@@ -228,11 +204,7 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
             .addGroup(jPanelTriagemLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelTriagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_FinalizarTriagem, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_EditarTriagem, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25))
+                .addGap(61, 61, 61))
         );
 
         jPanelAtendimento.setBorder(javax.swing.BorderFactory.createTitledBorder("Atendimento"));
@@ -250,22 +222,6 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
         jTA_CamporTextoAtendimento.setPreferredSize(new java.awt.Dimension(164, 100));
         jScrollPane2.setViewportView(jTA_CamporTextoAtendimento);
 
-        btn_FinalizarAtendimento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/tick.png"))); // NOI18N
-        btn_FinalizarAtendimento.setText("Finalizar");
-        btn_FinalizarAtendimento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_FinalizarAtendimentoActionPerformed(evt);
-            }
-        });
-
-        btn_EditarAtendimento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pencil.png"))); // NOI18N
-        btn_EditarAtendimento.setText("Editar");
-        btn_EditarAtendimento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_EditarAtendimentoActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanelAtendimentoLayout = new javax.swing.GroupLayout(jPanelAtendimento);
         jPanelAtendimento.setLayout(jPanelAtendimentoLayout);
         jPanelAtendimentoLayout.setHorizontalGroup(
@@ -278,10 +234,7 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
                         .addComponent(btn_Receita, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btn_Exame, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
-                        .addComponent(btn_EditarAtendimento, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_FinalizarAtendimento, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanelAtendimentoLayout.setVerticalGroup(
@@ -292,9 +245,7 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelAtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_Receita, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_Exame, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_EditarAtendimento, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_FinalizarAtendimento, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btn_Exame, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -326,10 +277,10 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelTriagem, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanelTriagem, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jPanelAtendimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -355,6 +306,7 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
 
         if (k != null) {
             this.prontuario = k;
+            this.consulta = new ConsultasDAO().consultarId(prontuario.getIdprontuario());
             preencher();
             situacaoVisualizacao();
         }
@@ -388,11 +340,11 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
 //                }
 
                 if (s == null) {
-                    Mensagens.retornoAcao(Mensagens.salvo("Exame"));
+                    Mensagens.retornoAcao(Mensagens.salvo("Prontuario"));
                     limpar();
                     situacaoNovo();
                 } else {
-                    Mensagens.retornoAcao(Mensagens.erroSalvar("Exame"));
+                    Mensagens.retornoAcao(Mensagens.erroSalvar("Prontuario"));
                     jTF_CodigoConsulta.requestFocus();
                 }
             } else {
@@ -416,41 +368,13 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
         // TODO add your handling code here:
     }//GEN-LAST:event_jTF_NomePacienteActionPerformed
 
-    private void btn_FinalizarTriagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_FinalizarTriagemActionPerformed
-        jTA_CamporTextoTriagem.setEnabled(false);
-        btn_EditarTriagem.setEnabled(true);
-        btn_FinalizarTriagem.setEnabled(false);
-    }//GEN-LAST:event_btn_FinalizarTriagemActionPerformed
-
-    private void btn_FinalizarAtendimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_FinalizarAtendimentoActionPerformed
-        jTA_CamporTextoAtendimento.setEnabled(false);
-        btn_EditarAtendimento.setEnabled(true);
-        btn_FinalizarAtendimento.setEnabled(false);
-    }//GEN-LAST:event_btn_FinalizarAtendimentoActionPerformed
-
-    private void btn_EditarTriagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EditarTriagemActionPerformed
-        jTA_CamporTextoTriagem.setEnabled(true);
-        btn_EditarTriagem.setEnabled(false);
-        btn_FinalizarTriagem.setEnabled(true);
-    }//GEN-LAST:event_btn_EditarTriagemActionPerformed
-
-    private void btn_EditarAtendimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EditarAtendimentoActionPerformed
-        jTA_CamporTextoAtendimento.setEnabled(true);
-        btn_EditarAtendimento.setEnabled(false);
-        btn_FinalizarAtendimento.setEnabled(true);
-    }//GEN-LAST:event_btn_EditarAtendimentoActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnCancelar;
     private javax.swing.JToggleButton btnEditar;
     private javax.swing.JToggleButton btnPesquisar;
     private javax.swing.JToggleButton btnSalvar;
-    private javax.swing.JButton btn_EditarAtendimento;
-    private javax.swing.JButton btn_EditarTriagem;
     private javax.swing.JButton btn_Exame;
-    private javax.swing.JButton btn_FinalizarAtendimento;
-    private javax.swing.JButton btn_FinalizarTriagem;
     private javax.swing.JButton btn_Receita;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -471,8 +395,8 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
     public void preencher() {
         jTA_CamporTextoAtendimento.setText(this.prontuario.getAtendimento());
         jTA_CamporTextoTriagem.setText(this.prontuario.getTriagem());
-//        jTF_NomePaciente.setText(this.prontuario.getConsultasList().get(0).getIdpaciente().getIdpessoa().getNomePessoa());
-//        jTF_CodigoConsulta.setText(this.prontuario.getConsultasList().get(0).getIdconsultas()+"");
+        jTF_NomePaciente.setText(this.consulta.getIdpaciente().getIdpessoa().getNomePessoa());
+        jTF_CodigoConsulta.setText(this.consulta.getIdconsultas()+"");
         
 //        this.receita = this.prontuario.getIdreceita();
 //        this.requisicao = this.prontuario.getIdrequisicao();
@@ -484,7 +408,9 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
         jTA_CamporTextoTriagem.setText("");
         jTF_NomePaciente.setText("");
         jTF_CodigoConsulta.setText("");
-
+        
+        this.prontuario = new Prontuario();
+        this.consulta = new Consultas();
         btnPesquisar.requestFocus();
     }
 
@@ -501,12 +427,8 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
         jTA_CamporTextoAtendimento.setEnabled(false);
         jTA_CamporTextoTriagem.setEnabled(false);
 
-        btn_EditarAtendimento.setEnabled(true);
-        btn_EditarTriagem.setEnabled(true);
-        btn_FinalizarAtendimento.setEnabled(true);
-        btn_FinalizarTriagem.setEnabled(true);
-        btn_Exame.setEnabled(true);
-        btn_Receita.setEnabled(true);
+        btn_Exame.setEnabled(false);
+        btn_Receita.setEnabled(false);
         
         btnCancelar.setEnabled(true);
 //        btnDeletar.setEnabled(false);
@@ -519,13 +441,9 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
 
     @Override
     public void situacaoEditar() {
-        jTA_CamporTextoAtendimento.setEnabled(false);
-        jTA_CamporTextoTriagem.setEnabled(false);
+        jTA_CamporTextoAtendimento.setEnabled(true);
+        jTA_CamporTextoTriagem.setEnabled(true);
 
-        btn_EditarAtendimento.setEnabled(true);
-        btn_EditarTriagem.setEnabled(true);
-        btn_FinalizarAtendimento.setEnabled(false);
-        btn_FinalizarTriagem.setEnabled(false);
         btn_Exame.setEnabled(true);
         btn_Receita.setEnabled(true);
         
@@ -542,12 +460,8 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
         jTA_CamporTextoAtendimento.setEnabled(false);
         jTA_CamporTextoTriagem.setEnabled(false);
         
-        btn_EditarAtendimento.setEnabled(false);
-        btn_EditarTriagem.setEnabled(false);
-        btn_FinalizarAtendimento.setEnabled(false);
-        btn_FinalizarTriagem.setEnabled(false);
-        btn_Exame.setEnabled(false);
-        btn_Receita.setEnabled(false);
+        btn_Exame.setEnabled(true);
+        btn_Receita.setEnabled(true);
         
         btnCancelar.setEnabled(true);
 //        btnDeletar.setEnabled(true);
@@ -559,8 +473,13 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
 
     @Override
     public void permissao() {
-//        jTA_CamporTextoTriagem.setEnabled(Permissao.canUse(Permissao.PRONTUARIO_TRIAGEM, usuario.getIdpermissao().getValorpermissao(), jTA_CamporTextoTriagem.isEnabled()));
-//        jTA_CamporTextoAtendimento.setEnabled(Permissao.canUse(Permissao.PRONTUARIO_ATENDIMENTO, usuario.getIdpermissao().getValorpermissao(), jTA_CamporTextoAtendimento.isEnabled()));
+        jTA_CamporTextoTriagem.setEnabled(PermissaoG.canUse(jTA_CamporTextoTriagem.isEnabled(), can.get(71)));
+        jTA_CamporTextoAtendimento.setEnabled(PermissaoG.canUse(jTA_CamporTextoAtendimento.isEnabled(), can.get(72)));
+        btn_Exame.setEnabled(PermissaoG.canUse(btn_Exame.isEnabled(), can.get(94)));
+        btn_Receita.setEnabled(PermissaoG.canUse(btn_Receita.isEnabled(), can.get(95)));
+        btnEditar.setEnabled(PermissaoG.canUse(btnEditar.isEnabled(), can.get(70)));
+        btnPesquisar.setEnabled(PermissaoG.canUse(btnPesquisar.isEnabled(), can.get(68)));
+        btnSalvar.setEnabled(PermissaoG.canUse(btnSalvar.isEnabled(), can.get(69)));
     }
 
     @Override

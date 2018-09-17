@@ -35,7 +35,7 @@ public class CriacaoPermissaoJIF extends javax.swing.JInternalFrame {
         this.can = can;
         limpar();
         atualizaTabelas();
-        
+                
         jL_msgAcao.setVisible(false);
         jL_msgPermissao.setVisible(false);
         jL_msgTela.setVisible(false);

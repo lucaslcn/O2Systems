@@ -5,14 +5,17 @@
  */
 package telas;
 
+import dao.ListaacaoDAO;
 import dao.ListapermissaoDAO;
 import dao.UsuarioDAO;
 import gema.Gema;
 import gema.Mensagens;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import negocio.Listaacao;
 import negocio.Listapermissao;
 import negocio.Usuario;
 import persistencia.BasicScreen;
@@ -224,6 +227,11 @@ public class GestorUsuarioJIF extends javax.swing.JInternalFrame implements Basi
 
         btnNegarTela.setText("Negar Tela");
         btnNegarTela.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnNegarTela.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNegarTelaActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cancel.png"))); // NOI18N
         btnCancelar.setText("Fechar");
@@ -491,10 +499,16 @@ public class GestorUsuarioJIF extends javax.swing.JInternalFrame implements Basi
         jL_msg.setVisible(true);
         int linha = jTable_permissoes.getSelectedRow();
         if (linha >= 0) {
-
+            ArrayList<Listapermissao> pList = new ArrayList();
             int idTela = Integer.parseInt(jTable_permissoes.getValueAt(linha, 1).toString());
-            pList = new ListapermissaoDAO().selectWithJoin("Listapermissao", "idtela = " + idTela + " AND idusuario = " + usuarioHere.getIdusuario());
-
+            List<Listaacao> aList = new ListaacaoDAO().selectWithJoin("Listaacao", "idtela = " + idTela);
+            for (Listaacao listaacao : aList) {
+                Listapermissao e = (Listapermissao) new ListapermissaoDAO().selectWithJoin("Listapermissao", "idlistaacao = " + listaacao.getIdlistaacao() + " AND idusuario = " + usuarioHere.getIdusuario()).get(0);
+                if( e != null ){
+                    pList.add( e );
+                }
+            }
+            
             int totalPermissoes = pList.size(), falhas = 0, sucessos = 0;
 
             for (int i = 0; i < pList.size(); i++) {
@@ -523,6 +537,49 @@ public class GestorUsuarioJIF extends javax.swing.JInternalFrame implements Basi
         }
         jL_msg.setVisible(false);
     }//GEN-LAST:event_btnPermitirTelaActionPerformed
+
+    private void btnNegarTelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNegarTelaActionPerformed
+        jL_msg.setVisible(true);
+        int linha = jTable_permissoes.getSelectedRow();
+        if (linha >= 0) {
+            ArrayList<Listapermissao> pList = new ArrayList();
+            int idTela = Integer.parseInt(jTable_permissoes.getValueAt(linha, 1).toString());
+            List<Listaacao> aList = new ListaacaoDAO().selectWithJoin("Listaacao", "idtela = " + idTela);
+            for (Listaacao listaacao : aList) {
+                Listapermissao e = (Listapermissao) new ListapermissaoDAO().selectWithJoin("Listapermissao", "idlistaacao = " + listaacao.getIdlistaacao() + " AND idusuario = " + usuarioHere.getIdusuario()).get(0);
+                if( e != null ){
+                    pList.add( e );
+                }
+            }
+            
+            int totalPermissoes = pList.size(), falhas = 0, sucessos = 0;
+
+            for (int i = 0; i < pList.size(); i++) {
+
+                p = pList.get(i);
+                String[] oldInfo = auditoria();
+                p.setPermissao(false);
+                String[] newInfo = auditoria();
+                Atividade logAuditoria = autoAuditoria(oldInfo, newInfo);
+
+                String r = new ListapermissaoDAO().update(p, logAuditoria);
+                if (r == null) {
+                } else {
+                    falhas++;
+                }
+            }
+            sucessos = totalPermissoes - falhas;
+            String f = "Foi finalizado a ação para permissão das atividade da tela\n"
+                    + "Total de permissões encontradas: " + totalPermissoes + "\n"
+                    + "Total de ações de sucesso......: " + sucessos + "\n"
+                    + "Total de ações com falha.......: " + falhas + "\n";
+            Mensagens.retornoAcao(Mensagens.salvo("Permitir acesso") + "\n" + jL_msg.getText() + "\n" + f);
+            atualizaTabela();
+        } else {
+            Mensagens.retornoAcao(Mensagens.selecioneAlgumItem());
+        }
+        jL_msg.setVisible(false);
+    }//GEN-LAST:event_btnNegarTelaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
