@@ -473,7 +473,7 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
             
             for (int i = 1; i < comboHora.getItemCount(); i++) {
                 for (Consultas j : k) {
-                    String s = j.getHoraConsulta().getHours() + ":" + j.getHoraConsulta().getMinutes();
+                    String s = j.getHoraConsulta().toString().split(":")[0]+":"+j.getHoraConsulta().toString().split(":")[1];
                     if (comboHora.getItemAt(i).equals(s)) {
                         e.add(comboHora.getItemAt(i));
                     }
