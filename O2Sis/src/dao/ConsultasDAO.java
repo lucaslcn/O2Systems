@@ -1,5 +1,6 @@
 package dao;
 
+import gema.Formatacao;
 import javax.swing.JTable;
 import negocio.Pessoa;
 import persistencia.DAO;
@@ -52,8 +53,8 @@ public class ConsultasDAO extends DAO implements IDAO_T<Consultas> {
 //              Definir os dados das colunas
                 dadosTabela[i][0] = k.getIdconsultas();
                 dadosTabela[i][1] = k.getIdpaciente().getIdpessoa().getNomePessoa();
-                dadosTabela[i][2] = k.getDataConsulta().toString();
-                dadosTabela[i][3] = k.getHoraConsulta().getHours()+":"+k.getHoraConsulta().getMinutes();
+                dadosTabela[i][2] = Formatacao.ajustaDataDMA(k.getDataConsulta().toString());
+                dadosTabela[i][3] = k.getHoraConsulta().toString().split(":")[0]+":"+k.getHoraConsulta().toString().split(":")[1];// .getHours()+":"+k.getHoraConsulta().getMinutes();
                 dadosTabela[i][4] = k.getIdfuncionario().getIdpessoa().getNomePessoa();
                 
 

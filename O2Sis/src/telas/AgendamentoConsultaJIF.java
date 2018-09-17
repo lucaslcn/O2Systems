@@ -7,25 +7,28 @@ package telas;
 
 import dao.AgendamentoExamesDAO;
 import dao.ConsultasDAO;
-import dao.ExameDAO;
 import dao.FormaPagamentoDAO;
 import dao.FuncionarioDAO;
 import dao.PacienteDAO;
 import dao.PlanoDAO;
 import dao.ProntuarioDAO;
+import gema.Formatacao;
 import gema.Gema;
 import gema.Mensagens;
 import gema.ValidaCampo;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import negocio.Consultas;
-import negocio.Exames;
-import negocio.FormaPagamento;
 import negocio.Funcionario;
 import negocio.Paciente;
 import negocio.Plano;
-import negocio.Prontuario;
 import negocio.Usuario;
 import org.hibernate.HibernateException;
 import persistencia.BasicScreen;
@@ -36,7 +39,7 @@ import registros.Atividade;
  * @author Lucas
  */
 public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implements BasicScreen {
-
+    
     Paciente paciente;
     Funcionario funcionario;
     Consultas consultas;
@@ -73,12 +76,13 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
         jLabel4 = new javax.swing.JLabel();
         tfdProfissional = new javax.swing.JTextField();
         btnPesquisar1 = new javax.swing.JToggleButton();
-        tfHora = new javax.swing.JFormattedTextField();
         jLabel11 = new javax.swing.JLabel();
         tfdPlano = new javax.swing.JTextField();
         btnPesquisar2 = new javax.swing.JToggleButton();
         tfdPaciente = new javax.swing.JTextField();
         tfData = new javax.swing.JFormattedTextField();
+        comboHora = new javax.swing.JComboBox<>();
+        btnHora = new javax.swing.JButton();
         btnCancelar = new javax.swing.JToggleButton();
         btnPesquisar3 = new javax.swing.JToggleButton();
         btnDeletar = new javax.swing.JToggleButton();
@@ -113,6 +117,11 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
 
         tfdProfissional.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tfdProfissional.setText("Urologista do Caye");
+        tfdProfissional.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfdProfissionalActionPerformed(evt);
+            }
+        });
 
         btnPesquisar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/magnifier.png"))); // NOI18N
         btnPesquisar1.setText("Pesquisar");
@@ -122,12 +131,6 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
                 btnPesquisar1ActionPerformed(evt);
             }
         });
-
-        try {
-            tfHora.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:##")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
 
         jLabel11.setText("Plano Saúde (*)");
 
@@ -155,6 +158,21 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
             ex.printStackTrace();
         }
 
+        comboHora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione o horário", "7:00", "7:30", "8:00", "8:30", "9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", " " }));
+        comboHora.setEnabled(false);
+        comboHora.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboHoraActionPerformed(evt);
+            }
+        });
+
+        btnHora.setText("Buscar horários");
+        btnHora.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHoraActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -162,33 +180,32 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel11))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel9))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(tfData, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel10)
-                                .addGap(18, 18, 18)
-                                .addComponent(tfHora, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(tfdPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(tfdProfissional, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnPesquisar1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnPesquisar2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addGap(10, 10, 10)
-                        .addComponent(tfdPlano, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(113, 113, 113)))
-                .addGap(51, 51, 51))
+                                .addComponent(tfdProfissional, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(tfdPlano, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnPesquisar1, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+                            .addComponent(btnPesquisar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnPesquisar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(tfData, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnHora, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel10)
+                        .addGap(18, 18, 18)
+                        .addComponent(comboHora, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(142, 142, 142))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -210,11 +227,13 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
                     .addComponent(jLabel9)
                     .addComponent(tfData, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
-                    .addComponent(tfHora, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboHora, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnHora, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(tfdPlano, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel11)
+                        .addComponent(tfdPlano, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnPesquisar2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
@@ -308,7 +327,7 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         Paciente k = (Paciente) Gema.pesquisar(new PacienteDAO());
-
+        
         if (k != null) {
             this.paciente = k;
             preencherPaciente();
@@ -317,12 +336,12 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
 
     private void btnPesquisar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisar1ActionPerformed
         Funcionario k = (Funcionario) Gema.pesquisar(new FuncionarioDAO());
-
+        
         if (k != null) {
             this.funcionario = k;
             preencherProfissional();
         }
-
+        
 
     }//GEN-LAST:event_btnPesquisar1ActionPerformed
 
@@ -332,7 +351,7 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
 
     private void btnPesquisar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisar2ActionPerformed
         Plano k = (Plano) Gema.pesquisar(new PlanoDAO());
-
+        
         if (k != null) {
             this.plano = k;
             preencherPlano();
@@ -342,7 +361,7 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         int resposta = Mensagens.questionarAcao();
         if (resposta == JOptionPane.NO_OPTION) {
-
+            
         } else if (resposta == JOptionPane.YES_OPTION) {
             dispose();
         }
@@ -350,7 +369,7 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
 
     private void btnPesquisar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisar3ActionPerformed
         Consultas k = (Consultas) Gema.pesquisar(new ConsultasDAO());
-
+        
         if (k != null) {
             this.consultas = k;
             preencher();
@@ -390,34 +409,34 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
-
+            
             int paciente = this.paciente.getIdpaciente();
             int funcionario = this.funcionario.getIdfuncionario();
             String data = tfData.getText();
-            String hora = tfHora.getText();
+            String hora = comboHora.getSelectedItem().toString();
             int plano = this.plano.getIdplano();
-
+            
             String[] campos = {"paciente", "profissional", "data", "hora", "plano"};
             String[] valor = {paciente + "", funcionario + "", data, hora, plano + ""};
             Integer[] qtd = {1, 1, 1, 1, 1};
-
+            
             String r = ValidaCampo.campoVazio(campos, qtd, valor);
-
+            
             if (r == null) {
                 String[] infoOld = auditoria();
-
+                
                 popular();
-
+                
                 String[] infoNew = auditoria();
                 Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
-
+                
                 String s;
                 if (consultas.getIdconsultas() != null) {
                     s = new AgendamentoExamesDAO().update(this.consultas, logAuditoria);
                 } else {
                     s = new AgendamentoExamesDAO().insert(this.consultas, logAuditoria);
                 }
-
+                
                 if (s == null) {
                     Mensagens.retornoAcao(Mensagens.salvo("Consulta"));
                     limpar();
@@ -434,6 +453,48 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
+    private void comboHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboHoraActionPerformed
+
+    }//GEN-LAST:event_comboHoraActionPerformed
+
+    private void btnHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoraActionPerformed
+        
+        if (!tfData.getText().isEmpty() && funcionario != null) {
+            
+            String[] data = tfData.getText().split("/");
+            
+            int year = Integer.parseInt(data[2]);
+            int month = Integer.parseInt(data[1]);
+            int day = Integer.parseInt(data[0]);
+            
+            List<Consultas> k = new ConsultasDAO().selectWithJoin("Consultas", "data_consulta = '" + year + "/" + month + "/" + day + "' and idfuncionario = " + funcionario.getIdfuncionario() + " order by hora_consulta asc");
+            
+            ArrayList<String> e = new ArrayList();
+            
+            for (int i = 1; i < comboHora.getItemCount(); i++) {
+                for (Consultas j : k) {
+                    String s = j.getHoraConsulta().getHours() + ":" + j.getHoraConsulta().getMinutes();
+                    if (comboHora.getItemAt(i).equals(s)) {
+                        e.add(comboHora.getItemAt(i));
+                    }
+                }
+            }
+            
+            for (String r : e) {
+                comboHora.removeItem(r);
+            }
+            
+            comboHora.setEnabled(true);
+        } else {
+            Mensagens.retornoAcao(Mensagens.preenchaOsCampos());
+        }
+
+    }//GEN-LAST:event_btnHoraActionPerformed
+
+    private void tfdProfissionalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdProfissionalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfdProfissionalActionPerformed
+    
     @Override
     public void preencher() {
         paciente = consultas.getIdpaciente();
@@ -443,11 +504,11 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
         plano = consultas.getIdplano();
         tfdPlano.setText(plano.getNomePlano());
         
-        tfHora.setText(consultas.getHoraConsulta().getHours()+":"+consultas.getHoraConsulta().getMinutes());
-        tfData.setText(consultas.getDataConsulta().getDay()+"/"+consultas.getDataConsulta().getMonth()+"/"+consultas.getDataConsulta().getYear());
-        System.out.println(consultas.getDataConsulta().getDay()+"/"+consultas.getDataConsulta().getMonth()+"/"+consultas.getDataConsulta().getYear());
+        comboHora.setSelectedItem(consultas.getHoraConsulta().toString().split(":")[0]+":"+consultas.getHoraConsulta().toString().split(":")[1]);
+        tfData.setText(Formatacao.ajustaDataDMA(consultas.getDataConsulta().toString()));
+        System.out.println(consultas.getDataConsulta().getDay() + "/" + consultas.getDataConsulta().getMonth() + "/" + consultas.getDataConsulta().getYear());
     }
-
+    
     public void preencherPaciente() {
         tfdPaciente.setText(this.paciente.getIdpessoa().getNomePessoa());
     }
@@ -455,11 +516,11 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
     public void preencherProfissional() {
         tfdProfissional.setText(this.funcionario.getIdpessoa().getNomePessoa());
     }
-
+    
     public void preencherPlano() {
         tfdPlano.setText(this.plano.getNomePlano());
     }
-
+    
     @Override
     public void limpar() {
         this.consultas = new Consultas();
@@ -475,9 +536,10 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
         tfdProfissional.setText("");
         tfdPlano.setText("");
         tfData.setText("");
-        tfHora.setText("");
+        comboHora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione o horário", "07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", " " }));
+        comboHora.setEnabled(false);
     }
-
+    
     @Override
     public void popular() {
         this.consultas.setIdpaciente(paciente);
@@ -487,26 +549,35 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
         this.consultas.setIdprontuario(new ProntuarioDAO().consultarId(1));
         
         String[] data = tfData.getText().split("/");
-        String[] hora = tfHora.getText().split(":");
+        String hora = comboHora.getSelectedItem()+"";
         
         int year = Integer.parseInt(data[2]);
         int month = Integer.parseInt(data[1]);
         int day = Integer.parseInt(data[0]);
-        int hour = Integer.parseInt(hora[0]);
-        int min = Integer.parseInt(hora[1]);
+        int hour = Integer.parseInt(hora.split(":")[0]);
+        int min = Integer.parseInt(hora.split(":")[1]);
         
-        this.consultas.setDataConsulta(new Date(year, month, day, hour, min));
+        Date dataConsulta = null;
+        
+        SimpleDateFormat formato = new SimpleDateFormat ("dd/MM/yyyy");
+        try {
+            dataConsulta = formato.parse(tfData.getText());
+        } catch (ParseException ex) {
+            Logger.getLogger(AgendamentoExamesJIF.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        this.consultas.setDataConsulta(dataConsulta);
         this.consultas.setHoraConsulta(new Date(year, month, day, hour, min));
     }
-
+    
     @Override
     public void situacaoNovo() {
         tfdPaciente.setEnabled(false);
         tfdProfissional.setEnabled(false);
         tfData.setEnabled(true);
-        tfHora.setEnabled(true);
+        comboHora.setEnabled(true);
         tfdPlano.setEnabled(true);
-
+        
         btnCancelar.setEnabled(true);
         btnDeletar.setEnabled(false);
         btnEditar.setEnabled(false);
@@ -514,15 +585,15 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
         btnSalvar.setEnabled(true);
         permissao();
     }
-
+    
     @Override
     public void situacaoEditar() {
         tfdPaciente.setEnabled(false);
         tfdProfissional.setEnabled(false);
         tfData.setEnabled(true);
-        tfHora.setEnabled(true);
+        comboHora.setEnabled(true);
         tfdPlano.setEnabled(false);
-
+        
         btnCancelar.setEnabled(true);
         btnDeletar.setEnabled(false);
         btnEditar.setEnabled(false);
@@ -530,15 +601,15 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
         btnSalvar.setEnabled(true);
         permissao();
     }
-
+    
     @Override
     public void situacaoVisualizacao() {
         tfdPaciente.setEnabled(false);
         tfdProfissional.setEnabled(false);
         tfData.setEnabled(false);
-        tfHora.setEnabled(false);
+        comboHora.setEnabled(false);
         tfdPlano.setEnabled(false);
-
+        
         btnCancelar.setEnabled(true);
         btnDeletar.setEnabled(false);
         btnEditar.setEnabled(true);
@@ -546,11 +617,11 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
         btnSalvar.setEnabled(false);
         permissao();
     }
-
+    
     @Override
     public void permissao() {
     }
-
+    
     @Override
     public String[] auditoria() {
         String[] r
@@ -562,11 +633,11 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
                     consultas.getIdfuncionario() + "",
                     consultas.getIdprontuario() + "",
                     consultas.getIdplano() + ""
-
+                
                 };
         return r;
     }
-
+    
     @Override
     public Atividade autoAuditoria(String[] iOld, String[] iNew) {
         Atividade logAuditoria = new Atividade();
@@ -582,11 +653,13 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
     private javax.swing.JToggleButton btnCancelar;
     private javax.swing.JToggleButton btnDeletar;
     private javax.swing.JToggleButton btnEditar;
+    private javax.swing.JButton btnHora;
     private javax.swing.JToggleButton btnPesquisar;
     private javax.swing.JToggleButton btnPesquisar1;
     private javax.swing.JToggleButton btnPesquisar2;
     private javax.swing.JToggleButton btnPesquisar3;
     private javax.swing.JToggleButton btnSalvar;
+    private javax.swing.JComboBox<String> comboHora;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
@@ -595,7 +668,6 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JFormattedTextField tfData;
-    private javax.swing.JFormattedTextField tfHora;
     private javax.swing.JTextField tfdPaciente;
     private javax.swing.JTextField tfdPlano;
     private javax.swing.JTextField tfdProfissional;
