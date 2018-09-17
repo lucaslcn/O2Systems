@@ -372,7 +372,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
 
                 this.ae.setStatus(false);
                 String r;
-                r = new ExameDAO().update(this.exame, logAuditoria);
+                r = new AgendamentoExamesDAO().update(this.ae, logAuditoria);
                 situacaoNovo();
                 if (r == null) {
                     Mensagens.retornoAcao(Mensagens.arquivado("Agendamento Exame")); //Acrecentar o resultado da auditoria a msg.
@@ -447,11 +447,8 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
         plano = ae.getIdplano();
         tfdPlano.setText(ae.getIdplano().getNomePlano());
         
-        
         tfHora.setText(ae.getHoraExame().getHours()+":"+ae.getHoraExame().getMinutes());
-        tfData.setText(ae.getDataExame().getDay()+"/"+ae.getDataExame().getMonth()+"/"+ae.getDataExame().getYear());
-        System.out.println(ae.getDataExame().getDay()+"/"+ae.getDataExame().getMonth()+"/"+ae.getDataExame().getYear());
-        System.out.println(ae.getDataExame().toString());
+        tfData.setText(Formatacao.ajustaDataDMA(ae.getDataExame().toString()));
         
     }
 
