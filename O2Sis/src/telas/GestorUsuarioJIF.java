@@ -9,6 +9,7 @@ import dao.ListapermissaoDAO;
 import dao.UsuarioDAO;
 import gema.Gema;
 import gema.Mensagens;
+import java.util.List;
 import java.util.TreeMap;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -21,15 +22,17 @@ import registros.Atividade;
  *
  * @author XorNOTE
  */
-public class GestorUsuarioJIF extends javax.swing.JInternalFrame implements BasicScreen{
-    
+public class GestorUsuarioJIF extends javax.swing.JInternalFrame implements BasicScreen {
+
     Usuario usuario;
     Usuario usuarioHere;
     TreeMap<Integer, Boolean> can;
     Listapermissao p;
-    
+    List<Listapermissao> pList;
+
     /**
      * Creates new form GestorUsuario
+     *
      * @param usuario
      */
     public GestorUsuarioJIF(Usuario usuario, TreeMap<Integer, Boolean> can) {
@@ -212,11 +215,14 @@ public class GestorUsuarioJIF extends javax.swing.JInternalFrame implements Basi
         btnNegatTudo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
         btnPermitirTela.setText("Permitir Tela");
-        btnPermitirTela.setEnabled(false);
         btnPermitirTela.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnPermitirTela.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPermitirTelaActionPerformed(evt);
+            }
+        });
 
         btnNegarTela.setText("Negar Tela");
-        btnNegarTela.setEnabled(false);
         btnNegarTela.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cancel.png"))); // NOI18N
@@ -373,31 +379,31 @@ public class GestorUsuarioJIF extends javax.swing.JInternalFrame implements Basi
     private void btnPermitirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPermitirActionPerformed
         jL_msg.setVisible(true);
         int linha = jTable_permissoes.getSelectedRow();
-        if (linha >= 0){
-            
+        if (linha >= 0) {
+
             int id = Integer.parseInt(jTable_permissoes.getValueAt(linha, 0).toString());
             p = new ListapermissaoDAO().consultarId(id);
-            
+
             String[] oldInfo = auditoria();
-            
+
             p.setPermissao(true);
-            
+
             String[] newInfo = auditoria();
-            
+
             Atividade logAuditoria = autoAuditoria(oldInfo, newInfo);
-            
-            if(p != null){
+
+            if (p != null) {
                 jL_msg.setVisible(true);
                 String r = new ListapermissaoDAO().update(p, logAuditoria);
-                if(r == null){
-                    Mensagens.retornoAcao( Mensagens.salvo("Permitir acesso") + "\n" + jL_msg.getText());
+                if (r == null) {
+                    Mensagens.retornoAcao(Mensagens.salvo("Permitir acesso") + "\n" + jL_msg.getText());
                     atualizaTabela();
                 } else {
-                    Mensagens.retornoAcao( Mensagens.erroSalvar("Permitir acesso") + Mensagens.mensagemTecnica(r) );
+                    Mensagens.retornoAcao(Mensagens.erroSalvar("Permitir acesso") + Mensagens.mensagemTecnica(r));
                 }
             }
         } else {
-            Mensagens.retornoAcao( Mensagens.selecioneAlgumItem() );
+            Mensagens.retornoAcao(Mensagens.selecioneAlgumItem());
         }
         jL_msg.setVisible(false);
     }//GEN-LAST:event_btnPermitirActionPerformed
@@ -453,33 +459,70 @@ public class GestorUsuarioJIF extends javax.swing.JInternalFrame implements Basi
     private void btnNegarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNegarActionPerformed
         jL_msg.setVisible(true);
         int linha = jTable_permissoes.getSelectedRow();
-        if (linha >= 0){
-            
+        if (linha >= 0) {
+
             int id = Integer.parseInt(jTable_permissoes.getValueAt(linha, 0).toString());
             p = new ListapermissaoDAO().consultarId(id);
-            
+
             String[] oldInfo = auditoria();
-            
+
             p.setPermissao(false);
-            
+
             String[] newInfo = auditoria();
-            
+
             Atividade logAuditoria = autoAuditoria(oldInfo, newInfo);
-            
-            if(p != null){
+
+            if (p != null) {
                 String r = new ListapermissaoDAO().update(p, logAuditoria);
-                if(r == null){
-                    Mensagens.retornoAcao( Mensagens.salvo("Negar acesso") + "\n" + jL_msg.getText());
+                if (r == null) {
+                    Mensagens.retornoAcao(Mensagens.salvo("Negar acesso") + "\n" + jL_msg.getText());
                     atualizaTabela();
                 } else {
-                    Mensagens.retornoAcao( Mensagens.erroSalvar("Permitir acesso") + Mensagens.mensagemTecnica(r) );
+                    Mensagens.retornoAcao(Mensagens.erroSalvar("Permitir acesso") + Mensagens.mensagemTecnica(r));
                 }
             }
         } else {
-            Mensagens.retornoAcao( Mensagens.selecioneAlgumItem() );
+            Mensagens.retornoAcao(Mensagens.selecioneAlgumItem());
         }
         jL_msg.setVisible(false);
     }//GEN-LAST:event_btnNegarActionPerformed
+
+    private void btnPermitirTelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPermitirTelaActionPerformed
+        jL_msg.setVisible(true);
+        int linha = jTable_permissoes.getSelectedRow();
+        if (linha >= 0) {
+
+            int idTela = Integer.parseInt(jTable_permissoes.getValueAt(linha, 1).toString());
+            pList = new ListapermissaoDAO().selectWithJoin("Listapermissao", "idtela = " + idTela + " AND idusuario = " + usuarioHere.getIdusuario());
+
+            int totalPermissoes = pList.size(), falhas = 0, sucessos = 0;
+
+            for (int i = 0; i < pList.size(); i++) {
+
+                p = pList.get(i);
+                String[] oldInfo = auditoria();
+                p.setPermissao(true);
+                String[] newInfo = auditoria();
+                Atividade logAuditoria = autoAuditoria(oldInfo, newInfo);
+
+                String r = new ListapermissaoDAO().update(p, logAuditoria);
+                if (r == null) {
+                } else {
+                    falhas++;
+                }
+            }
+            sucessos = totalPermissoes - falhas;
+            String f = "Foi finalizado a ação para permissão das atividade da tela\n"
+                    + "Total de permissões encontradas: " + totalPermissoes + "\n"
+                    + "Total de ações de sucesso......: " + sucessos + "\n"
+                    + "Total de ações com falha.......: " + falhas + "\n";
+            Mensagens.retornoAcao(Mensagens.salvo("Permitir acesso") + "\n" + jL_msg.getText() + "\n" + f);
+            atualizaTabela();
+        } else {
+            Mensagens.retornoAcao(Mensagens.selecioneAlgumItem());
+        }
+        jL_msg.setVisible(false);
+    }//GEN-LAST:event_btnPermitirTelaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -517,31 +560,31 @@ public class GestorUsuarioJIF extends javax.swing.JInternalFrame implements Basi
 
     @Override
     public void preencher() {
-        jTF_codigoFuncionario.setText(usuarioHere.getIdfuncionario().getIdfuncionario()+"");
-        jTF_codigoUsuario.setText(usuarioHere.getIdusuario()+"");
+        jTF_codigoFuncionario.setText(usuarioHere.getIdfuncionario().getIdfuncionario() + "");
+        jTF_codigoUsuario.setText(usuarioHere.getIdusuario() + "");
         jTF_nomeFuncionario.setText(usuarioHere.getIdfuncionario().getIdpessoa().getNomePessoa());
         jTF_nomeUsuario.setText(usuarioHere.getNick());
         atualizaTabela();
     }
-    
-    public void atualizaTabela(){
+
+    public void atualizaTabela() {
         //new UsuarioDAO().preencherTabelaBusca(jTable_permissoes, "");
         new UsuarioDAO().preencherTabelaPermissao(jTable_permissoes, usuarioHere);
         calculaTotal();
     }
-    
-    public void calculaTotal(){
+
+    public void calculaTotal() {
         int total = jTable_permissoes.getRowCount();
         int totalTrue = 0, totalFalse = 0;
-        for (int i = 0; i < total; i++ ){
-            String r = jTable_permissoes.getValueAt(i, 4)+"";
-            if(r.equals("Permitido")){
+        for (int i = 0; i < total; i++) {
+            String r = jTable_permissoes.getValueAt(i, 4) + "";
+            if (r.equals("Permitido")) {
                 totalTrue++;
             } else {
                 totalFalse++;
             }
         }
-        
+
         jL_Total.setText(total + "");
         jL_TotalTrue.setText(totalTrue + "");
         jL_TotalFalse.setText(totalFalse + "");
@@ -584,10 +627,10 @@ public class GestorUsuarioJIF extends javax.swing.JInternalFrame implements Basi
     public String[] auditoria() {
         String[] r
                 = {
-                    p.getIdlistapermissao()+"",
-                    p.getIdusuario().getIdusuario()+"",
-                    p.getIdlistaacao().getIdlistaacao()+"",
-                    p.getPermissao()+""
+                    p.getIdlistapermissao() + "",
+                    p.getIdusuario().getIdusuario() + "",
+                    p.getIdlistaacao().getIdlistaacao() + "",
+                    p.getPermissao() + ""
                 };
         return r;
     }
