@@ -53,7 +53,7 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
     public AgendamentoConsultaJIF(Usuario usuario, TreeMap<Integer, Boolean> can) {
         initComponents();
         limpar();
-        btnDeletar.setVisible(false);
+        //btnDeletar.setVisible(false);
         this.usuario = usuario;
         this.can = can;
     }
@@ -378,29 +378,29 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
     }//GEN-LAST:event_btnPesquisar3ActionPerformed
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
-//        int resposta = Mensagens.confirmarexclusao();
-//        if (resposta == JOptionPane.YES_OPTION) {
-//            try {
-//                String[] infoOld = auditoria();
-//                String[] infoNew = auditoria();
-//                Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
-//
-//                this.exame.setStatus(false);
-//                String r;
-//                r = new ExameDAO().update(this.exame, logAuditoria);
-//                situacaoNovo();
-//                if (r == null) {
-//                    Mensagens.retornoAcao(Mensagens.arquivado("Exame")); //Acrecentar o resultado da auditoria a msg.
-//                    limpar();
-//                    situacaoNovo();
-//                } else {
-//                    Mensagens.retornoAcao(Mensagens.erroArquivado("Exame"));
-//
-//                }
-//            } catch (HibernateException he) {
-//                System.out.println(he);
-//            }
-//        }
+        int resposta = Mensagens.confirmarexclusao();
+        if (resposta == JOptionPane.YES_OPTION) {
+            try {
+                String[] infoOld = auditoria();
+                String[] infoNew = auditoria();
+                Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
+
+                this.consultas.setStatus(false);
+                String r;
+                r = new ConsultasDAO().update(this.consultas, logAuditoria);
+                situacaoNovo();
+                if (r == null) {
+                    Mensagens.retornoAcao(Mensagens.arquivado("Consultas")); //Acrecentar o resultado da auditoria a msg.
+                    limpar();
+                    situacaoNovo();
+                } else {
+                    Mensagens.retornoAcao(Mensagens.erroArquivado("Consultas"));
+
+                }
+            } catch (HibernateException he) {
+                System.out.println(he);
+            }
+        }
     }//GEN-LAST:event_btnDeletarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
@@ -547,6 +547,7 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
         this.consultas.setIdplano(plano);
         this.consultas.setIdformaPagamento(new FormaPagamentoDAO().consultarId(2));
         this.consultas.setIdprontuario(new ProntuarioDAO().consultarId(1));
+        this.consultas.setStatus(true);
         
         String[] data = tfData.getText().split("/");
         String hora = comboHora.getSelectedItem()+"";
@@ -611,7 +612,7 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
         tfdPlano.setEnabled(false);
         
         btnCancelar.setEnabled(true);
-        btnDeletar.setEnabled(false);
+        btnDeletar.setEnabled(true);
         btnEditar.setEnabled(true);
         btnPesquisar.setEnabled(true);
         btnSalvar.setEnabled(false);

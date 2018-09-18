@@ -41,7 +41,7 @@ public class ConsultasDAO extends DAO implements IDAO_T<Consultas> {
         if (Gema.vazio(criterio, 1)) {
             array = this.selectWithJoin(table, "nome_pessoa ilike '%" + criterio + "%' order by nome_pessoa asc");
         } else {
-            array = this.select(table+ " order by data_consulta asc");
+            array = this.selectWithJoin(table, "status = true order by data_consulta asc");
         }
 
         //Definição dos dados da tabela.
