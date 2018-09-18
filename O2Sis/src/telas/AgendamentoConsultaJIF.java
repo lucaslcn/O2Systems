@@ -459,7 +459,7 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
 
     private void btnHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoraActionPerformed
         
-        if (!tfData.getText().isEmpty() && funcionario != null) {
+        if (!tfData.getText().equals("  /  /    ") && funcionario != null) {
             
             String[] data = tfData.getText().split("/");
             
@@ -589,11 +589,11 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
     
     @Override
     public void situacaoEditar() {
-        tfdPaciente.setEnabled(false);
-        tfdProfissional.setEnabled(false);
+        tfdPaciente.setEnabled(true);
+        tfdProfissional.setEnabled(true);
         tfData.setEnabled(true);
         comboHora.setEnabled(true);
-        tfdPlano.setEnabled(false);
+        tfdPlano.setEnabled(true);
         
         btnCancelar.setEnabled(true);
         btnDeletar.setEnabled(false);

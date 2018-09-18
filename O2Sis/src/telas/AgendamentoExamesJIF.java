@@ -5,30 +5,26 @@
  */
 package telas;
 
+import com.toedter.calendar.JDateChooser;
 import dao.AgendamentoExamesDAO;
-import dao.ConsultasDAO;
 import dao.ExameDAO;
 import dao.FormaPagamentoDAO;
-import dao.FuncionarioDAO;
 import dao.PacienteDAO;
 import dao.PlanoDAO;
-import gema.Formatacao;
 import gema.Gema;
 import gema.Mensagens;
 import gema.ValidaCampo;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import negocio.AgendamentoExames;
-import negocio.Consultas;
 import negocio.Exames;
-import negocio.FormaPagamento;
-import negocio.Funcionario;
 import negocio.Paciente;
 import negocio.Plano;
 import negocio.Usuario;
@@ -48,6 +44,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
     Plano plano;
     Usuario usuario;
     TreeMap<Integer, Boolean> can;
+    Date data;
 
     /**
      * Creates new form AgendamentoConsulta
@@ -82,7 +79,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
         tfdPlano = new javax.swing.JTextField();
         btnPesquisar2 = new javax.swing.JToggleButton();
         tfdPaciente = new javax.swing.JTextField();
-        tfData = new javax.swing.JFormattedTextField();
+        jdcData = new com.toedter.calendar.JDateChooser();
         btnCancelar = new javax.swing.JToggleButton();
         btnPesquisar3 = new javax.swing.JToggleButton();
         btnDeletar = new javax.swing.JToggleButton();
@@ -152,11 +149,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
         tfdPaciente.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tfdPaciente.setText("Anderson Caye");
 
-        try {
-            tfData.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
+        jdcData.setDate(new Date());
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -173,7 +166,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(tfData, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jdcData, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel10)
                                 .addGap(18, 18, 18)
@@ -211,9 +204,9 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
                 .addGap(13, 13, 13)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(tfData, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
-                    .addComponent(tfHora, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfHora, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jdcData, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
@@ -295,7 +288,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -378,8 +371,8 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
                     Mensagens.retornoAcao(Mensagens.arquivado("Agendamento Exame")); //Acrecentar o resultado da auditoria a msg.
                     limpar();
                     situacaoNovo();
-               } else {
-                   Mensagens.retornoAcao(Mensagens.erroArquivado("Agendamento Exame"));
+                } else {
+                    Mensagens.retornoAcao(Mensagens.erroArquivado("Agendamento Exame"));
 
                 }
             } catch (HibernateException he) {
@@ -397,7 +390,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
 
             int paciente = this.paciente.getIdpaciente();
             int exame = this.exame.getIdexame();
-            String data = tfData.getText();
+            String data = jdcData.getDateFormatString();
             String hora = tfHora.getText();
             int plano = this.plano.getIdplano();
 
@@ -446,16 +439,15 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
         tfdExames.setText(ae.getIdexame().getNomeExame());
         plano = ae.getIdplano();
         tfdPlano.setText(ae.getIdplano().getNomePlano());
-        
-        tfHora.setText(ae.getHoraExame().getHours()+":"+ae.getHoraExame().getMinutes());
-        tfData.setText(Formatacao.ajustaDataDMA(ae.getDataExame().toString()));
-        
+
+        tfHora.setText(ae.getHoraExame().getHours() + ":" + ae.getHoraExame().getMinutes());
+        jdcData.setDate(ae.getDataExame()); 
     }
 
     public void preencherPaciente() {
         tfdPaciente.setText(this.paciente.getIdpessoa().getNomePessoa());
     }
-    
+
     public void preencherExame() {
         tfdExames.setText(this.exame.getNomeExame());
     }
@@ -470,15 +462,15 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
         this.paciente = new Paciente();
         this.exame = new Exames();
         this.plano = new Plano();
-        
+
         this.ae.setIdpaciente(paciente);
         this.ae.setIdexame(exame);
         this.ae.setIdplano(plano);
-        
+
         tfdPaciente.setText("");
         tfdExames.setText("");
         tfdPlano.setText("");
-        tfData.setText("");
+        jdcData = new JDateChooser();
         tfHora.setText("");
     }
 
@@ -489,39 +481,39 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
         this.ae.setIdplano(plano);
         this.ae.setIdformaPagamento(new FormaPagamentoDAO().consultarId(2));
         this.ae.setStatus(true);
-        
-        String[] data = tfData.getText().split("/");
+
+        String[] data = jdcData.getDateFormatString().split("/");
         String[] hora = tfHora.getText().split(":");
-        
+
+        String date = jdcData.getDateFormatString();
+
         int year = Integer.parseInt(data[2]);
         int month = Integer.parseInt(data[1]);
         int day = Integer.parseInt(data[0]);
         int hour = Integer.parseInt(hora[0]);
         int min = Integer.parseInt(hora[1]);
-        
+
         Date dataExame = null;
         Date dataEntrega = null;
-        SimpleDateFormat formato = new SimpleDateFormat ("dd/MM/yyyy");
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         try {
-            dataExame = formato.parse(tfData.getText());
-            dataEntrega = formato.parse(tfData.getText());
+            dataExame = formato.parse(date);
+            dataEntrega = formato.parse(date);
         } catch (ParseException ex) {
             Logger.getLogger(AgendamentoExamesJIF.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+
         this.ae.setDataExame(dataExame);
         this.ae.setHoraExame(new Date(year, month, day, hour, min));
         this.ae.setDataEntrega(dataEntrega);
-        
-        
+
     }
 
     @Override
     public void situacaoNovo() {
         tfdPaciente.setEnabled(true);
         tfdExames.setEnabled(true);
-        tfData.setEnabled(true);
+        jdcData.setEnabled(true);
         tfHora.setEnabled(true);
         tfdPlano.setEnabled(true);
 
@@ -537,7 +529,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
     public void situacaoEditar() {
         tfdPaciente.setEnabled(true);
         tfdExames.setEnabled(true);
-        tfData.setEnabled(true);
+        jdcData.setEnabled(true);
         tfHora.setEnabled(true);
         tfdPlano.setEnabled(true);
 
@@ -553,7 +545,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
     public void situacaoVisualizacao() {
         tfdPaciente.setEnabled(false);
         tfdExames.setEnabled(false);
-        tfData.setEnabled(false);
+        jdcData.setEnabled(false);
         tfHora.setEnabled(false);
         tfdPlano.setEnabled(false);
 
@@ -573,11 +565,11 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
     public String[] auditoria() {
         String[] r
                 = {
-                    ae.getIdagendamentoExames()+ "",
-                    ae.getDataExame()+ "",
-                    ae.getHoraExame()+ "",
+                    ae.getIdagendamentoExames() + "",
+                    ae.getDataExame() + "",
+                    ae.getHoraExame() + "",
                     ae.getIdpaciente().getIdpaciente() + "",
-                    ae.getIdexame()+ "",
+                    ae.getIdexame() + "",
                     ae.getIdplano() + ""
 
                 };
@@ -611,7 +603,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JFormattedTextField tfData;
+    private com.toedter.calendar.JDateChooser jdcData;
     private javax.swing.JFormattedTextField tfHora;
     private javax.swing.JTextField tfdExames;
     private javax.swing.JTextField tfdPaciente;
