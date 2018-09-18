@@ -5,6 +5,9 @@
  */
 package registros;
 
+import java.awt.Component;
+import java.util.TreeMap;
+
 /**
  *
  * @author anderson.caye
@@ -22,5 +25,16 @@ public class PermissaoG {
             r = false;
         }
         return r;
+    }
+    
+    public static void myCan(TreeMap<Integer, Boolean> can, Component[] comp){
+        for(Component c : comp){
+            if (c.getName() != null) {
+                int key = Integer.parseInt(c.getName());
+                c.setEnabled(can.get(key));
+            } else {
+                System.out.println("Erro no botão! ");
+            }
+        }
     }
 }

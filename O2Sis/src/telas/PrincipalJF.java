@@ -574,6 +574,10 @@ public class PrincipalJF extends javax.swing.JFrame {
         
         itemMenu_CriarPermissao.setEnabled(PermissaoG.canUse(itemMenu_CriarPermissao.isEnabled(), can.get(1)));
         menuDesenvolvedor.setVisible(PermissaoG.canUse(menuDesenvolvedor.isEnabled(), can.get(1)));
+        
+//        itemMenuAuditoria.setName("13");
+//        
+//        PermissaoG.myCan(can, this.getComponents());
     }
     
     private void montaTree(){
@@ -583,7 +587,6 @@ public class PrincipalJF extends javax.swing.JFrame {
     }
     
     private void atualizaPermissao() {
-        
         permissao();
     }
 }
