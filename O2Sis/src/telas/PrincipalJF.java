@@ -34,6 +34,7 @@ public class PrincipalJF extends javax.swing.JFrame {
         this.permissao = (List<Listapermissao>) new ListapermissaoDAO().selectWithJoin("Listapermissao", "idusuario = "+ this.usuario.getIdusuario() +" order by idlistapermissao asc");
         can = new TreeMap();
         this.montaTree();
+        defineNomesComponente();
         permissao();
     }
 
@@ -554,30 +555,35 @@ public class PrincipalJF extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void permissao() {
-        itemMenuAuditoria.setEnabled(PermissaoG.canUse(itemMenuAuditoria.isEnabled(), can.get(13)));
-        itemMenuSobre.setEnabled(PermissaoG.canUse(itemMenuSobre.isEnabled(), can.get(89)));
-        itemMenuAgendarConsulta.setEnabled(PermissaoG.canUse(itemMenuAgendarConsulta.isEnabled(), can.get(57)));
-        itemMenuAgendarExames.setEnabled(PermissaoG.canUse(itemMenuAgendarExames.isEnabled(), can.get(62)));
-        itemMenuDadosAcesso.setEnabled(PermissaoG.canUse(itemMenuDadosAcesso.isEnabled(), can.get(78)));
-        itemMenuExame.setEnabled(PermissaoG.canUse(itemMenuExame.isEnabled(), can.get(42)));
-//        itemMenuConsultasMarcadas.setEnabled(PermissaoG.canUse(itemMenuConsultasMarcadas.isEnabled(), can.get(78)));
-//        itemMenuExamesMarcados.setEnabled(PermissaoG.canUse(itemMenuExamesMarcados.isEnabled(), can.get(78))); 
-        itemMenuFormaPagamento.setEnabled(PermissaoG.canUse(itemMenuFormaPagamento.isEnabled(), can.get(47)));
-        itemMenuFuncionario.setEnabled(PermissaoG.canUse(itemMenuFuncionario.isEnabled(), can.get(17)));
-        itemMenuPaciente.setEnabled(PermissaoG.canUse(itemMenuPaciente.isEnabled(), can.get(22)));
-        itemMenuPlano.setEnabled(PermissaoG.canUse(itemMenuPlano.isEnabled(), can.get(32)));
-        itemMenuProntuario.setEnabled(PermissaoG.canUse(itemMenuProntuario.isEnabled(), can.get(67)));
-        itemMenuRemedio.setEnabled(PermissaoG.canUse(itemMenuRemedio.isEnabled(), can.get(37)));
-        itemMenuGestorUsuario.setEnabled(PermissaoG.canUse(itemMenuGestorUsuario.isEnabled(), can.get(84)));
-        itemMenuEstado.setEnabled(PermissaoG.canUse(itemMenuEstado.isEnabled(), can.get(27)));
-        itemMenuFuncao.setEnabled(PermissaoG.canUse(itemMenuFuncao.isEnabled(), can.get(52)));
-        
-        itemMenu_CriarPermissao.setEnabled(PermissaoG.canUse(itemMenu_CriarPermissao.isEnabled(), can.get(1)));
         menuDesenvolvedor.setVisible(PermissaoG.canUse(menuDesenvolvedor.isEnabled(), can.get(1)));
         
-//        itemMenuAuditoria.setName("13");
-//        
-//        PermissaoG.myCan(can, this.getComponents());
+        itemMenuAuditoria.setName("13");
+        PermissaoG.myCan(can, menuO2System.getMenuComponents());
+        PermissaoG.myCan(can, menuAgendamento.getMenuComponents());
+        PermissaoG.myCan(can, menuCadastro.getMenuComponents());
+        PermissaoG.myCan(can, menuDesenvolvedor.getMenuComponents());
+        PermissaoG.myCan(can, menuRelatorios.getMenuComponents());
+    }
+    
+    private void defineNomesComponente(){
+        itemMenuAuditoria.setName("13");
+        itemMenuSobre.setName("89");
+        itemMenuAgendarConsulta.setName("57");
+        itemMenuAgendarExames.setName("62");
+        itemMenuDadosAcesso.setName("78");
+        itemMenuExame.setName("42");
+//        itemMenuConsultasMarcadas.setName("");
+//        itemMenuExamesMarcados.setName("");
+        itemMenuFormaPagamento.setName("47");
+        itemMenuFuncionario.setName("17");
+        itemMenuPaciente.setName("22");
+        itemMenuPlano.setName("32");
+        itemMenuProntuario.setName("67");
+        itemMenuRemedio.setName("37");
+        itemMenuGestorUsuario.setName("84");
+        itemMenuEstado.setName("27");
+        itemMenuFuncao.setName("52");
+        itemMenu_CriarPermissao.setName("1");
     }
     
     private void montaTree(){
