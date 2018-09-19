@@ -572,8 +572,8 @@ public class PrincipalJF extends javax.swing.JFrame {
         itemMenuAgendarExames.setName("62");
         itemMenuDadosAcesso.setName("78");
         itemMenuExame.setName("42");
-//        itemMenuConsultasMarcadas.setName("");
-//        itemMenuExamesMarcados.setName("");
+        itemMenuConsultasMarcadas.setName("97");
+        itemMenuExamesMarcados.setName("96");
         itemMenuFormaPagamento.setName("47");
         itemMenuFuncionario.setName("17");
         itemMenuPaciente.setName("22");

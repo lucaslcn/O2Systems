@@ -28,19 +28,16 @@ public class PermissaoG {
     }
     
     public static void myCan(TreeMap<Integer, Boolean> can, Component[] comp){
-        //for(Component c : comp){
-        System.out.println("Tamanho aqui: " + comp.length);
+//        System.out.println("Tamanho aqui: " + comp.length);
         for(int i = 0; i < comp.length; i++) {
-            System.out.println(comp[i].getName());
+//            System.out.println(comp[i].getName());
             if (comp[i].getName() != null) {
                 int key = Integer.parseInt(comp[i].getName());
-                System.out.println("Entro");
+//                System.out.println("Entro");
                 if(comp[i].isEnabled()){
                     comp[i].setEnabled(can.get(key));
                 }
-            } //else {
-              //  System.out.println("Erro no botão! ");
-              //}
+            }
         }
     }
 }

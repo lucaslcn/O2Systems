@@ -43,11 +43,11 @@ public class AuditoriaJIF extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jL_titulo = new javax.swing.JLabel();
-        btnFechar = new javax.swing.JButton();
-        btnRegistros = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        jP_btnDeAcao = new javax.swing.JPanel();
         btnLigado = new javax.swing.JButton();
         btnDesligado = new javax.swing.JButton();
+        btnRegistros = new javax.swing.JButton();
+        btnFechar = new javax.swing.JButton();
         jL_status = new javax.swing.JLabel();
 
         setTitle("Controle de Auditoria");
@@ -55,26 +55,6 @@ public class AuditoriaJIF extends javax.swing.JInternalFrame {
         jL_titulo.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jL_titulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jL_titulo.setText("Auditoria");
-
-        btnFechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cancel.png"))); // NOI18N
-        btnFechar.setText("Fechar");
-        btnFechar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnFechar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFecharActionPerformed(evt);
-            }
-        });
-
-        btnRegistros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/report.png"))); // NOI18N
-        btnRegistros.setText("Registros");
-        btnRegistros.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnRegistros.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegistrosActionPerformed(evt);
-            }
-        });
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         btnLigado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/lightbulb.png"))); // NOI18N
         btnLigado.setText("Ligado");
@@ -92,28 +72,56 @@ public class AuditoriaJIF extends javax.swing.JInternalFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        btnRegistros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/report.png"))); // NOI18N
+        btnRegistros.setText("Registros");
+        btnRegistros.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnRegistros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrosActionPerformed(evt);
+            }
+        });
+
+        btnFechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cancel.png"))); // NOI18N
+        btnFechar.setText("Fechar");
+        btnFechar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnFechar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFecharActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jP_btnDeAcaoLayout = new javax.swing.GroupLayout(jP_btnDeAcao);
+        jP_btnDeAcao.setLayout(jP_btnDeAcaoLayout);
+        jP_btnDeAcaoLayout.setHorizontalGroup(
+            jP_btnDeAcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jP_btnDeAcaoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(jP_btnDeAcaoLayout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addComponent(btnLigado, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnDesligado, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jP_btnDeAcaoLayout.setVerticalGroup(
+            jP_btnDeAcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jP_btnDeAcaoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jP_btnDeAcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLigado, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDesligado, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                .addGroup(jP_btnDeAcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
-        jL_status.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jL_status.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jL_status.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jL_status.setText("Ativado");
 
@@ -126,11 +134,7 @@ public class AuditoriaJIF extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jL_status, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jL_titulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jP_btnDeAcao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -140,12 +144,8 @@ public class AuditoriaJIF extends javax.swing.JInternalFrame {
                 .addComponent(jL_titulo)
                 .addGap(18, 18, 18)
                 .addComponent(jL_status)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jP_btnDeAcao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -186,7 +186,7 @@ public class AuditoriaJIF extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnRegistros;
     private javax.swing.JLabel jL_status;
     private javax.swing.JLabel jL_titulo;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jP_btnDeAcao;
     // End of variables declaration//GEN-END:variables
     private void ligado(){
         btnLigado.setEnabled(false);
@@ -195,7 +195,7 @@ public class AuditoriaJIF extends javax.swing.JInternalFrame {
         btnDesligado.setBackground(Color.RED);
         
         jL_status.setText("Ligada");
-        jL_status.setForeground(Color.GREEN);
+//        jL_status.setForeground(Color.GREEN);
         
         permissao();
     }
@@ -207,7 +207,7 @@ public class AuditoriaJIF extends javax.swing.JInternalFrame {
         btnDesligado.setBackground(Color.LIGHT_GRAY);
         
         jL_status.setText("Desligada");
-        jL_status.setForeground(Color.red);
+//        jL_status.setForeground(Color.red);
         
         permissao();
     }
@@ -217,9 +217,10 @@ public class AuditoriaJIF extends javax.swing.JInternalFrame {
     }
     
     private void permissao(){
-        btnDesligado.setEnabled(PermissaoG.canUse(btnDesligado.isEnabled(), can.get(15)));
-        btnLigado.setEnabled(PermissaoG.canUse(btnLigado.isEnabled(), can.get(14)));
-        btnRegistros.setEnabled(PermissaoG.canUse(btnRegistros.isEnabled(), can.get(16)));
+        btnDesligado.setName("15");
+        btnLigado.setName("14");
+        btnRegistros.setName("16");
+        PermissaoG.myCan(can, jP_btnDeAcao.getComponents());
     }
 }
 
