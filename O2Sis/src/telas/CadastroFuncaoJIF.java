@@ -276,7 +276,7 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
     }//GEN-LAST:event_cB_UsuarioActionPerformed
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
-        int resposta = Mensagens.confirmarexclusao();
+        int resposta = Mensagens.confirmarArquivamento();
         if (resposta == JOptionPane.NO_OPTION) {
         } else if (resposta == JOptionPane.YES_OPTION) {
             try {

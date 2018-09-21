@@ -378,7 +378,7 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
     }//GEN-LAST:event_btnPesquisar3ActionPerformed
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
-        int resposta = Mensagens.confirmarexclusao();
+        int resposta = Mensagens.confirmarArquivamento();
         if (resposta == JOptionPane.YES_OPTION) {
             try {
                 String[] infoOld = auditoria();

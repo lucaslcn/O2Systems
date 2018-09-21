@@ -242,7 +242,7 @@ public class CadastroFormaPagamentoJIF extends javax.swing.JInternalFrame implem
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnDeletar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletar1ActionPerformed
-        int resposta = Mensagens.confirmarexclusao();
+        int resposta = Mensagens.confirmarArquivamento();
         if (resposta == JOptionPane.YES_OPTION) {
             try {
                 String[] infoOld = auditoria();

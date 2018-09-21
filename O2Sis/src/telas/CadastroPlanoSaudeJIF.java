@@ -254,7 +254,7 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
-        int resposta = Mensagens.confirmarexclusao();
+        int resposta = Mensagens.confirmarArquivamento();
         if (resposta == JOptionPane.YES_OPTION) {
             try {
 //                Pegando dados antigos da tabela;

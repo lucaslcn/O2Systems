@@ -328,7 +328,7 @@ public class CadastroExameJIF extends javax.swing.JInternalFrame implements Basi
     }//GEN-LAST:event_jTF_NomeExameActionPerformed
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
-        int resposta = Mensagens.confirmarexclusao();
+        int resposta = Mensagens.confirmarArquivamento();
         if (resposta == JOptionPane.YES_OPTION) {
             try {
                 String[] infoOld = auditoria();

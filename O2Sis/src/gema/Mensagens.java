@@ -22,7 +22,7 @@ public class Mensagens {
         return resposta;
     }
     
-    public static int confirmarexclusao(){
+    public static int confirmarArquivamento(){
         int resposta = JOptionPane.showConfirmDialog(null, "Deseja realmente arquivar?", "Alerta!", JOptionPane.YES_NO_OPTION);
         return resposta;
     }
