@@ -254,7 +254,7 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
                     }
                     if (r == null) {
                         Mensagens.retornoAcao(Mensagens.arquivado("Período da Auditoria"));
-                        new AuditoriaDAO().insertAuditoria(logAuditoria);
+                        new AuditoriaDAO().insertAuditoria(logAuditoria.registraAtividade());
                         situacaoNovo();
                     } else {
                         Mensagens.retornoAcao(Mensagens.erroArquivado("Período da Auditoria"));
@@ -279,7 +279,7 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        
+        popularTabela();
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     /**
@@ -372,7 +372,7 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
                         + " " + a.getOnde()
                         + " " + a.getAcao();
 
-                if(possui(s, criterio)){
+                if(possui(s.toLowerCase(), criterio.toLowerCase())){
                     array.add(a);
                 }
             }
@@ -466,5 +466,7 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
     }
 
     private void situacaoNovo() {
+        popularList();
+        popularTabela();
     }
 }
