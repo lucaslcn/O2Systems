@@ -40,6 +40,13 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
         initComponents();
         this.usuario = usuario;
         
+//        jdc_DataFim.setMinSelectableDate(Formatacao.converterStringToDateDMA("15/09/2018"));
+
+        jCB_DtFim.setEnabled(false);
+        jdc_DataInicio.setEnabled(false);
+        jdc_DataFim.setEnabled(false);
+        jL_msg.setVisible(false);
+
         popularList();
         popularTabela();
     }
@@ -64,8 +71,9 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jdc_DataFim = new com.toedter.calendar.JDateChooser();
         jdc_DataInicio = new com.toedter.calendar.JDateChooser();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        jCB_DtInicio = new javax.swing.JCheckBox();
+        jCB_DtFim = new javax.swing.JCheckBox();
+        jL_msg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registros de Auditoria");
@@ -143,9 +151,22 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
 
         jdc_DataInicio.setDate(new Date());
 
-        jLabel3.setText("Data Inicio");
+        jCB_DtInicio.setText("Data Inicio");
+        jCB_DtInicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCB_DtInicioActionPerformed(evt);
+            }
+        });
 
-        jLabel4.setText("Data Fim");
+        jCB_DtFim.setText("Data Fim");
+        jCB_DtFim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCB_DtFimActionPerformed(evt);
+            }
+        });
+
+        jL_msg.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jL_msg.setText("Por favor, aguarde! Atualizando tabelas...");
 
         javax.swing.GroupLayout jP_btnDeAcaoLayout = new javax.swing.GroupLayout(jP_btnDeAcao);
         jP_btnDeAcao.setLayout(jP_btnDeAcaoLayout);
@@ -154,7 +175,7 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
             .addGroup(jP_btnDeAcaoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jP_btnDeAcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1209, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jP_btnDeAcaoLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -165,17 +186,19 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
                         .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jP_btnDeAcaoLayout.createSequentialGroup()
                         .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 773, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jL_msg)
+                        .addGap(252, 252, 252)
                         .addGroup(jP_btnDeAcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jdc_DataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
+                            .addComponent(jCB_DtInicio))
                         .addGap(18, 18, 18)
                         .addGroup(jP_btnDeAcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jP_btnDeAcaoLayout.createSequentialGroup()
                                 .addComponent(jdc_DataFim, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel4))))
+                            .addComponent(jCB_DtFim))))
                 .addContainerGap())
         );
         jP_btnDeAcaoLayout.setVerticalGroup(
@@ -193,14 +216,16 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
                 .addGroup(jP_btnDeAcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jP_btnDeAcaoLayout.createSequentialGroup()
                         .addGroup(jP_btnDeAcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
+                            .addComponent(jCB_DtInicio)
+                            .addComponent(jCB_DtFim))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jP_btnDeAcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jdc_DataFim, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jdc_DataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jP_btnDeAcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jL_msg)))
                 .addGap(123, 123, 123))
         );
 
@@ -225,48 +250,17 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
-        String dtI = Formatacao.ajustaDateToStringDMA(jdc_DataInicio.getDate());
-        String dtF = Formatacao.ajustaDateToStringDMA(jdc_DataFim.getDate());
-
-        String[] campos = {"data inicio", "data fim"};
-        String[] valor = {dtI, dtF};
-        Integer[] qtd = {10, 10};
-        
-        String r = null; //resultado da comunicação do banco
-        
-        String res = ValidaCampo.campoVazio(campos, qtd, valor);
-        if (res == null) {
-            int resposta = Mensagens.confirmarArquivamento();
-            if (resposta == JOptionPane.NO_OPTION) {
-            } else if (resposta == JOptionPane.YES_OPTION) {
-                try {
-//                Pegando dados antigos da tabela;
-                    String[] infoOld = {"Data Incio: " + dtI};
-//                Pegando dados novos da tabela
-                    String[] infoNew = {"Data Fim: " + dtF};
-
-                    Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
-                    logAuditoria.setAcao(Atividade.ACAO_ARQUIVADO);
-                    
-                    List<Auditoria> a = new AuditoriaDAO().selectWithJoin("Auditoria", " data >= '" + Formatacao.ajustaDataAMD(dtI) + "' AND data <= '" + Formatacao.ajustaDataAMD(dtF) +"'");
-                    for (Auditoria k : a){
-                        r = new AuditoriaDAO().archivedAuditoria(k);
-                    }
-                    if (r == null) {
-                        Mensagens.retornoAcao(Mensagens.arquivado("Período da Auditoria"));
-                        new AuditoriaDAO().insertAuditoria(logAuditoria.registraAtividade());
-                        situacaoNovo();
-                    } else {
-                        Mensagens.retornoAcao(Mensagens.erroArquivado("Período da Auditoria"));
-
-                    }
-                } catch (HibernateException he) {
-                    System.out.println(he);
-                }
-            }
-        } else {
-                Mensagens.retornoAcao(Mensagens.preenchaOsCampos("Os seguintes campos obrigatórios estão vazios:\n" + r));
-            }
+        if(jCB_DtInicio.isSelected()){
+            jL_msg.setVisible(true);
+            ArquivarPorData();
+        }// else {
+//            ArquivarItem();
+//        }
+        jL_msg.setVisible(false);
+        jCB_DtFim.setEnabled(false);
+        jdc_DataInicio.setEnabled(false);
+        jdc_DataFim.setEnabled(false);
+        jL_msg.setVisible(false);
     }//GEN-LAST:event_btnDeletarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -281,6 +275,30 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         popularTabela();
     }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    private void jCB_DtInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCB_DtInicioActionPerformed
+        if(jCB_DtInicio.isSelected()){
+            jCB_DtFim.setEnabled(true);
+            jdc_DataInicio.setEnabled(true);
+            jdc_DataFim.setEnabled(false);
+            btnDeletar.setEnabled(false);
+        } else {
+            jCB_DtFim.setEnabled(false);
+            jCB_DtFim.setSelected(false);
+            jdc_DataInicio.setEnabled(false);
+            jdc_DataFim.setEnabled(false);
+            btnDeletar.setEnabled(true);
+        }
+    }//GEN-LAST:event_jCB_DtInicioActionPerformed
+
+    private void jCB_DtFimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCB_DtFimActionPerformed
+        if(jCB_DtFim.isSelected()){
+            jdc_DataFim.setEnabled(true);
+            jdc_DataFim.setMinSelectableDate(jdc_DataInicio.getDate());
+        } else {
+            jdc_DataFim.setEnabled(false);
+        }
+    }//GEN-LAST:event_jCB_DtFimActionPerformed
 
     /**
      * @param args the command line arguments
@@ -328,10 +346,11 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
     private javax.swing.JToggleButton btnCancelar;
     private javax.swing.JToggleButton btnDeletar;
     private javax.swing.JToggleButton btnPesquisar;
+    private javax.swing.JCheckBox jCB_DtFim;
+    private javax.swing.JCheckBox jCB_DtInicio;
+    private javax.swing.JLabel jL_msg;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jP_btnDeAcao;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTF_busca;
@@ -363,7 +382,7 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
             //popularList();
             for (Auditoria a : this.array) {
 
-                String s = a.getData().toString()
+                String s = Formatacao.converterDateToStringDMA(a.getData())
                         + " " + a.getHora().toString()
                         + " " + a.getIdauditoria().toString()
                         + " " + a.getIdusuario().getNick()
@@ -388,7 +407,7 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
             for (Auditoria k : array) {
 //              Definir os dados das colunas
                 dadosTabela[i][0] = k.getIdauditoria();
-                dadosTabela[i][1] = k.getData();
+                dadosTabela[i][1] = Formatacao.converterDateToStringDMA(k.getData());
                 dadosTabela[i][2] = k.getHora();
                 dadosTabela[i][3] = k.getIdusuario().getNick();
                 dadosTabela[i][4] = k.getOnde();
@@ -468,5 +487,58 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
     private void situacaoNovo() {
         popularList();
         popularTabela();
+    }
+    
+    private void ArquivarItem(){
+        
+    }
+    
+    private void ArquivarPorData() {
+        String dtI = Formatacao.converterDateToStringDMA(jdc_DataInicio.getDate());
+        String dtF; 
+        if(jCB_DtFim.isSelected()){
+            dtF = Formatacao.converterDateToStringDMA(jdc_DataFim.getDate());
+        } else {
+            dtF = dtI;
+        }
+        String[] campos = {"data inicio", "data fim"};
+        String[] valor = {dtI, dtF};
+        Integer[] qtd = {10, 10};
+
+        String r = null; //resultado da comunicação do banco
+
+        String res = ValidaCampo.campoVazio(campos, qtd, valor);
+        if (res == null) {
+            int resposta = Mensagens.confirmarArquivamento();
+            if (resposta == JOptionPane.NO_OPTION) {
+            } else if (resposta == JOptionPane.YES_OPTION) {
+                try {
+//                Pegando dados antigos da tabela;
+                    String[] infoOld = {"Data Incio: " + dtI};
+//                Pegando dados novos da tabela
+                    String[] infoNew = {"Data Fim: " + dtF};
+
+                    Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
+                    logAuditoria.setAcao(Atividade.ACAO_ARQUIVADO);
+
+                    List<Auditoria> a = new AuditoriaDAO().selectWithJoin("Auditoria", " data >= '" + Formatacao.ajustaDataAMD(dtI) + "' AND data <= '" + Formatacao.ajustaDataAMD(dtF) + "'");
+                    for (Auditoria k : a) {
+                        r = new AuditoriaDAO().archivedAuditoria(k);
+                    }
+                    if (r == null) {
+                        Mensagens.retornoAcao(Mensagens.arquivado("Período da Auditoria"));
+                        new AuditoriaDAO().insertAuditoria(logAuditoria.registraAtividade());
+                        situacaoNovo();
+                    } else {
+                        Mensagens.retornoAcao(Mensagens.erroArquivado("Período da Auditoria"));
+
+                    }
+                } catch (HibernateException he) {
+                    System.out.println(he);
+                }
+            }
+        } else {
+            Mensagens.retornoAcao(Mensagens.preenchaOsCampos("Os seguintes campos obrigatórios estão vazios:\n" + r));
+        }
     }
 }

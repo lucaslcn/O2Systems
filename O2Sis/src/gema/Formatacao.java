@@ -113,7 +113,7 @@ public class Formatacao {
         return (dataFormatada);
     }
     
-    public static String ajustaDateToStringDMA(Date data) {
+    public static String converterDateToStringDMA(Date data) {
         String dataFormatada = null;
         try {
             //Date dataAMD = new SimpleDateFormat("yyyy-MM-dd").parse(data);
@@ -134,7 +134,8 @@ public class Formatacao {
         }
         return (dataFormatada);
     }
-    public static String ajustaDateToStringAMD(Date data) {
+    
+    public static String converterDateToStringAMD(Date data) {
         String dataFormatada = null;
         try {
             //Date dataDMA = new SimpleDateFormat("dd/MM/yyyy").parse(data);
@@ -143,6 +144,18 @@ public class Formatacao {
             System.err.println(e);
         }
         return (dataFormatada);
+    }
+    
+    public static Date converterStringToDateDMA(String data) {
+        String dataFormatada = null;
+        Date dataDMA = null;
+        try {
+            dataDMA = new SimpleDateFormat("dd/MM/yyyy").parse(data);
+            //dataFormatada = new SimpleDateFormat("yyyy-MM-dd").format(dataDMA);
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return (dataDMA);
     }
 
     public static String removerFormatacao(String dado) {
