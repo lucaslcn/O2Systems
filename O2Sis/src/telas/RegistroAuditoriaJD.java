@@ -225,10 +225,8 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
-        String dtI = jdc_DataInicio.getDateFormatString();
-        String dtF = jdc_DataFim.getDateFormatString();
-        System.out.println(dtI);
-        System.out.println(dtF);
+        String dtI = Formatacao.ajustaDateToStringDMA(jdc_DataInicio.getDate());
+        String dtF = Formatacao.ajustaDateToStringDMA(jdc_DataFim.getDate());
 
         String[] campos = {"data inicio", "data fim"};
         String[] valor = {dtI, dtF};
@@ -242,9 +240,9 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
             if (resposta == JOptionPane.NO_OPTION) {
             } else if (resposta == JOptionPane.YES_OPTION) {
                 try {
-                    //                Pegando dados antigos da tabela;
+//                Pegando dados antigos da tabela;
                     String[] infoOld = {"Data Incio: " + dtI};
-                    //                Pegando dados novos da tabela
+//                Pegando dados novos da tabela
                     String[] infoNew = {"Data Fim: " + dtF};
 
                     Atividade logAuditoria = autoAuditoria(infoOld, infoNew);

@@ -112,12 +112,33 @@ public class Formatacao {
         }
         return (dataFormatada);
     }
+    
+    public static String ajustaDateToStringDMA(Date data) {
+        String dataFormatada = null;
+        try {
+            //Date dataAMD = new SimpleDateFormat("yyyy-MM-dd").parse(data);
+            dataFormatada = new SimpleDateFormat("dd/MM/yyyy").format(data);
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return (dataFormatada);
+    }
 
     public static String ajustaDataAMD(String data) {
         String dataFormatada = null;
         try {
             Date dataDMA = new SimpleDateFormat("dd/MM/yyyy").parse(data);
             dataFormatada = new SimpleDateFormat("yyyy-MM-dd").format(dataDMA);
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return (dataFormatada);
+    }
+    public static String ajustaDateToStringAMD(Date data) {
+        String dataFormatada = null;
+        try {
+            //Date dataDMA = new SimpleDateFormat("dd/MM/yyyy").parse(data);
+            dataFormatada = new SimpleDateFormat("yyyy-MM-dd").format(data);
         } catch (Exception e) {
             System.err.println(e);
         }
