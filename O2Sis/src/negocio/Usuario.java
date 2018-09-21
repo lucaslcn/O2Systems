@@ -39,6 +39,9 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Usuario implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idusuario")
+    private List<Auditoriainfoold> auditoriainfooldList;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idusuario")
     private List<Listapermissao> listapermissaoList;
 
     @JoinColumn(name = "idpermissao", referencedColumnName = "idpermissao")
@@ -159,6 +162,15 @@ public class Usuario implements Serializable {
 
     public void setListapermissaoList(List<Listapermissao> listapermissaoList) {
         this.listapermissaoList = listapermissaoList;
+    }
+
+    @XmlTransient
+    public List<Auditoriainfoold> getAuditoriainfooldList() {
+        return auditoriainfooldList;
+    }
+
+    public void setAuditoriainfooldList(List<Auditoriainfoold> auditoriainfooldList) {
+        this.auditoriainfooldList = auditoriainfooldList;
     }
     
 }

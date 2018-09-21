@@ -175,7 +175,7 @@ public class AuditoriaJIF extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnFecharActionPerformed
 
     private void btnRegistrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrosActionPerformed
-        RegistroAuditoriaJD p = new RegistroAuditoriaJD(new javax.swing.JFrame(), true);
+        RegistroAuditoriaJD p = new RegistroAuditoriaJD(new javax.swing.JFrame(), true, this.usuario);
         dispose();
         p.setLocationRelativeTo(null);
         p.setVisible(true);

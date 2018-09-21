@@ -1,5 +1,6 @@
 package dao;
 
+import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import javax.swing.JTable;
 import negocio.Pessoa;
 import persistencia.DAO;
@@ -10,8 +11,14 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import negocio.Auditoria;
+import negocio.Auditoriainfoold;
 import negocio.Exames;
 import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import persistencia.ConexaoDAO;
+import registros.Atividade;
+import registros.LogAuditoria;
 
 /**
  *
@@ -105,6 +112,63 @@ public class AuditoriaDAO extends DAO implements IDAO_T<Auditoria> {
     public Auditoria consultarId(int id) {
         Object o = this.selectWithJoin("Auditoria", "idauditoria = " + id).get(0);
         return (Auditoria) o;
+    }
+    
+    public String archivedAuditoria(Object o) {
+        Auditoria a = (Auditoria) o;
+        Auditoriainfoold ao = new Auditoriainfoold();
+        
+        ao.setAcao(a.getAcao());
+        ao.setData(a.getData());
+        ao.setHora(a.getHora());
+        ao.setIdauditoria(a.getIdauditoria());
+        ao.setIdusuario(a.getIdusuario());
+        ao.setInformacaonew(a.getInformacaonew());
+        ao.setInformacaoold(a.getInformacaoold());
+        ao.setOnde(a.getOnde());
+        
+        String s = null;
+        
+        s = this.insertAuditoriaArquived(ao);
+        s =  this.deleteAuditoria(a);
+        
+        return s;
+    }
+    
+    public String insertAuditoriaArquived(Object o) {
+        String r = null;
+        Session s = null;
+        try {
+            s = ConexaoDAO.iniciarSessão();
+            Transaction t = s.beginTransaction();
+            s.save(o);
+            t.commit();
+        } catch (HibernateException he) {
+            he.printStackTrace();
+            r = he.toString();
+            return r;
+        } finally {
+            s.close();
+            return r;
+        }
+    }
+    
+    public String deleteAuditoria(Object o) {
+        String r = null;
+        Session s = null;
+        try {
+            s = ConexaoDAO.iniciarSessão();
+            Transaction t = s.beginTransaction();
+            s.delete(o);
+            t.commit();
+        } catch (HibernateException he) {
+            he.printStackTrace();
+            r = he.toString();
+            return r;
+        } finally {
+            s.close();
+            return r;
+        }
     }
 
 }

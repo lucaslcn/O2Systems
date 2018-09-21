@@ -6,6 +6,7 @@
 package telas;
 
 import dao.AuditoriaDAO;
+import gema.Formatacao;
 import gema.Gema;
 import gema.Mensagens;
 import gema.ValidaCampo;
@@ -17,7 +18,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import negocio.Auditoria;
 import negocio.Exames;
+import negocio.Usuario;
 import org.hibernate.HibernateException;
+import registros.Atividade;
 
 /**
  *
@@ -27,13 +30,15 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
     
     List<Auditoria> array;
     Auditoria auditoria;
+    Usuario usuario;
     
     /**
      * Creates new form RegistroAuditoriaJD
      */
-    public RegistroAuditoriaJD(java.awt.Frame parent, boolean modal) {
+    public RegistroAuditoriaJD(java.awt.Frame parent, boolean modal, Usuario usuario) {
         super(parent, modal);
         initComponents();
+        this.usuario = usuario;
         
         popularList();
         popularTabela();
@@ -222,33 +227,39 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
         String dtI = jdc_DataInicio.getDateFormatString();
         String dtF = jdc_DataFim.getDateFormatString();
+        System.out.println(dtI);
+        System.out.println(dtF);
 
         String[] campos = {"data inicio", "data fim"};
         String[] valor = {dtI, dtF};
         Integer[] qtd = {10, 10};
-
-        String r = ValidaCampo.campoVazio(campos, qtd, valor);
-        if (r == null) {
+        
+        String r = null; //resultado da comunicação do banco
+        
+        String res = ValidaCampo.campoVazio(campos, qtd, valor);
+        if (res == null) {
             int resposta = Mensagens.confirmarArquivamento();
             if (resposta == JOptionPane.NO_OPTION) {
             } else if (resposta == JOptionPane.YES_OPTION) {
                 try {
                     //                Pegando dados antigos da tabela;
-                    String[] infoOld = auditoria();
+                    String[] infoOld = {"Data Incio: " + dtI};
                     //                Pegando dados novos da tabela
-                    String[] infoNew = auditoria();
+                    String[] infoNew = {"Data Fim: " + dtF};
 
                     Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
-
-                    this.remedio.setStatus(false);
-                    String r;
-                    r = new RemedioDAO().archived(this.remedio, logAuditoria);
-                    situacaoNovo();
+                    logAuditoria.setAcao(Atividade.ACAO_ARQUIVADO);
+                    
+                    List<Auditoria> a = new AuditoriaDAO().selectWithJoin("Auditoria", " data >= '" + Formatacao.ajustaDataAMD(dtI) + "' AND data <= '" + Formatacao.ajustaDataAMD(dtF) +"'");
+                    for (Auditoria k : a){
+                        r = new AuditoriaDAO().archivedAuditoria(k);
+                    }
                     if (r == null) {
-                        Mensagens.retornoAcao(Mensagens.arquivado("Remédio"));
-                        limpar();
+                        Mensagens.retornoAcao(Mensagens.arquivado("Período da Auditoria"));
+                        new AuditoriaDAO().insertAuditoria(logAuditoria);
+                        situacaoNovo();
                     } else {
-                        Mensagens.retornoAcao(Mensagens.erroArquivado("Remédio"));
+                        Mensagens.retornoAcao(Mensagens.erroArquivado("Período da Auditoria"));
 
                     }
                 } catch (HibernateException he) {
@@ -441,5 +452,21 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
     
     private boolean possui(String s, String p){
         return s.contains(p);
+    }
+
+    private String[] auditoria() {
+        return null;
+    }
+
+    private Atividade autoAuditoria(String[] iOld, String[] iNew) {
+        Atividade logAuditoria = new Atividade();
+        logAuditoria.setInformacaoOld(iOld);
+        logAuditoria.setInformacaoNew(iNew);
+        logAuditoria.setOnde(Atividade.FROM_REG_AUDITORIA);
+        logAuditoria.setUsuario(usuario);
+        return logAuditoria;
+    }
+
+    private void situacaoNovo() {
     }
 }

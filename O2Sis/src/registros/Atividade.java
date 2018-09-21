@@ -141,6 +141,7 @@ public class Atividade {
     
     //Definição de nome para os locais. Vulgo ONDE.
     final public static String FROM_AUDITORIA = "Auditoria";
+    final public static String FROM_REG_AUDITORIA = "Registros da Auditoria";
     final public static String FROM_ESTADO = "Cadastro Estado";
     final public static String FROM_PLANO = "Cadastro de Plano de Saúde";
     final public static String FROM_REMEDIO = "Cadastro de Remédio";

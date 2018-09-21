@@ -117,6 +117,8 @@ public class DAO {
             return r;
         }
     }
+    
+    
 
     public String delete(Object o, Atividade logAuditoria) {
         logAuditoria.setAcao(Atividade.ACAO_DELETADO); //Definir ação auditoria
@@ -138,7 +140,7 @@ public class DAO {
         }
     }
     
-    private String insertAuditoria(Object o) {
+    public String insertAuditoria(Object o) {
         String r = null;
         Session s = null;
         try {

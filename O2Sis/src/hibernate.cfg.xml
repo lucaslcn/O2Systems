@@ -75,5 +75,6 @@ Contributor(s):
     <mapping class="negocio.Tela"/>
     <mapping class="negocio.Acaotela"/>
     <mapping class="negocio.Listaacao"/>
+    <mapping class="negocio.Auditoriainfoold"/>
   </session-factory>
 </hibernate-configuration>

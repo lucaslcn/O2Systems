@@ -33,6 +33,8 @@
     <class>negocio.Acaotela</class>
     <class>negocio.Tela</class>
     <class>negocio.Listapermissao</class>
+    <class>negocio.ViewListaacaotela</class>
+    <class>negocio.Auditoriainfoold</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://pgsql03-farm76.kinghost.net:5432/syscoffe"/>
       <property name="javax.persistence.jdbc.user" value="syscoffe"/>
