@@ -31,6 +31,7 @@ import negocio.Usuario;
 import org.hibernate.HibernateException;
 import persistencia.BasicScreen;
 import registros.Atividade;
+import registros.PermissaoG;
 
 /**
  *
@@ -79,7 +80,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
         tfdPlano = new javax.swing.JTextField();
         btnPesquisar2 = new javax.swing.JToggleButton();
         tfdPaciente = new javax.swing.JTextField();
-        jdcData = new com.toedter.calendar.JDateChooser();
+        jcData = new com.toedter.calendar.JDateChooser();
         btnCancelar = new javax.swing.JToggleButton();
         btnPesquisar3 = new javax.swing.JToggleButton();
         btnDeletar = new javax.swing.JToggleButton();
@@ -149,7 +150,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
         tfdPaciente.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tfdPaciente.setText("Anderson Caye");
 
-        jdcData.setDate(new Date());
+        jcData.setDate(new Date());
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -166,7 +167,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jdcData, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jcData, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel10)
                                 .addGap(18, 18, 18)
@@ -206,7 +207,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
                     .addComponent(jLabel9)
                     .addComponent(jLabel10)
                     .addComponent(tfHora, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jdcData, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jcData, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
@@ -302,7 +303,8 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    private javax.swing.JPanel jP_btnDeAcao;
+    
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         Paciente k = (Paciente) Gema.pesquisar(new PacienteDAO());
 
@@ -390,7 +392,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
 
             int paciente = this.paciente.getIdpaciente();
             int exame = this.exame.getIdexame();
-            String data = jdcData.getDateFormatString();
+            String data = jcData.getDateFormatString();
             String hora = tfHora.getText();
             int plano = this.plano.getIdplano();
 
@@ -441,7 +443,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
         tfdPlano.setText(ae.getIdplano().getNomePlano());
 
         tfHora.setText(ae.getHoraExame().getHours() + ":" + ae.getHoraExame().getMinutes());
-        jdcData.setDate(ae.getDataExame()); 
+        jcData.setDate(ae.getDataExame()); 
     }
 
     public void preencherPaciente() {
@@ -470,7 +472,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
         tfdPaciente.setText("");
         tfdExames.setText("");
         tfdPlano.setText("");
-        jdcData = new JDateChooser();
+        jcData = new JDateChooser();
         tfHora.setText("");
     }
 
@@ -482,10 +484,10 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
         this.ae.setIdformaPagamento(new FormaPagamentoDAO().consultarId(2));
         this.ae.setStatus(true);
 
-        String[] data = jdcData.getDateFormatString().split("/");
+        String[] data = jcData.getDateFormatString().split("/");
         String[] hora = tfHora.getText().split(":");
 
-        String date = jdcData.getDateFormatString();
+        String date = jcData.getDateFormatString();
 
         int year = Integer.parseInt(data[2]);
         int month = Integer.parseInt(data[1]);
@@ -513,7 +515,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
     public void situacaoNovo() {
         tfdPaciente.setEnabled(true);
         tfdExames.setEnabled(true);
-        jdcData.setEnabled(true);
+        jcData.setEnabled(true);
         tfHora.setEnabled(true);
         tfdPlano.setEnabled(true);
 
@@ -529,7 +531,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
     public void situacaoEditar() {
         tfdPaciente.setEnabled(true);
         tfdExames.setEnabled(true);
-        jdcData.setEnabled(true);
+        jcData.setEnabled(true);
         tfHora.setEnabled(true);
         tfdPlano.setEnabled(true);
 
@@ -545,7 +547,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
     public void situacaoVisualizacao() {
         tfdPaciente.setEnabled(false);
         tfdExames.setEnabled(false);
-        jdcData.setEnabled(false);
+        jcData.setEnabled(false);
         tfHora.setEnabled(false);
         tfdPlano.setEnabled(false);
 
@@ -559,6 +561,12 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
 
     @Override
     public void permissao() {
+        btnDeletar.setName("65");
+        btnEditar.setName("64");
+        btnPesquisar.setName("66");
+        btnSalvar.setName("63");
+       
+        PermissaoG.myCan(can, jP_btnDeAcao.getComponents());
     }
 
     @Override
@@ -603,7 +611,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private com.toedter.calendar.JDateChooser jdcData;
+    private com.toedter.calendar.JDateChooser jcData;
     private javax.swing.JFormattedTextField tfHora;
     private javax.swing.JTextField tfdExames;
     private javax.swing.JTextField tfdPaciente;

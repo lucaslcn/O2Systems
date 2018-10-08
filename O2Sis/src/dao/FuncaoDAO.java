@@ -39,7 +39,7 @@ public class FuncaoDAO extends DAO implements IDAO_T<Funcao> {
 
         //Executa a busca
         if (Gema.vazio(criterio, 1)) {
-            array = this.selectWithJoin(table, "ilike %" + criterio + "%");
+            array = this.selectWithJoin(table, "lower(descricao_funcao) like lower('%" + criterio + "%') and status = true order by descricao_funcao asc");
         } else {
             array = this.selectWithJoin(table, "status = true order by idfuncao ASC");
         }

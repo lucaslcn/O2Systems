@@ -16,6 +16,7 @@ import negocio.Funcao;
 import negocio.Usuario;
 import org.hibernate.HibernateException;
 import registros.Atividade;
+import registros.PermissaoG;
 
 /**
  *
@@ -232,10 +233,10 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
         try {
             String descFuncao = tF_DescricaoFuncao.getText();
             String temUsuario = cB_Usuario.getItemAt(cB_Usuario.getSelectedIndex());
-            
-            String[] campos = {"descrição da função","possui usuario"};
+
+            String[] campos = {"descrição da função", "possui usuario"};
             String[] valor = {descFuncao, temUsuario};
-            Integer[] qtd = {1,1};
+            Integer[] qtd = {1, 1};
 
             String p = ValidaCampo.campoVazio(campos, qtd, valor);
             if (p == null) {
@@ -327,7 +328,8 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField tF_DescricaoFuncao;
     // End of variables declaration//GEN-END:variables
-
+    private javax.swing.JPanel jP_btnDeAcao;
+    
     public void preencher() {
         tF_DescricaoFuncao.setText(this.funcao.getDescricaoFuncao());
         if (this.funcao.getBooleanUser() == false) {
@@ -348,6 +350,7 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
         int controladoFuncao = cB_Usuario.getSelectedIndex();
         if (Gema.vazio(descricaoFuncao, 2)) {
             this.funcao.setDescricaoFuncao(descricaoFuncao);
+            this.funcao.setStatus(true);
             if (controladoFuncao == 0) {
                 this.funcao.setBooleanUser(false);
             } else {
@@ -396,17 +399,22 @@ public class CadastroFuncaoJIF extends javax.swing.JInternalFrame implements Bas
 
     @Override
     public void permissao() {
-
+        btnDeletar.setName("55");
+        btnEditar.setName("54");
+        btnPesquisar.setName("56");
+        btnSalvar.setName("53");
+       
+        PermissaoG.myCan(can, jP_btnDeAcao.getComponents());
     }
 
     @Override
     public String[] auditoria() {
-        String[] r = 
-        {
-            funcao.getIdfuncao()+"",
-            funcao.getDescricaoFuncao(),
-            funcao.getBooleanUser()+""
-        };
+        String[] r
+                = {
+                    funcao.getIdfuncao() + "",
+                    funcao.getDescricaoFuncao(),
+                    funcao.getBooleanUser() + ""
+                };
         return r;
     }
 

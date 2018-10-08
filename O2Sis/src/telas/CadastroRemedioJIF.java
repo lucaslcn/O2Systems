@@ -175,7 +175,7 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
                 .addContainerGap()
                 .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnPesquisar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -362,6 +362,7 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
         int controladoRemedio = CB_Controlado.getSelectedIndex();
         if (Gema.vazio(nomeRemedio, 2)) {
             this.remedio.setNomeRemedio(nomeRemedio);
+            this.remedio.setStatus(true);
             if (controladoRemedio == 0) {
                 this.remedio.setControlado(false);
             } else {

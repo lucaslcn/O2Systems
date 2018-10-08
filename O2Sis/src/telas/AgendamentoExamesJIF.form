@@ -101,7 +101,7 @@
                           <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="jdcData" min="-2" pref="135" max="-2" attributes="0"/>
+                                  <Component id="jcData" min="-2" pref="135" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -154,7 +154,7 @@
                       <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="tfHora" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                      <Component id="jdcData" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="jcData" min="-2" pref="30" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -256,7 +256,7 @@
             <Property name="text" type="java.lang.String" value="Anderson Caye"/>
           </Properties>
         </Component>
-        <Component class="com.toedter.calendar.JDateChooser" name="jdcData">
+        <Component class="com.toedter.calendar.JDateChooser" name="jcData">
           <Properties>
             <Property name="date" type="java.util.Date" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="new Date()" type="code"/>
