@@ -40,6 +40,11 @@ public class MensagemService {
     
     public void send(MensagemCadastro message) {
         MensagemFrame msg = new MensagemFrame();
+        try {
+            output.writeObject(msg);
+        } catch (IOException ex) {
+            Logger.getLogger(MensagemService.class.getName()).log(Level.SEVERE, null, ex);
+        }
         msg.setVisible(true);
     }
 }

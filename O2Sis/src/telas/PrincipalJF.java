@@ -5,9 +5,12 @@
  */
 package telas;
 
+import com.mballem.app.bean.MensagemCadastro;
+import com.mballem.app.service.MensagemService;
 import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import dao.ListapermissaoDAO;
 import dao.UsuarioDAO;
+import java.net.Socket;
 import java.util.List;
 import java.util.TreeMap;
 import negocio.Listapermissao;
@@ -24,6 +27,10 @@ public class PrincipalJF extends javax.swing.JFrame {
     Usuario usuario;
     List<Listapermissao> permissao;
     TreeMap<Integer, Boolean> can;
+    
+    private Socket socket;
+    private MensagemCadastro message;
+    private MensagemService service;
 
     /**
      * Creates new form Principal
@@ -37,6 +44,7 @@ public class PrincipalJF extends javax.swing.JFrame {
         this.montaTree();
         defineNomesComponente();
         permissao();
+        
     }
 
     /**

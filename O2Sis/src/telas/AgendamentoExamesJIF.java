@@ -533,15 +533,11 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
             System.out.println(he);
         }
 
-        this.message = new MensagemCadastro();
-        this.message.setAction(Action.CONNECT);
         this.service = new MensagemService();
         this.socket = this.service.connect();
         new Thread(new ListenerSocket(this.socket)).start();
         this.message = new MensagemCadastro();
         this.message.setAction(Action.SEND_ALL);
-        this.message.setData(jcData.getText());
-        this.message.setCampo(("Agendamento Exames"));
         this.service.send(this.message);
 
     }//GEN-LAST:event_btnSalvarActionPerformed
