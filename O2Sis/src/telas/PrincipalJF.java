@@ -14,7 +14,8 @@ import negocio.Listapermissao;
 import negocio.Usuario;
 import registros.PermissaoG;
 
-/**2
+/**
+ * 2
  *
  * @author anderson.caye
  */
@@ -23,7 +24,7 @@ public class PrincipalJF extends javax.swing.JFrame {
     Usuario usuario;
     List<Listapermissao> permissao;
     TreeMap<Integer, Boolean> can;
-        
+
     /**
      * Creates new form Principal
      */
@@ -31,7 +32,7 @@ public class PrincipalJF extends javax.swing.JFrame {
         this.setExtendedState(MAXIMIZED_BOTH);
         initComponents();
         this.usuario = usuario;
-        this.permissao = (List<Listapermissao>) new ListapermissaoDAO().selectWithJoin("Listapermissao", "idusuario = "+ this.usuario.getIdusuario() +" order by idlistapermissao asc");
+        this.permissao = (List<Listapermissao>) new ListapermissaoDAO().selectWithJoin("Listapermissao", "idusuario = " + this.usuario.getIdusuario() + " order by idlistapermissao asc");
         can = new TreeMap();
         this.montaTree();
         defineNomesComponente();
@@ -495,10 +496,14 @@ public class PrincipalJF extends javax.swing.JFrame {
     }//GEN-LAST:event_itemMenuConsultasMarcadasActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-
-      com.mballem.app.frame.ClienteFrame k = new com.mballem.app.frame.ClienteFrame ();
-      k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
-      k.setVisible(true);
+        ChatJIF k = new ChatJIF(this.usuario);
+        jDesktopRun.add(k);
+        k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
+        k.setVisible(true);
+//      
+//      ClienteFrame k = new ClienteFrame(this.usuario);
+//      k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
+//      k.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
 //    /**
@@ -579,7 +584,7 @@ public class PrincipalJF extends javax.swing.JFrame {
 
     private void permissao() {
         menuDesenvolvedor.setVisible(PermissaoG.canUse(menuDesenvolvedor.isEnabled(), can.get(1)));
-        
+
         itemMenuAuditoria.setName("13");
         PermissaoG.myCan(can, menuO2System.getMenuComponents());
         PermissaoG.myCan(can, menuAgendamento.getMenuComponents());
@@ -587,8 +592,8 @@ public class PrincipalJF extends javax.swing.JFrame {
         PermissaoG.myCan(can, menuDesenvolvedor.getMenuComponents());
         PermissaoG.myCan(can, menuRelatorios.getMenuComponents());
     }
-    
-    private void defineNomesComponente(){
+
+    private void defineNomesComponente() {
         itemMenuAuditoria.setName("13");
         itemMenuSobre.setName("89");
         itemMenuAgendarConsulta.setName("57");
@@ -608,13 +613,13 @@ public class PrincipalJF extends javax.swing.JFrame {
         itemMenuFuncao.setName("52");
         itemMenu_CriarPermissao.setName("1");
     }
-    
-    private void montaTree(){
+
+    private void montaTree() {
         for (Listapermissao use : permissao) {
             this.can.put(use.getIdlistaacao().getIdlistaacao(), use.getPermissao());
         }
     }
-    
+
     private void atualizaPermissao() {
         permissao();
     }

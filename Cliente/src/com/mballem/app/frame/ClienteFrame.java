@@ -34,6 +34,7 @@ public class ClienteFrame extends javax.swing.JFrame {
      */
     public ClienteFrame() {
         initComponents();
+        
     }
     
     private class ListenerSocket implements Runnable {
@@ -223,6 +224,8 @@ public class ClienteFrame extends javax.swing.JFrame {
 
         txtAreaSend.setColumns(20);
         txtAreaSend.setRows(5);
+        txtAreaSend.setToolTipText("");
+        txtAreaSend.setWrapStyleWord(true);
         txtAreaSend.setEnabled(false);
         jScrollPane2.setViewportView(txtAreaSend);
 

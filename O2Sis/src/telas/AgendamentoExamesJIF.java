@@ -5,6 +5,14 @@
  */
 package telas;
 
+import com.mballem.app.Mensagem;
+import com.mballem.app.bean.ChatMessage;
+import com.mballem.app.bean.MensagemCadastro;
+import com.mballem.app.bean.MensagemCadastro.Action;
+import com.mballem.app.frame.ClienteFrame;
+import com.mballem.app.frame.MensagemFrame;
+import com.mballem.app.service.ClienteService;
+import com.mballem.app.service.MensagemService;
 import com.toedter.calendar.JDateChooser;
 import dao.AgendamentoExamesDAO;
 import dao.ExameDAO;
@@ -15,6 +23,9 @@ import gema.Formatacao;
 import gema.Gema;
 import gema.Mensagens;
 import gema.ValidaCampo;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.net.Socket;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -51,6 +62,10 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
     TreeMap<Integer, Boolean> can;
     Date data;
 
+    private Socket socket;
+    private MensagemCadastro message;
+    private MensagemService service;
+
     /**
      * Creates new form AgendamentoConsulta
      */
@@ -59,6 +74,36 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
         limpar();
         this.usuario = usuario;
         this.can = can;
+    }
+
+    private class ListenerSocket implements Runnable {
+
+        private ObjectInputStream input;
+
+        public ListenerSocket(Socket socket) {
+            try {
+                this.input = new ObjectInputStream(socket.getInputStream());
+            } catch (IOException ex) {
+                Logger.getLogger(ClienteFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        @Override
+        public void run() {
+            MensagemCadastro message = null;
+            try {
+                while ((message = (MensagemCadastro) input.readObject()) != null) {
+                    MensagemCadastro.Action action = message.getAction();
+                    if (action.equals(MensagemCadastro.Action.SEND_ALL)) {
+                        
+                    }
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(ClienteFrame.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ClienteFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     /**
@@ -451,7 +496,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
             if (plano != null) {
                 planoNome = "mais de 1 letra";
             }
-            
+
             String[] campos = {"paciente", "exame", "data", "hora", "plano"};
             String[] valor = {pacienteNome + "", exameNome + "", data + "", hora + "", planoNome + ""};
             Integer[] qtd = {1, 1, 9, 4, 1};
@@ -487,6 +532,18 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
         } catch (HibernateException he) {
             System.out.println(he);
         }
+
+        this.message = new MensagemCadastro();
+        this.message.setAction(Action.CONNECT);
+        this.service = new MensagemService();
+        this.socket = this.service.connect();
+        new Thread(new ListenerSocket(this.socket)).start();
+        this.message = new MensagemCadastro();
+        this.message.setAction(Action.SEND_ALL);
+        this.message.setData(jcData.getText());
+        this.message.setCampo(("Agendamento Exames"));
+        this.service.send(this.message);
+
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void comboHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboHoraActionPerformed
@@ -726,4 +783,5 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
     private javax.swing.JTextField tfdPaciente;
     private javax.swing.JTextField tfdPlano;
     // End of variables declaration//GEN-END:variables
+
 }
