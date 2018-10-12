@@ -61,7 +61,7 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
     private void initComponents() {
 
         jP_btnDeAcao = new javax.swing.JPanel();
-        btnDeletar = new javax.swing.JToggleButton();
+        btnArquivar = new javax.swing.JToggleButton();
         btnCancelar = new javax.swing.JToggleButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jT_auditoria = new javax.swing.JTable();
@@ -80,12 +80,12 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
 
         jP_btnDeAcao.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_delete.png"))); // NOI18N
-        btnDeletar.setText("Arquivar");
-        btnDeletar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnDeletar.addActionListener(new java.awt.event.ActionListener() {
+        btnArquivar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_delete.png"))); // NOI18N
+        btnArquivar.setText("Arquivar");
+        btnArquivar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnArquivar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeletarActionPerformed(evt);
+                btnArquivarActionPerformed(evt);
             }
         });
 
@@ -197,7 +197,7 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
                             .addGroup(jP_btnDeAcaoLayout.createSequentialGroup()
                                 .addComponent(jdc_DataFim, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnArquivar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jCB_DtFim))))
                 .addContainerGap())
         );
@@ -220,7 +220,7 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
                             .addComponent(jCB_DtFim))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jP_btnDeAcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnArquivar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jdc_DataFim, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jdc_DataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jP_btnDeAcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -249,7 +249,7 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
+    private void btnArquivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArquivarActionPerformed
         if(jCB_DtInicio.isSelected()){
             jL_msg.setVisible(true);
             ArquivarPorData();
@@ -261,7 +261,7 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
         jdc_DataInicio.setEnabled(false);
         jdc_DataFim.setEnabled(false);
         jL_msg.setVisible(false);
-    }//GEN-LAST:event_btnDeletarActionPerformed
+    }//GEN-LAST:event_btnArquivarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         int resposta = Mensagens.questionarAcao();
@@ -281,13 +281,13 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
             jCB_DtFim.setEnabled(true);
             jdc_DataInicio.setEnabled(true);
             jdc_DataFim.setEnabled(false);
-            btnDeletar.setEnabled(false);
+            btnArquivar.setEnabled(true);
         } else {
             jCB_DtFim.setEnabled(false);
             jCB_DtFim.setSelected(false);
             jdc_DataInicio.setEnabled(false);
             jdc_DataFim.setEnabled(false);
-            btnDeletar.setEnabled(true);
+            btnArquivar.setEnabled(false);
         }
     }//GEN-LAST:event_jCB_DtInicioActionPerformed
 
@@ -343,8 +343,8 @@ public class RegistroAuditoriaJD extends javax.swing.JDialog {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton btnArquivar;
     private javax.swing.JToggleButton btnCancelar;
-    private javax.swing.JToggleButton btnDeletar;
     private javax.swing.JToggleButton btnPesquisar;
     private javax.swing.JCheckBox jCB_DtFim;
     private javax.swing.JCheckBox jCB_DtInicio;

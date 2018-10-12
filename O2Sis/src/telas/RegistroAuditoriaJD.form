@@ -81,7 +81,7 @@
                               <Group type="102" attributes="0">
                                   <Component id="jdc_DataFim" min="-2" pref="100" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btnDeletar" min="-2" pref="100" max="-2" attributes="0"/>
+                                  <Component id="btnArquivar" min="-2" pref="100" max="-2" attributes="0"/>
                               </Group>
                               <Component id="jCB_DtFim" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -112,7 +112,7 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="btnDeletar" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="btnArquivar" min="-2" pref="30" max="-2" attributes="0"/>
                               <Component id="jdc_DataFim" min="-2" pref="30" max="-2" attributes="0"/>
                               <Component id="jdc_DataInicio" min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
@@ -128,7 +128,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JToggleButton" name="btnDeletar">
+        <Component class="javax.swing.JToggleButton" name="btnArquivar">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/icons/application_delete.png"/>
@@ -137,7 +137,7 @@
             <Property name="horizontalAlignment" type="int" value="2"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeletarActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnArquivarActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JToggleButton" name="btnCancelar">
