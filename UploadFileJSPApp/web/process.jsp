@@ -10,6 +10,6 @@
 
     MultipartRequest m=new MultipartRequest(request, "E:/file");
 
-    out.println("Successfully Uploaded..");
+    out.println("Upload realizado com sucesso!");
 
     %> 

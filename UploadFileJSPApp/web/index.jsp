@@ -22,7 +22,7 @@
 
         <form action="process.jsp" method="post" enctype="multipart/form-data">
 
-            <b>Select File:</b> <input type="file" name="fname"><br/>
+            <b>Selecione a imagem:</b> <input type="file" name="fname"><br/>
 
             <input type="submit" value="Upload">
 
