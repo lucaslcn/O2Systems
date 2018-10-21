@@ -45,6 +45,11 @@ public class PrincipalJF extends javax.swing.JFrame {
         defineNomesComponente();
         permissao();
         
+        PainelAvisosJIF k = new PainelAvisosJIF(this.usuario);
+        jDesktopRun.add(k);
+        k.setLocation(this.getWidth() - k.getWidth(), /*this.getHeight() / 2 - k.getHeight() / 2*/ 0);
+        k.setVisible(true);
+        
     }
 
     /**

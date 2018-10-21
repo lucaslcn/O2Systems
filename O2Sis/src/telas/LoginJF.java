@@ -13,6 +13,7 @@ import dao.ListapermissaoDAO;
 import dao.LoginDAO;
 import dao.PlanoDAO;
 import dao.UsuarioDAO;
+import gema.Email;
 import gema.Mensagens;
 import java.awt.event.KeyEvent;
 import java.math.BigInteger;
@@ -198,7 +199,9 @@ public class LoginJF extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        Email.SendEmail("elias.flach@universo.univates.br", "Redifinição de Senha", "Teste de redefinição de senha");
         login();
+        
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnLogin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogin1ActionPerformed
