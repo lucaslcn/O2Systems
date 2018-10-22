@@ -5,14 +5,11 @@
  */
 package telas;
 
-import com.mballem.app.Mensagem;
 import com.mballem.app.bean.ChatMessage;
 import com.mballem.app.bean.MensagemCadastro;
 import com.mballem.app.bean.MensagemCadastro.Action;
 import com.mballem.app.frame.ClienteFrame;
-import com.mballem.app.frame.MensagemFrame;
 import com.mballem.app.service.ClienteService;
-import com.mballem.app.service.MensagemService;
 import com.toedter.calendar.JDateChooser;
 import dao.AgendamentoExamesDAO;
 import dao.ExameDAO;
@@ -61,10 +58,6 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
     Usuario usuario;
     TreeMap<Integer, Boolean> can;
     Date data;
-
-    private Socket socket;
-    private MensagemCadastro message;
-    private MensagemService service;
 
     /**
      * Creates new form AgendamentoConsulta
@@ -532,13 +525,6 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
         } catch (HibernateException he) {
             System.out.println(he);
         }
-
-        this.service = new MensagemService();
-        this.socket = this.service.connect();
-        new Thread(new ListenerSocket(this.socket)).start();
-        this.message = new MensagemCadastro();
-        this.message.setAction(Action.SEND_ALL);
-        this.service.send(this.message);
 
     }//GEN-LAST:event_btnSalvarActionPerformed
 

@@ -6,7 +6,6 @@
 package telas;
 
 import com.mballem.app.bean.MensagemCadastro;
-import com.mballem.app.service.MensagemService;
 import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import dao.ListapermissaoDAO;
 import dao.UsuarioDAO;
@@ -27,10 +26,6 @@ public class PrincipalJF extends javax.swing.JFrame {
     Usuario usuario;
     List<Listapermissao> permissao;
     TreeMap<Integer, Boolean> can;
-    
-    private Socket socket;
-    private MensagemCadastro message;
-    private MensagemService service;
 
     /**
      * Creates new form Principal
@@ -99,6 +94,8 @@ public class PrincipalJF extends javax.swing.JFrame {
         itemMenu_CriarPermissao = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        emailAnexo = new javax.swing.JMenuItem();
 
         jMenuItem5.setText("jMenuItem5");
 
@@ -353,6 +350,18 @@ public class PrincipalJF extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        jMenu2.setText("Email");
+
+        emailAnexo.setText("Email com Anexo");
+        emailAnexo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                emailAnexoActionPerformed(evt);
+            }
+        });
+        jMenu2.add(emailAnexo);
+
+        jMenuBar1.add(jMenu2);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -519,6 +528,13 @@ public class PrincipalJF extends javax.swing.JFrame {
 //      k.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void emailAnexoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailAnexoActionPerformed
+        EmailJIF k = new EmailJIF(this.usuario);
+        jDesktopRun.add(k);
+        k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
+        k.setVisible(true);
+    }//GEN-LAST:event_emailAnexoActionPerformed
+
 //    /**
 //     * @param args the command line arguments
 //     */
@@ -555,6 +571,7 @@ public class PrincipalJF extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem emailAnexo;
     private javax.swing.JMenuItem itemMenuAgendarConsulta;
     private javax.swing.JMenuItem itemMenuAgendarExames;
     private javax.swing.JMenuItem itemMenuAuditoria;
@@ -578,6 +595,7 @@ public class PrincipalJF extends javax.swing.JFrame {
     private javax.swing.JDesktopPane jDesktopRun;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
