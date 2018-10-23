@@ -16,7 +16,7 @@ import javax.mail.internet.*;
 import javax.mail.internet.MimeMessage;
 public class Email {
 
-    public static void SendEmail(String para, String titulo, String mensagem) {
+    public static void sendEmail(String para, String titulo, String mensagem) {
         try{
             String host ="smtp.gmail.com" ;
             String user = "o2sys.contato@gmail.com";
