@@ -23,7 +23,6 @@
         <form action="process.jsp" method="post" enctype="multipart/form-data">
 
             <b>Selecione a imagem:</b> <input type="file" name="fname"><br/>
-            <b>Código da pessoa:</b> <input type="number" name="cod"><br/>
 
             <input type="submit" value="Upload">
 
