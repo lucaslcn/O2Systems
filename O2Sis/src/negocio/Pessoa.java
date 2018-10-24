@@ -6,6 +6,7 @@
 package negocio;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -47,6 +48,11 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Pessoa.findByCep", query = "SELECT p FROM Pessoa p WHERE p.cep = :cep")
     , @NamedQuery(name = "Pessoa.findByStatus", query = "SELECT p FROM Pessoa p WHERE p.status = :status")})
 public class Pessoa implements Serializable {
+
+    @Column(name = "imagem")
+    private BigInteger imagem;
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "nick")
     private String nick;
@@ -254,6 +260,22 @@ public class Pessoa implements Serializable {
 
     public void setNick(String nick) {
         this.nick = nick;
+    }
+
+    public BigInteger getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(BigInteger imagem) {
+        this.imagem = imagem;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
     
 }
