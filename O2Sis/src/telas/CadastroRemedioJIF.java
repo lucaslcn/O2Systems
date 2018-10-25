@@ -250,9 +250,9 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
             String nomeRemedio = TF_NomeRemedio.getText();
             String controlado = CB_Controlado.getItemAt(CB_Controlado.getSelectedIndex());
 
-            String[] campos = {"nome remédio","controlado"};
+            String[] campos = {"nome remédio", "controlado"};
             String[] valor = {nomeRemedio, controlado};
-            Integer[] qtd = {1,1};
+            Integer[] qtd = {1, 1};
 
             String p = ValidaCampo.campoVazio(campos, qtd, valor);
             if (p == null) {
@@ -436,7 +436,7 @@ public class CadastroRemedioJIF extends javax.swing.JInternalFrame implements Ba
         btnEditar.setName("39");
         btnPesquisar.setName("41");
         btnSalvar.setName("38");
-                
-        PermissaoG.myCan(can,  jP_btnDeAcao.getComponents());
+
+        PermissaoG.myCan(can, jP_btnDeAcao.getComponents());
     }
 }

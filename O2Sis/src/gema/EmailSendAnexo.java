@@ -22,7 +22,6 @@ import javax.swing.JOptionPane;
 public class EmailSendAnexo {
     
     public static void SendEmail(String remetente, String destinatario, String titulo, String mensagem, File[] anexo) {
-        
         try {
 
             //usuario e senha do seu gmail

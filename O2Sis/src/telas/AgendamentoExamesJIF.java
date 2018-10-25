@@ -6,8 +6,6 @@
 package telas;
 
 import com.mballem.app.bean.ChatMessage;
-import com.mballem.app.bean.MensagemCadastro;
-import com.mballem.app.bean.MensagemCadastro.Action;
 import com.mballem.app.frame.ClienteFrame;
 import com.mballem.app.service.ClienteService;
 import com.toedter.calendar.JDateChooser;
@@ -67,36 +65,6 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
         limpar();
         this.usuario = usuario;
         this.can = can;
-    }
-
-    private class ListenerSocket implements Runnable {
-
-        private ObjectInputStream input;
-
-        public ListenerSocket(Socket socket) {
-            try {
-                this.input = new ObjectInputStream(socket.getInputStream());
-            } catch (IOException ex) {
-                Logger.getLogger(ClienteFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-        @Override
-        public void run() {
-            MensagemCadastro message = null;
-            try {
-                while ((message = (MensagemCadastro) input.readObject()) != null) {
-                    MensagemCadastro.Action action = message.getAction();
-                    if (action.equals(MensagemCadastro.Action.SEND_ALL)) {
-                        
-                    }
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(ClienteFrame.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(ClienteFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
     }
 
     /**
@@ -525,6 +493,8 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
         } catch (HibernateException he) {
             System.out.println(he);
         }
+
+        PainelAvisosJIF.enviarMensagem("Novo Remédio Cadastrado");
 
     }//GEN-LAST:event_btnSalvarActionPerformed
 

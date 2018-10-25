@@ -22,6 +22,11 @@ public class Mensagens {
         return resposta;
     }
     
+    public static int questionarEmail(){
+        int resposta = JOptionPane.showConfirmDialog(null, "Deseja realmente enviar o e-mail?", "Alerta!", JOptionPane.YES_NO_OPTION);
+        return resposta;
+    }
+    
     public static int confirmarArquivamento(){
         int resposta = JOptionPane.showConfirmDialog(null, "Deseja realmente arquivar?", "Alerta!", JOptionPane.YES_NO_OPTION);
         return resposta;

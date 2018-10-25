@@ -5,7 +5,6 @@
  */
 package telas;
 
-import com.mballem.app.bean.MensagemCadastro;
 import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import dao.ListapermissaoDAO;
 import dao.UsuarioDAO;
