@@ -31,7 +31,7 @@ public class SenhaRecuperarJD extends javax.swing.JDialog {
         tentaitiva = 0;
         
         if(!user.isEmpty()){
-            this.usuario = (Usuario) new UsuarioDAO().selectWithJoin("Usuario", "nick = "+user).get(0);
+            this.usuario = (Usuario) new UsuarioDAO().selectWithJoin("Usuario", "nick = '"+user+"'").get(0);
             if (this.usuario != null){
                 jTF_user.setText(usuario.getNick());
                 jTF_email.setText(usuario.getIdfuncionario().getIdpessoa().getEmail());
@@ -79,6 +79,11 @@ public class SenhaRecuperarJD extends javax.swing.JDialog {
 
         jTF_codigo.setFont(new java.awt.Font("Courier New", 1, 36)); // NOI18N
         jTF_codigo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTF_codigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTF_codigoKeyTyped(evt);
+            }
+        });
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Insira o código enviado para o email acima");
@@ -182,7 +187,7 @@ public class SenhaRecuperarJD extends javax.swing.JDialog {
     private void btn_SolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SolicitarActionPerformed
         String user = jTF_user.getText();
         if(!user.isEmpty()){
-            this.usuario = (Usuario) new UsuarioDAO().selectWithJoin("Usuario", "nick = "+user).get(0);
+            this.usuario = (Usuario) new UsuarioDAO().selectWithJoin("Usuario", "nick = '"+user+"'").get(0);
             if (this.usuario != null){
                 jTF_user.setText(usuario.getNick());
                 jTF_email.setText(usuario.getIdfuncionario().getIdpessoa().getEmail());
@@ -208,6 +213,13 @@ public class SenhaRecuperarJD extends javax.swing.JDialog {
             dispose();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTF_codigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTF_codigoKeyTyped
+        String caracteres = "0987654321";
+        if (!caracteres.contains(evt.getKeyChar() + "")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTF_codigoKeyTyped
 
     /**
      * @param args the command line arguments
@@ -266,26 +278,33 @@ public class SenhaRecuperarJD extends javax.swing.JDialog {
 
     private void gerarAcao() {
         codigo = (int) (Math.random()*10000);
-        String msn = "Código de recuperação: " + codigo;
+        String msg = "Código de recuperação: " + codigo;
         Email.sendEmail(this.usuario.getIdfuncionario().getIdpessoa().getEmail(), "Código de recuperação", msg);
         btn_Recuperar.setEnabled(true);
         jTF_codigo.setEnabled(true);
     }
     
     private void verifica() {
-        int inseridoCodigo = Integer.parseInt(jTF_codigo.getText());
-        
-        if(tentaitiva >= 3){
-            Mensagens.retornoAcao("Tentativas de recuperação esgotadas!");
-            dispose();
-        }
-        
-        if (inseridoCodigo == this.codigo){
-            SenhaAlterarJD a = new SenhaAlterarJD(new javax.swing.JFrame(), true, this.usuario);
-            dispose();
+        if(!jTF_codigo.getText().isEmpty()){
+            int inseridoCodigo = Integer.parseInt(jTF_codigo.getText());
+
+            if(tentaitiva >= 3){
+                Mensagens.retornoAcao("Tentativas de recuperação esgotadas!");
+                dispose();
+            }
+
+            if (inseridoCodigo == this.codigo){
+                SenhaAlterarJD a = new SenhaAlterarJD(new javax.swing.JFrame(), true, this.usuario);
+                a.setLocationRelativeTo(null);
+                a.setVisible(true);
+
+                dispose();
+            } else {
+                tentaitiva++;
+                Mensagens.retornoAcao("Código inválido!");
+            }
         } else {
-            tentaitiva++;
-            Mensagens.retornoAcao("Código inválido!");
+            Mensagens.retornoAcao( Mensagens.preenchaOsCampos() );
         }
     }
 }

@@ -6,7 +6,7 @@
 package telas;
 
 import com.mballem.app.bean.ChatMessage;
-import com.mballem.app.service.ClienteService;
+//import com.mballem.app.service.ClienteService;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;

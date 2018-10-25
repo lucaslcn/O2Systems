@@ -11,8 +11,10 @@ package gema;
  */
 public class teste {
     public static void main(String[] args) {
-        int codigo = (int) (Math.random()*10000);
+        for(int i = 0; i <= 10;i++ ){
+        int  codigo = (int) (Math.random()*10000);
         
         System.out.println(codigo);
+        }
     }
 }
