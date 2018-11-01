@@ -5,6 +5,7 @@
  */
 package negocio;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -47,6 +48,7 @@ public class Estado implements Serializable {
     @Column(name = "nome_estado")
     private String nomeEstado;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idestado")
+    @JsonIgnore
     private List<Cidade> cidadeList;
 
     public Estado() {

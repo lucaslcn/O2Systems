@@ -5,6 +5,7 @@
  */
 package negocio;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -39,9 +40,11 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Usuario implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idusuario")
+    @JsonIgnore
     private List<Auditoriainfoold> auditoriainfooldList;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idusuario")
+    @JsonIgnore
     private List<Listapermissao> listapermissaoList;
 
     @JoinColumn(name = "idpermissao", referencedColumnName = "idpermissao")
@@ -64,6 +67,7 @@ public class Usuario implements Serializable {
     @ManyToOne(optional = false)
     private Funcionario idfuncionario;
     @OneToMany (cascade = CascadeType.ALL, mappedBy = "idusuario")
+    @JsonIgnore
     private List<Auditoria> auditoriaList;
 
     public Usuario() {

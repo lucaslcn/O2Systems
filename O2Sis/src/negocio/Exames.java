@@ -5,9 +5,9 @@
  */
 package negocio;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -45,8 +45,10 @@ public class Exames implements Serializable {
     @Column(name = "valor")
     private BigDecimal valor;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idexames")
+    @JsonIgnore
     private List<ListagemExames> listagemExamesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idexame")
+    @JsonIgnore
     private List<AgendamentoExames> agendamentoExamesList;
 
     private static final long serialVersionUID = 1L;

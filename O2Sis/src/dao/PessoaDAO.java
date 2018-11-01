@@ -35,7 +35,7 @@ public class PessoaDAO extends DAO implements IDAO_T<Exames> {
         if (Gema.vazio(criterio, 1)) {
             array = this.selectWithJoin(table, "nome_pessoa ilike '%" + criterio + "%' order by nome_pessoa asc");
         } else {
-            array = this.selectWithJoin(table, " status = true order by nome_pessoaasc");
+            array = this.selectWithJoin(table, " status = true order by nome_pessoa asc");
         }
 
         //Definição dos dados da tabela.

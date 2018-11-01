@@ -5,6 +5,7 @@
  */
 package negocio;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -45,13 +46,17 @@ public class Funcionario implements Serializable {
     @Column(name = "medico")
     private Boolean medico;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idfuncionario")
+    @JsonIgnore
     private List<Consultas> consultasList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idfuncionario")
+    @JsonIgnore
     private List<Usuario> usuarioList;
     @JoinColumn(name = "idpessoa", referencedColumnName = "idpessoa")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Pessoa idpessoa;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idfuncionario")
+    @JsonIgnore
     private List<ListagemFuncao> listagemFuncaoList;
 
     public Funcionario() {

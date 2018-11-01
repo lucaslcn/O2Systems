@@ -5,6 +5,7 @@
  */
 package negocio;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -68,6 +69,7 @@ public class Consultas implements Serializable {
     private Plano idplano;
     @JoinColumn(name = "idprontuario", referencedColumnName = "idprontuario")
     @ManyToOne(optional = false)
+    
     private Prontuario idprontuario;
 
     public Consultas() {

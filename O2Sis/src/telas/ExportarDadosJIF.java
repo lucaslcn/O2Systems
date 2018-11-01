@@ -5,11 +5,41 @@
  */
 package telas;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import dao.ConsultasDAO;
+import dao.EstadoDAO;
+import dao.ExameDAO;
+import dao.FuncionarioDAO;
+import dao.PessoaDAO;
+import dao.UsuarioDAO;
+import gema.Gema;
+import java.io.File;
+import java.io.IOException;
+import javax.swing.JOptionPane;
+import negocio.Cidade;
+import negocio.Consultas;
+import negocio.Estado;
+import negocio.Exames;
+import negocio.Funcionario;
+import negocio.Pessoa;
+import negocio.Usuario;
+
 /**
  *
  * @author Lucas
  */
 public class ExportarDadosJIF extends javax.swing.JInternalFrame {
+
+    Estado estado;
+    Cidade cidade;
+    Exames exames;
+    Pessoa pessoa;
+    Funcionario funcionario;
+    Usuario usuario;
+    Consultas consultas;
+    Object k;
+    String nome;
 
     /**
      * Creates new form ExportarDadosJIF
@@ -29,39 +59,28 @@ public class ExportarDadosJIF extends javax.swing.JInternalFrame {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
-        tfdPaciente = new javax.swing.JTextField();
-        btnPesquisar = new javax.swing.JToggleButton();
         jLabel2 = new javax.swing.JLabel();
-        tfdPaciente1 = new javax.swing.JTextField();
+        tfdItem = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
+        JSONButton = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         btnPesquisar1 = new javax.swing.JToggleButton();
         jButton1 = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setTitle("Exportar dados");
 
-        jLabel1.setText("Selecione a tabela:");
+        jLabel1.setText("Selecione o cadastro:");
 
-        tfdPaciente.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel2.setText("Selecione o item:");
 
-        btnPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/magnifier.png"))); // NOI18N
-        btnPesquisar.setText("Pesquisar");
-        btnPesquisar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPesquisarActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setText("Selecione a linha: ");
-
-        tfdPaciente1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tfdItem.setEditable(false);
+        tfdItem.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
         jLabel3.setText("Formato:");
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("JSON");
+        buttonGroup1.add(JSONButton);
+        JSONButton.setText("JSON");
 
         buttonGroup1.add(jRadioButton2);
         jRadioButton2.setText("XML");
@@ -76,6 +95,13 @@ public class ExportarDadosJIF extends javax.swing.JInternalFrame {
         });
 
         jButton1.setText("Exportar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Estado", "Exame", "Pessoa", "Funcionario", "Usuario", "Consultas" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -87,79 +113,112 @@ public class ExportarDadosJIF extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfdPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnPesquisar, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
-                        .addGap(30, 30, 30))
+                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(153, 153, 153))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jRadioButton1)
+                                .addGap(20, 20, 20)
+                                .addComponent(JSONButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jRadioButton2)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton1)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(tfdPaciente1, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                                .addComponent(tfdItem, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnPesquisar1, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
-                                .addGap(29, 29, 29))))))
+                                .addComponent(btnPesquisar1)
+                                .addGap(36, 36, 36))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(tfdPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(tfdPaciente1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPesquisar1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(14, 14, 14)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addComponent(tfdItem, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnPesquisar1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jRadioButton1)
+                    .addComponent(JSONButton)
                     .addComponent(jRadioButton2)
                     .addComponent(jButton1))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        Paciente k = (Paciente) Gema.pesquisar(new PacienteDAO());
-
-        if (k != null) {
-            this.paciente = k;
-            preencherPaciente();
-        }
-    }//GEN-LAST:event_btnPesquisarActionPerformed
-
     private void btnPesquisar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisar1ActionPerformed
-        // TODO add your handling code here:
+        nome = jComboBox1.getItemAt(jComboBox1.getSelectedIndex());
+
+        if (jComboBox1.getSelectedIndex() != 0) {
+            if (nome.equalsIgnoreCase("estado")) {
+                 k = (Estado) Gema.pesquisar(new EstadoDAO());
+            } else if (nome.equalsIgnoreCase("exames")) {
+                 k = (Exames) Gema.pesquisar(new ExameDAO());
+            } else if (nome.equalsIgnoreCase("pessoa")) {
+                 k = (Pessoa) Gema.pesquisar(new PessoaDAO());
+            } else if (nome.equalsIgnoreCase("funcionario")) {
+                 k = (Funcionario) Gema.pesquisar(new FuncionarioDAO());
+            } else if (nome.equalsIgnoreCase("usuario")) {
+                 k = (Usuario) Gema.pesquisar(new UsuarioDAO());
+            } else if (nome.equalsIgnoreCase("consultas")) {
+                 k = (Consultas) Gema.pesquisar(new ConsultasDAO());
+            }
+
+            
+            tfdItem.setText("Item selecionado!");
+            System.out.println(k.getClass());
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecione o cadastro corretamente");
+        }
+        
+
     }//GEN-LAST:event_btnPesquisar1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        if (JSONButton.isSelected()) {
+            ObjectMapper mapper = new ObjectMapper();
+
+            try {
+                File json = new File(nome + ".json");
+                mapper.writeValue(json, k);
+                System.out.println("Java object converted to JSON String, written to file");
+                System.out.println(mapper.writeValueAsString(k));
+
+            }
+
+             catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton btnPesquisar;
+    private javax.swing.JRadioButton JSONButton;
     private javax.swing.JToggleButton btnPesquisar1;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JTextField tfdPaciente;
-    private javax.swing.JTextField tfdPaciente1;
+    private javax.swing.JTextField tfdItem;
     // End of variables declaration//GEN-END:variables
 }

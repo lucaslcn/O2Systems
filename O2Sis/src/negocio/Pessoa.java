@@ -5,6 +5,7 @@
  */
 package negocio;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
@@ -92,10 +93,13 @@ public class Pessoa implements Serializable {
     private Boolean status;
     @JoinColumn(name = "idcidade", referencedColumnName = "idcidade")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Cidade idcidade;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idpessoa")
+    @JsonIgnore
     private List<Paciente> pacienteList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idpessoa")
+    @JsonIgnore
     private List<Funcionario> funcionarioList;
 
     public Pessoa() {
