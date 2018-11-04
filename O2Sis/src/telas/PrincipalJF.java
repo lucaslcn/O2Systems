@@ -89,6 +89,7 @@ public class PrincipalJF extends javax.swing.JFrame {
         jSeparator6 = new javax.swing.JPopupMenu.Separator();
         itemMenuProntuario = new javax.swing.JMenuItem();
         menuRelatorios = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
         menuDesenvolvedor = new javax.swing.JMenu();
         itemMenu_CriarPermissao = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
@@ -320,6 +321,15 @@ public class PrincipalJF extends javax.swing.JFrame {
                 menuRelatoriosActionPerformed(evt);
             }
         });
+
+        jMenuItem4.setText("Dashboard");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        menuRelatorios.add(jMenuItem4);
+
         jMenuBar1.add(menuRelatorios);
 
         menuDesenvolvedor.setText("Desenvolvedor");
@@ -555,6 +565,13 @@ public class PrincipalJF extends javax.swing.JFrame {
         k.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        JanelaGraficoDashbordJIF k = new JanelaGraficoDashbordJIF();
+        jDesktopRun.add(k);
+        k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
+        k.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
 //    /**
 //     * @param args the command line arguments
 //     */
@@ -621,6 +638,7 @@ public class PrincipalJF extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
