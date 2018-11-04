@@ -40,6 +40,7 @@ public class ExportarDadosJIF extends javax.swing.JInternalFrame {
     Consultas consultas;
     Object k;
     String nome;
+    int contador = 0;
 
     /**
      * Creates new form ExportarDadosJIF
@@ -67,6 +68,7 @@ public class ExportarDadosJIF extends javax.swing.JInternalFrame {
         btnPesquisar1 = new javax.swing.JToggleButton();
         jButton1 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
+        btnCancelar = new javax.swing.JToggleButton();
 
         setTitle("Exportar dados");
 
@@ -103,6 +105,15 @@ public class ExportarDadosJIF extends javax.swing.JInternalFrame {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Estado", "Exame", "Pessoa", "Funcionario", "Usuario", "Consultas" }));
 
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cancel.png"))); // NOI18N
+        btnCancelar.setText("Cancelar");
+        btnCancelar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -110,6 +121,9 @@ public class ExportarDadosJIF extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -155,7 +169,9 @@ public class ExportarDadosJIF extends javax.swing.JInternalFrame {
                     .addComponent(JSONButton)
                     .addComponent(jRadioButton2)
                     .addComponent(jButton1))
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -164,28 +180,28 @@ public class ExportarDadosJIF extends javax.swing.JInternalFrame {
     private void btnPesquisar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisar1ActionPerformed
         nome = jComboBox1.getItemAt(jComboBox1.getSelectedIndex());
 
-        if (jComboBox1.getSelectedIndex() != 0) {
+        if (jComboBox1.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(this, "Selecione o cadastro corretamente!");
+        } else {
             if (nome.equalsIgnoreCase("estado")) {
-                 k = (Estado) Gema.pesquisar(new EstadoDAO());
-            } else if (nome.equalsIgnoreCase("exames")) {
-                 k = (Exames) Gema.pesquisar(new ExameDAO());
+                k = (Estado) Gema.pesquisar(new EstadoDAO());
+            } else if (nome.equalsIgnoreCase("exame")) {
+                k = (Exames) Gema.pesquisar(new ExameDAO());
             } else if (nome.equalsIgnoreCase("pessoa")) {
-                 k = (Pessoa) Gema.pesquisar(new PessoaDAO());
+                k = (Pessoa) Gema.pesquisar(new PessoaDAO());
             } else if (nome.equalsIgnoreCase("funcionario")) {
-                 k = (Funcionario) Gema.pesquisar(new FuncionarioDAO());
+                k = (Funcionario) Gema.pesquisar(new FuncionarioDAO());
             } else if (nome.equalsIgnoreCase("usuario")) {
-                 k = (Usuario) Gema.pesquisar(new UsuarioDAO());
+                k = (Usuario) Gema.pesquisar(new UsuarioDAO());
             } else if (nome.equalsIgnoreCase("consultas")) {
-                 k = (Consultas) Gema.pesquisar(new ConsultasDAO());
+                k = (Consultas) Gema.pesquisar(new ConsultasDAO());
             }
 
-            
-            tfdItem.setText("Item selecionado!");
+            if (k != null) {
+                tfdItem.setText("Item selecionado!");
+            }
             System.out.println(k.getClass());
-        } else {
-            JOptionPane.showMessageDialog(this, "Selecione o cadastro corretamente");
         }
-        
 
     }//GEN-LAST:event_btnPesquisar1ActionPerformed
 
@@ -195,22 +211,30 @@ public class ExportarDadosJIF extends javax.swing.JInternalFrame {
             ObjectMapper mapper = new ObjectMapper();
 
             try {
-                File json = new File(nome + ".json");
+                File json = new File(nome + contador + ".json");
+                String name = nome+contador+".json";
                 mapper.writeValue(json, k);
                 System.out.println("Java object converted to JSON String, written to file");
                 System.out.println(mapper.writeValueAsString(k));
+                tfdItem.setText("");
+                JOptionPane.showMessageDialog(this, "Item " + name + " exportado com sucesso!");
+                contador++;
+                
 
-            }
-
-             catch (IOException ex) {
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton JSONButton;
+    private javax.swing.JToggleButton btnCancelar;
     private javax.swing.JToggleButton btnPesquisar1;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;

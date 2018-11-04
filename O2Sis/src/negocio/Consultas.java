@@ -57,18 +57,23 @@ public class Consultas implements Serializable {
     private Date horaConsulta;
     @JoinColumn(name = "idforma_pagamento", referencedColumnName = "idforma_pagamento")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private FormaPagamento idformaPagamento;
     @JoinColumn(name = "idfuncionario", referencedColumnName = "idfuncionario")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Funcionario idfuncionario;
     @JoinColumn(name = "idpaciente", referencedColumnName = "idpaciente")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Paciente idpaciente;
     @JoinColumn(name = "idplano", referencedColumnName = "idplano")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Plano idplano;
     @JoinColumn(name = "idprontuario", referencedColumnName = "idprontuario")
     @ManyToOne(optional = false)
+    @JsonIgnore
     
     private Prontuario idprontuario;
 
