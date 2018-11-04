@@ -6,18 +6,18 @@
 package telas;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dao.AgendamentoExamesDAO;
 import dao.ConsultasDAO;
-import dao.EstadoDAO;
-import dao.ExameDAO;
 import dao.FuncionarioDAO;
 import dao.PessoaDAO;
 import dao.UsuarioDAO;
 import gema.Gema;
-import java.io.File;
+import gema.Mensagens;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import negocio.AgendamentoExames;
 import negocio.Cidade;
 import negocio.Consultas;
 import negocio.Estado;
@@ -25,15 +25,16 @@ import negocio.Exames;
 import negocio.Funcionario;
 import negocio.Pessoa;
 import negocio.Usuario;
+import persistencia.BasicScreen;
+import registros.Atividade;
 
 /**
  *
  * @author Lucas
  */
-public class ImportarDadosJIF extends javax.swing.JInternalFrame {
+public class ImportarDadosJIF extends javax.swing.JInternalFrame implements BasicScreen {
 
     String nome;
-    Object k;
     Estado estado;
     Cidade cidade;
     Exames exames;
@@ -41,6 +42,8 @@ public class ImportarDadosJIF extends javax.swing.JInternalFrame {
     Funcionario funcionario;
     Usuario usuario;
     Consultas consultas;
+    AgendamentoExames agendamentoExames;
+
     /**
      * Creates new form ImportarDadosJIF
      */
@@ -68,7 +71,7 @@ public class ImportarDadosJIF extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Selecione o cadastro:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Estado", "Exame", "Pessoa", "Funcionario", "Usuario", "Consultas" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Agendamento de Exames", "Consultas", " " }));
 
         jLabel2.setText("Copie o texto a ser importado");
 
@@ -145,61 +148,76 @@ public class ImportarDadosJIF extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-         nome = jComboBox1.getItemAt(jComboBox1.getSelectedIndex());
-         String jsonText = tfdJsonText.getText();
-         ObjectMapper mapper = new ObjectMapper();
-         
+        nome = jComboBox1.getItemAt(jComboBox1.getSelectedIndex());
+        String jsonText = tfdJsonText.getText();
+        ObjectMapper mapper = new ObjectMapper();
+
 //         k = mapper.readValue(jsonText, Object);
 //         
         if (jComboBox1.getSelectedIndex() == 0) {
             JOptionPane.showMessageDialog(this, "Selecione o cadastro corretamente!");
         } else {
-            if (nome.equalsIgnoreCase("estado")) {
-                try { 
-                    Estado estado =  mapper.readValue(jsonText, Estado.class);
+            if (nome.equalsIgnoreCase("agendamento de exames")) {
+
+                try {
+                    agendamentoExames = mapper.readValue(jsonText, AgendamentoExames.class);
                 } catch (IOException ex) {
                     Logger.getLogger(ImportarDadosJIF.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
 
-                if (estado.getIdestado() != null) {
-                    s = new EstadoDAO().update(this.estado, logAuditoria);
+                String[] infoOld = auditoria();
+
+                popular();
+
+                String[] infoNew = auditoria();
+                Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
+
+                String s;
+                if (agendamentoExames.getIdagendamentoExames() != null) {
+                    s = new AgendamentoExamesDAO().update(this.agendamentoExames, logAuditoria);
                 } else {
-                    s = new EstadoDAO().insert(this.estado, logAuditoria);
+                    s = new AgendamentoExamesDAO().insert(this.agendamentoExames, logAuditoria);
                 }
 
                 if (s == null) {
-                    Mensagens.retornoAcao(Mensagens.salvo("Estado"));
+                    Mensagens.retornoAcao(Mensagens.salvo("Agendamento Exame"));
                     limpar();
                     situacaoNovo();
                 } else {
-                    Mensagens.retornoAcao(Mensagens.erroSalvar("Estado"));
-                    TF_UF.requestFocus();
+                    Mensagens.retornoAcao(Mensagens.erroSalvar("Agendamento Exame"));
                 }
-                
-            } else if (nome.equalsIgnoreCase("exame")) {
-                
-            } else if (nome.equalsIgnoreCase("pessoa")) {
-                k = (Pessoa) Gema.pesquisar(new PessoaDAO());
-            } else if (nome.equalsIgnoreCase("funcionario")) {
-                k = (Funcionario) Gema.pesquisar(new FuncionarioDAO());
-            } else if (nome.equalsIgnoreCase("usuario")) {
-                k = (Usuario) Gema.pesquisar(new UsuarioDAO());
+
             } else if (nome.equalsIgnoreCase("consultas")) {
-                k = (Consultas) Gema.pesquisar(new ConsultasDAO());
+                try {
+                    consultas = mapper.readValue(jsonText, Consultas.class);
+                } catch (IOException ex) {
+                    Logger.getLogger(ImportarDadosJIF.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                String[] infoOld = auditoria();
+
+                popular();
+
+                String[] infoNew = auditoria();
+                Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
+
+                String s;
+                if (consultas.getIdconsultas() != null) {
+                    s = new AgendamentoExamesDAO().update(this.consultas, logAuditoria);
+                } else {
+                    s = new AgendamentoExamesDAO().insert(this.consultas, logAuditoria);
+                }
+
+                if (s == null) {
+                    Mensagens.retornoAcao(Mensagens.salvo("Consulta"));
+                    limpar();
+                    situacaoNovo();
+                } else {
+                    Mensagens.retornoAcao(Mensagens.erroSalvar("Consulta"));
+                }
+
             }
-
-            System.out.println(k.getClass());
         }
-
-
-
-
-
-
-
-
-
 
 //        if (JSONButton.isSelected()) {
 //            ObjectMapper mapper = new ObjectMapper();
@@ -221,7 +239,12 @@ public class ImportarDadosJIF extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        int resposta = Mensagens.questionarAcao();
+        if (resposta == JOptionPane.NO_OPTION) {
+
+        } else if (resposta == JOptionPane.YES_OPTION) {
+            dispose();
+        }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
 
@@ -233,4 +256,49 @@ public class ImportarDadosJIF extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField tfdJsonText;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void preencher() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void limpar() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void popular() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void situacaoNovo() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void situacaoEditar() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void situacaoVisualizacao() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void permissao() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String[] auditoria() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Atividade autoAuditoria(String[] iOld, String[] iNew) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

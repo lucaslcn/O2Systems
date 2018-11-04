@@ -5,6 +5,7 @@
  */
 package negocio;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -60,15 +61,19 @@ public class AgendamentoExames implements Serializable {
     private Date dataEntrega;
     @JoinColumn(name = "idexame", referencedColumnName = "idexame")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Exames idexame;
     @JoinColumn(name = "idforma_pagamento", referencedColumnName = "idforma_pagamento")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private FormaPagamento idformaPagamento;
     @JoinColumn(name = "idpaciente", referencedColumnName = "idpaciente")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Paciente idpaciente;
     @JoinColumn(name = "idplano", referencedColumnName = "idplano")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Plano idplano;
 
     public AgendamentoExames() {

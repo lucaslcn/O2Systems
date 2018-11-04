@@ -51,7 +51,6 @@ public class PrincipalJF extends javax.swing.JFrame {
         URL url = new URL("http://meuip.com/api/meuip.php");
         InputStream is = new BufferedInputStream(url.openConnection().getInputStream());
         BufferedReader in=new BufferedReader(new InputStreamReader(is));
-
         String ip = in.readLine();
         System.out.println(ip);
         this.setTitle("O2 Systems (" + ip + ")");

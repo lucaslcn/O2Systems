@@ -5,8 +5,8 @@
  */
 package telas;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dao.AgendamentoExamesDAO;
 import dao.ConsultasDAO;
 import dao.EstadoDAO;
 import dao.ExameDAO;
@@ -17,6 +17,7 @@ import gema.Gema;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.JOptionPane;
+import negocio.AgendamentoExames;
 import negocio.Cidade;
 import negocio.Consultas;
 import negocio.Estado;
@@ -103,7 +104,7 @@ public class ExportarDadosJIF extends javax.swing.JInternalFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Estado", "Exame", "Pessoa", "Funcionario", "Usuario", "Consultas" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Estado", "Exame", "Pessoa", "Funcionario", "Usuario", "Consultas", "Agendamento de Exames" }));
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cancel.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
@@ -195,6 +196,8 @@ public class ExportarDadosJIF extends javax.swing.JInternalFrame {
                 k = (Usuario) Gema.pesquisar(new UsuarioDAO());
             } else if (nome.equalsIgnoreCase("consultas")) {
                 k = (Consultas) Gema.pesquisar(new ConsultasDAO());
+            } else if (nome.equalsIgnoreCase("agendamento de exames")) {
+                k = (AgendamentoExames) Gema.pesquisar(new AgendamentoExamesDAO());
             }
 
             if (k != null) {
@@ -212,14 +215,13 @@ public class ExportarDadosJIF extends javax.swing.JInternalFrame {
 
             try {
                 File json = new File(nome + contador + ".json");
-                String name = nome+contador+".json";
+                String name = nome + contador + ".json";
                 mapper.writeValue(json, k);
                 System.out.println("Java object converted to JSON String, written to file");
                 System.out.println(mapper.writeValueAsString(k));
                 tfdItem.setText("");
                 JOptionPane.showMessageDialog(this, "Item " + name + " exportado com sucesso!");
                 contador++;
-                
 
             } catch (IOException ex) {
                 ex.printStackTrace();
