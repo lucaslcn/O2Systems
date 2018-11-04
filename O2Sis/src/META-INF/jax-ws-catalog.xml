@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="https://api.weatherbit.io/v2.0/bulk/history/daily?city=Lajeado&amp;country=Brazil" uri="wsdl/api.weatherbit.io/v2.0/bulk/history/daily.city_lajeado_country_brazil"/>
+    <system systemId="http://www.webservicex.net/WeatherForecast.asmx?wsdl" uri="wsdl/www.webservicex.net/WeatherForecast.asmx.wsdl"/>
+</catalog>

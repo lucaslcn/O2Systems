@@ -14,7 +14,11 @@ import dao.PessoaDAO;
 import dao.UsuarioDAO;
 import gema.Gema;
 import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import negocio.Cidade;
 import negocio.Consultas;
 import negocio.Estado;
 import negocio.Exames;
@@ -30,6 +34,13 @@ public class ImportarDadosJIF extends javax.swing.JInternalFrame {
 
     String nome;
     Object k;
+    Estado estado;
+    Cidade cidade;
+    Exames exames;
+    Pessoa pessoa;
+    Funcionario funcionario;
+    Usuario usuario;
+    Consultas consultas;
     /**
      * Creates new form ImportarDadosJIF
      */
@@ -138,15 +149,36 @@ public class ImportarDadosJIF extends javax.swing.JInternalFrame {
          String jsonText = tfdJsonText.getText();
          ObjectMapper mapper = new ObjectMapper();
          
-         k = mapper.readValue(jsonText, Object);
-         
+//         k = mapper.readValue(jsonText, Object);
+//         
         if (jComboBox1.getSelectedIndex() == 0) {
             JOptionPane.showMessageDialog(this, "Selecione o cadastro corretamente!");
         } else {
             if (nome.equalsIgnoreCase("estado")) {
-                k = (Estado) Gema.pesquisar(new EstadoDAO());
+                try { 
+                    Estado estado =  mapper.readValue(jsonText, Estado.class);
+                } catch (IOException ex) {
+                    Logger.getLogger(ImportarDadosJIF.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+
+                if (estado.getIdestado() != null) {
+                    s = new EstadoDAO().update(this.estado, logAuditoria);
+                } else {
+                    s = new EstadoDAO().insert(this.estado, logAuditoria);
+                }
+
+                if (s == null) {
+                    Mensagens.retornoAcao(Mensagens.salvo("Estado"));
+                    limpar();
+                    situacaoNovo();
+                } else {
+                    Mensagens.retornoAcao(Mensagens.erroSalvar("Estado"));
+                    TF_UF.requestFocus();
+                }
+                
             } else if (nome.equalsIgnoreCase("exame")) {
-                k = (Exames) Gema.pesquisar(new ExameDAO());
+                
             } else if (nome.equalsIgnoreCase("pessoa")) {
                 k = (Pessoa) Gema.pesquisar(new PessoaDAO());
             } else if (nome.equalsIgnoreCase("funcionario")) {
@@ -157,9 +189,6 @@ public class ImportarDadosJIF extends javax.swing.JInternalFrame {
                 k = (Consultas) Gema.pesquisar(new ConsultasDAO());
             }
 
-            if (k != null) {
-                tfdItem.setText("Item selecionado!");
-            }
             System.out.println(k.getClass());
         }
 

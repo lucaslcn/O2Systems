@@ -5,10 +5,14 @@
  */
 package telas;
 
-import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import dao.ListapermissaoDAO;
-import dao.UsuarioDAO;
-import java.net.Socket;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.TreeMap;
 import negocio.Listapermissao;
@@ -29,7 +33,7 @@ public class PrincipalJF extends javax.swing.JFrame {
     /**
      * Creates new form Principal
      */
-    public PrincipalJF(Usuario usuario) {
+    public PrincipalJF(Usuario usuario) throws MalformedURLException, IOException {
         this.setExtendedState(MAXIMIZED_BOTH);
         initComponents();
         this.usuario = usuario;
@@ -43,6 +47,14 @@ public class PrincipalJF extends javax.swing.JFrame {
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() - k.getWidth(), /*this.getHeight() / 2 - k.getHeight() / 2*/ 0);
         k.setVisible(true);
+       
+        URL url = new URL("http://meuip.com/api/meuip.php");
+        InputStream is = new BufferedInputStream(url.openConnection().getInputStream());
+        BufferedReader in=new BufferedReader(new InputStreamReader(is));
+
+        String ip = in.readLine();
+        System.out.println(ip);
+        this.setTitle("O2 Systems (" + ip + ")");
         
     }
 
