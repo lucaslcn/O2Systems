@@ -350,7 +350,7 @@ public class LoginJF extends javax.swing.JFrame {
             dispose();
         } else {
             jTF_user.requestFocus();
-            Mensagens.retornoAcao("Problemas para reaalizar o login.\nUsuario ou senha incorretos.");
+            Mensagens.retornoAcao("Problemas para realizar o login.\nUsuario ou senha incorretos.");
         }
     }
 
