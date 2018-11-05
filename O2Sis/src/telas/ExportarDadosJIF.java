@@ -14,6 +14,7 @@ import dao.FuncionarioDAO;
 import dao.PessoaDAO;
 import dao.UsuarioDAO;
 import gema.Gema;
+import gema.Mensagens;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.JOptionPane;
@@ -203,7 +204,7 @@ public class ExportarDadosJIF extends javax.swing.JInternalFrame {
             if (k != null) {
                 tfdItem.setText("Item selecionado!");
             }
-            System.out.println(k.getClass());
+
         }
 
     }//GEN-LAST:event_btnPesquisar1ActionPerformed
@@ -230,7 +231,12 @@ public class ExportarDadosJIF extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        int resposta = Mensagens.questionarAcao();
+        if (resposta == JOptionPane.NO_OPTION) {
+
+        } else if (resposta == JOptionPane.YES_OPTION) {
+            dispose();
+        }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
 

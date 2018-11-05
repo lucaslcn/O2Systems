@@ -81,7 +81,7 @@ public class ImportarDadosJIF extends javax.swing.JInternalFrame implements Basi
             }
         });
 
-        jButton1.setText("Exportar");
+        jButton1.setText("Importar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -196,7 +196,7 @@ public class ImportarDadosJIF extends javax.swing.JInternalFrame implements Basi
 
                 String[] infoOld = auditoria();
 
-                popular();
+                //popular();
 
                 String[] infoNew = auditoria();
                 Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
@@ -269,7 +269,7 @@ public class ImportarDadosJIF extends javax.swing.JInternalFrame implements Basi
 
     @Override
     public void popular() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
@@ -294,11 +294,12 @@ public class ImportarDadosJIF extends javax.swing.JInternalFrame implements Basi
 
     @Override
     public String[] auditoria() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
     }
 
     @Override
     public Atividade autoAuditoria(String[] iOld, String[] iNew) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
     }
 }

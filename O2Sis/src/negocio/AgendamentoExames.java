@@ -6,6 +6,8 @@
 package negocio;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -22,6 +24,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.json.CustomJsonDateDeserializer;
+import org.json.CustomJsonTimeDeserializer;
+import org.json.JsonDateSerializer;
 
 /**
  *
@@ -97,6 +102,8 @@ public class AgendamentoExames implements Serializable {
         this.idagendamentoExames = idagendamentoExames;
     }
 
+    
+    @JsonSerialize(using=JsonDateSerializer.class)
     public Date getDataExame() {
         return dataExame;
     }
@@ -105,6 +112,7 @@ public class AgendamentoExames implements Serializable {
         this.dataExame = dataExame;
     }
 
+    //@JsonDeserialize(using = CustomJsonTimeDeserializer.class)
     public Date getHoraExame() {
         return horaExame;
     }
@@ -113,6 +121,9 @@ public class AgendamentoExames implements Serializable {
         this.horaExame = horaExame;
     }
 
+    
+    @JsonSerialize(using=JsonDateSerializer.class)    
+    //@JsonDeserialize(using = CustomJsonDateDeserializer.class)
     public Date getDataEntrega() {
         return dataEntrega;
     }
