@@ -429,7 +429,7 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
             String EnderecoAnexo = "";
             File[] Anexo;
 
-            JFileChooser file = new JFileChooser();
+            JFileChooser file = new JFileChooser("XML\\");
             file.setMultiSelectionEnabled(true);
             file.setFileSelectionMode(JFileChooser.FILES_ONLY);
             int i = file.showOpenDialog(null);
@@ -441,7 +441,7 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
                 for (File enderec : Anexo) {
                     EnderecoAnexo = (enderec.getPath());
                     LerXML(EnderecoAnexo);
-                    situacaoNovo();
+                    situacaoVisualizacao();
                     this.prontuario.setIdreceita(null);
                     this.prontuario.setIdrequisicao(null);
                     Mensagens.retornoAcao(Mensagens.LerXML());

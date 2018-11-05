@@ -71,7 +71,7 @@ public class XML {
 
             DOMSource documentoFonte = new DOMSource(documentoXML);
 
-            StreamResult documentoFinal = new StreamResult(new File(paciente + ".xml"));
+            StreamResult documentoFinal = new StreamResult(new File("XML\\ " + paciente + ".xml"));
 
             transformer.transform(documentoFonte, documentoFinal);
 
