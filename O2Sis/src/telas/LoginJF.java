@@ -16,6 +16,7 @@ import dao.UsuarioDAO;
 import gema.Email;
 import gema.Mensagens;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -213,8 +214,12 @@ public class LoginJF extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        //Email.sendEmail("elias.flach@universo.univates.br", "Redifinição de Senha", "Teste de redefinição de senha");
-        login();
+        try {
+            //Email.sendEmail("elias.flach@universo.univates.br", "Redifinição de Senha", "Teste de redefinição de senha");
+            login();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginJF.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_btnLoginActionPerformed
 
@@ -329,7 +334,7 @@ public class LoginJF extends javax.swing.JFrame {
         return (new BigInteger(1, m.digest()).toString(16));
     }
 
-    private void login() {
+    private void login() throws IOException {
         Usuario u = null;
         Listapermissao permissao = null;
         try {

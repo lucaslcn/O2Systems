@@ -10,13 +10,34 @@ import dao.PlanoDAO;
 import gema.Gema;
 import gema.Mensagens;
 import gema.ValidaCampo;
+import gema.XML;
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import negocio.Log;
 import negocio.Plano;
 import negocio.Usuario;
 import org.hibernate.HibernateException;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 import registros.Atividade;
 import registros.LogAuditoria;
 
@@ -61,6 +82,8 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jTF_NomePlano = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         jLabel2.setText("jLabel2");
 
@@ -145,6 +168,20 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jButton1.setText("Gerar XML");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Ler XML");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -163,7 +200,12 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -173,7 +215,11 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -282,6 +328,46 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
         }
     }//GEN-LAST:event_btnDeletarActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            GeraXML(this.plano.getIdplano().toString(), jTF_NomePlano.getText());
+            Mensagens.retornoAcao(Mensagens.GerarXML());
+
+        } catch (TransformerException ex) {
+            Logger.getLogger(CadastroPlanoSaudeJIF.class.getName()).log(Level.SEVERE, null, ex);
+            Mensagens.retornoAcao(Mensagens.erroGerarXML());
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        try {
+            String EnderecoAnexo = "";
+            File[] Anexo;
+
+            JFileChooser file = new JFileChooser();
+            file.setMultiSelectionEnabled(true);
+            file.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            int i = file.showOpenDialog(null);
+            if (i == 1) {
+                EnderecoAnexo = "";
+                Anexo = null;
+            } else {
+                Anexo = file.getSelectedFiles();
+                for (File enderec : Anexo) {
+                    EnderecoAnexo = (enderec.getPath());
+                }
+            }
+
+            LerXML(EnderecoAnexo);
+            situacaoVisualizacao();
+            Mensagens.retornoAcao(Mensagens.LerXML());
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(ProntuarioJIF.class.getName()).log(Level.SEVERE, null, ex);
+            Mensagens.retornoAcao(Mensagens.erroLerXML());
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnCancelar;
@@ -289,6 +375,8 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
     private javax.swing.JToggleButton btnEditar;
     private javax.swing.JToggleButton btnPesquisar;
     private javax.swing.JToggleButton btnSalvar;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -375,6 +463,123 @@ public class CadastroPlanoSaudeJIF extends javax.swing.JInternalFrame implements
         logAuditoria.setUsuario(usuario);
 
         return logAuditoria;
+    }
+
+    public static void GeraXML(String codigo, String descricao) throws TransformerConfigurationException, TransformerException {
+
+        try {
+            DocumentBuilderFactory documentoBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = documentoBuilderFactory.newDocumentBuilder();
+
+            Document documentoXML = documentBuilder.newDocument();
+
+            Element root = documentoXML.createElement("root");
+            documentoXML.appendChild(root);
+
+            Element prontuario = documentoXML.createElement("plano");
+            Attr id = documentoXML.createAttribute("codigo");
+            id.setValue(codigo);
+
+            prontuario.setAttributeNode(id);
+            root.appendChild(prontuario);
+
+            Element codig = documentoXML.createElement("codigo");
+            codig.appendChild(documentoXML.createTextNode(codigo));
+            prontuario.appendChild(codig);
+
+            Element descr = documentoXML.createElement("descricao");
+            descr.appendChild(documentoXML.createTextNode(descricao));
+            prontuario.appendChild(descr);
+
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+
+            DOMSource documentoFonte = new DOMSource(documentoXML);
+
+            StreamResult documentoFinal = new StreamResult(new File(descricao + ".xml"));
+
+            transformer.transform(documentoFonte, documentoFinal);
+
+        } catch (ParserConfigurationException ex) {
+
+        }
+    }
+
+    public void LerXML(String endereco) throws ParserConfigurationException {
+
+        try {
+            //objetos para construir e fazer a leitura do documento
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+
+            //abre e faz o parser de um documento xml de acordo com o nome passado no parametro
+            org.w3c.dom.Document doc = builder.parse(endereco);
+
+            //cria uma lista de pessoas. Busca no documento todas as tag pessoa
+            NodeList listaDePessoas = doc.getElementsByTagName("plano");
+
+            //pego o tamanho da lista de pessoas
+            int tamanhoLista = listaDePessoas.getLength();
+
+            //varredura na lista de pessoas
+            for (int i = 0; i < tamanhoLista; i++) {
+
+                //pego cada item (pessoa) como um nó (node)
+                Node noPessoa = listaDePessoas.item(i);
+
+                //verifica se o noPessoa é do tipo element (e não do tipo texto etc)
+                if (noPessoa.getNodeType() == Node.ELEMENT_NODE) {
+
+                    //caso seja um element, converto o no Pessoa em Element pessoa
+                    org.w3c.dom.Element elementoPessoa = (org.w3c.dom.Element) noPessoa;
+
+                    //já posso pegar o atributo do element
+                    String id = elementoPessoa.getAttribute("codigo");
+
+                    //recupero os nos filhos do elemento pessoa (nome, idade e peso)
+                    NodeList listaDeFilhosDaPessoa = elementoPessoa.getChildNodes();
+
+                    //pego o tamanho da lista de filhos do elemento pessoa
+                    int tamanhoListaFilhos = listaDeFilhosDaPessoa.getLength();
+
+                    //varredura na lista de filhos do elemento pessoa
+                    for (int j = 0; j < tamanhoListaFilhos; j++) {
+
+                        //crio um no com o cada tag filho dentro do no pessoa (tag nome, idade e peso)
+                        Node noFilho = listaDeFilhosDaPessoa.item(j);
+
+                        //verifico se são tipo element
+                        if (noFilho.getNodeType() == Node.ELEMENT_NODE) {
+
+                            //converto o no filho em element filho
+                            org.w3c.dom.Element elementoFilho = (org.w3c.dom.Element) noFilho;
+
+                            //verifico em qual filho estamos pela tag
+                            switch (elementoFilho.getTagName()) {
+                                case "codigo":
+                                    //imprimo o nome
+                                    jTF_NomePlano.setText(elementoFilho.getTextContent());
+                                    this.plano.setIdplano(Integer.parseInt(elementoFilho.getTextContent()));
+                                    break;
+
+                                case "descricao":
+                                    //imprimo o nome
+                                    jTF_NomePlano.setText(elementoFilho.getTextContent());
+                                    this.plano.setNomePlano(elementoFilho.getTextContent());
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+
+        } catch (ParserConfigurationException ex) {
+            java.util.logging.Logger.getLogger(XML.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SAXException ex) {
+            java.util.logging.Logger.getLogger(XML.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(XML.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

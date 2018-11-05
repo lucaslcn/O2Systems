@@ -12,72 +12,88 @@ import javax.swing.JOptionPane;
  * @author XorNOTE
  */
 public class Mensagens {
-    
-    public static void retornoAcao (String oQue){
+
+    public static void retornoAcao(String oQue) {
         JOptionPane.showMessageDialog(null, oQue);
     }
-    
-    public static int questionarAcao(){
+
+    public static int questionarAcao() {
         int resposta = JOptionPane.showConfirmDialog(null, "Deseja realmente cancelar a operação?", "Alerta!", JOptionPane.YES_NO_OPTION);
         return resposta;
     }
-    
-    public static int questionarEmail(){
+
+    public static int questionarEmail() {
         int resposta = JOptionPane.showConfirmDialog(null, "Deseja realmente enviar o e-mail?", "Alerta!", JOptionPane.YES_NO_OPTION);
         return resposta;
     }
-    
-    public static int confirmarArquivamento(){
+
+    public static int confirmarArquivamento() {
         int resposta = JOptionPane.showConfirmDialog(null, "Deseja realmente arquivar?", "Alerta!", JOptionPane.YES_NO_OPTION);
         return resposta;
     }
-    
-    public static String erroSalvar (String onde){
-        return "Erro ao salvar: " +  onde;
+
+    public static String erroSalvar(String onde) {
+        return "Erro ao salvar: " + onde;
     }
-    
-    public static String salvo(String oQue){
+
+    public static String salvo(String oQue) {
         return oQue + " salvo(a) com sucesso.";
     }
-    
-    public static String erroDeletado (String onde){
-        return "Erro ao deletar: " +  onde;
+
+    public static String erroDeletado(String onde) {
+        return "Erro ao deletar: " + onde;
     }
-    
-    public static String deletado(String oQue){
+
+    public static String deletado(String oQue) {
         return oQue + " deletado(a) com sucesso.";
     }
-    
-    public static String problemaPopularTabela(String onde){
+
+    public static String problemaPopularTabela(String onde) {
         return "Problemas ao popular a tabela: " + onde;
     }
-    
-    public static String tivemosProblemas(String paraQue){
+
+    public static String tivemosProblemas(String paraQue) {
         return "Desculpe, houve algum problema para " + paraQue;
     }
-    
-    public static String mensagemTecnica(String exception){
+
+    public static String mensagemTecnica(String exception) {
         return "\nMensagem técnica:\n" + exception;
     }
-    
-    public static String preenchaOsCampos(){
+
+    public static String preenchaOsCampos() {
         return "Preencha todos os campos obrigatórios!";
     }
-    
-    public static String selecioneAlgumItem(){
+
+    public static String selecioneAlgumItem() {
         return "Por favor, selecione um algum item!";
     }
-    
-    public static String preenchaOsCampos(String texto){
+
+    public static String preenchaOsCampos(String texto) {
         return "Preencha todos os campos obrigatórios!\n" + texto;
     }
-    
-    public static String arquivado(String oQue){
+
+    public static String arquivado(String oQue) {
         return oQue + " arquivado(a) com sucesso.";
     }
+
+    public static String erroArquivado(String onde) {
+        return "Erro ao arquivar: " + onde;
+    }
     
-    public static String erroArquivado (String onde){
-        return "Erro ao arquivar: " +  onde;
+    public static String erroGerarXML() {
+        return "Erro ao gerar XML!";   
+    }
+    
+    public static String GerarXML() {
+        return "XML gerado com Sucesso!";   
+    }
+
+    public static String erroLerXML() {
+        return "Erro ao ler XML!";   
+    }
+
+    public static String LerXML() {
+        return "XML lido com Sucesso!";   
     }
     
 }

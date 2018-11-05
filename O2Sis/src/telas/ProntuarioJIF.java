@@ -15,10 +15,20 @@ import dao.ProntuarioDAO;
 import gema.Gema;
 import gema.Mensagens;
 import gema.ValidaCampo;
+import gema.XML;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import negocio.Consultas;
 import negocio.Exames;
 import negocio.Listapermissao;
@@ -28,6 +38,9 @@ import negocio.Requisicao;
 import negocio.Usuario;
 import oracle.jrockit.jfr.tools.ConCatRepository;
 import org.hibernate.HibernateException;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 import registros.Atividade;
 import registros.LogAuditoria;
 import registros.PermissaoG;
@@ -47,6 +60,7 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
 
     /**
      * Creates new form CadastroPlanoSaudeJIF
+     *
      * @param usuario
      * @param permissao
      */
@@ -56,7 +70,7 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
         this.can = can;
         limpar();
         situacaoNovo();
-        
+
     }
 
     /**
@@ -87,6 +101,8 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
         btn_Exame = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTA_CamporTextoAtendimento = new javax.swing.JTextArea();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         jLabel2.setText("jLabel2");
 
@@ -222,6 +238,20 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
         jTA_CamporTextoAtendimento.setPreferredSize(new java.awt.Dimension(164, 100));
         jScrollPane2.setViewportView(jTA_CamporTextoAtendimento);
 
+        jButton1.setText("Gerar XML");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Ler XML");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelAtendimentoLayout = new javax.swing.GroupLayout(jPanelAtendimento);
         jPanelAtendimento.setLayout(jPanelAtendimentoLayout);
         jPanelAtendimentoLayout.setHorizontalGroup(
@@ -234,7 +264,10 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
                         .addComponent(btn_Receita, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btn_Exame, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)))
                 .addContainerGap())
         );
         jPanelAtendimentoLayout.setVerticalGroup(
@@ -245,7 +278,9 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelAtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_Receita, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_Exame, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btn_Exame, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -334,7 +369,7 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
 
                 String s;
 //                if (prontuario.getIdprontuario()!= null) {
-                    s = new ExameDAO().update(this.prontuario, logAuditoria);
+                s = new ExameDAO().update(this.prontuario, logAuditoria);
 //                } else {
 //                    s = new ExameDAO().insert(this.prontuario, logAuditoria);
 //                }
@@ -368,6 +403,58 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
         // TODO add your handling code here:
     }//GEN-LAST:event_jTF_NomePacienteActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            Integer id = this.prontuario.getIdprontuario();
+            if (id == null) {
+                id = 0;
+            }
+            if (id != 0) {
+                XML.GeraXML(jTF_CodigoConsulta.getText(), jTF_NomePaciente.getText(), jTA_CamporTextoTriagem.getText(), jTA_CamporTextoAtendimento.getText());
+                Mensagens.retornoAcao(Mensagens.GerarXML());
+            } else {
+                Mensagens.retornoAcao(Mensagens.erroGerarXML());
+            }
+
+        } catch (ParserConfigurationException ex) {
+            Mensagens.retornoAcao(Mensagens.erroGerarXML());
+        } catch (TransformerException ex) {
+            Mensagens.retornoAcao(Mensagens.erroGerarXML());
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        try {
+            String EnderecoAnexo = "";
+            File[] Anexo;
+
+            JFileChooser file = new JFileChooser();
+            file.setMultiSelectionEnabled(true);
+            file.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            int i = file.showOpenDialog(null);
+            if (i == 1) {
+                EnderecoAnexo = "";
+                Anexo = null;
+            } else {
+                Anexo = file.getSelectedFiles();
+                for (File enderec : Anexo) {
+                    EnderecoAnexo = (enderec.getPath());
+                    LerXML(EnderecoAnexo);
+                    situacaoNovo();
+                    this.prontuario.setIdreceita(null);
+                    this.prontuario.setIdrequisicao(null);
+                    Mensagens.retornoAcao(Mensagens.LerXML());
+                }
+            }
+
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(ProntuarioJIF.class.getName()).log(Level.SEVERE, null, ex);
+            Mensagens.retornoAcao(Mensagens.erroLerXML());
+
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnCancelar;
@@ -376,6 +463,8 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
     private javax.swing.JToggleButton btnSalvar;
     private javax.swing.JButton btn_Exame;
     private javax.swing.JButton btn_Receita;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -396,8 +485,8 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
         jTA_CamporTextoAtendimento.setText(this.prontuario.getAtendimento());
         jTA_CamporTextoTriagem.setText(this.prontuario.getTriagem());
         jTF_NomePaciente.setText(this.consulta.getIdpaciente().getIdpessoa().getNomePessoa());
-        jTF_CodigoConsulta.setText(this.consulta.getIdconsultas()+"");
-        
+        jTF_CodigoConsulta.setText(this.consulta.getIdconsultas() + "");
+
 //        this.receita = this.prontuario.getIdreceita();
 //        this.requisicao = this.prontuario.getIdrequisicao();
     }
@@ -408,7 +497,7 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
         jTA_CamporTextoTriagem.setText("");
         jTF_NomePaciente.setText("");
         jTF_CodigoConsulta.setText("");
-        
+
         this.prontuario = new Prontuario();
         this.consulta = new Consultas();
         btnPesquisar.requestFocus();
@@ -416,7 +505,7 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
 
     @Override
     public void popular() {
-        this.prontuario.setAtendimento(jTA_CamporTextoAtendimento.getText());   
+        this.prontuario.setAtendimento(jTA_CamporTextoAtendimento.getText());
         this.prontuario.setTriagem(jTA_CamporTextoTriagem.getText());
 //        this.prontuario.setIdreceita(receita);
 //        this.prontuario.setIdrequisicao(requisicao);
@@ -429,7 +518,7 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
 
         btn_Exame.setEnabled(false);
         btn_Receita.setEnabled(false);
-        
+
         btnCancelar.setEnabled(true);
 //        btnDeletar.setEnabled(false);
         btnEditar.setEnabled(false);
@@ -446,7 +535,7 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
 
         btn_Exame.setEnabled(true);
         btn_Receita.setEnabled(true);
-        
+
         btnCancelar.setEnabled(true);
 //        btnDeletar.setEnabled(false);
         btnEditar.setEnabled(false);
@@ -459,10 +548,10 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
     public void situacaoVisualizacao() {
         jTA_CamporTextoAtendimento.setEnabled(false);
         jTA_CamporTextoTriagem.setEnabled(false);
-        
+
         btn_Exame.setEnabled(true);
         btn_Receita.setEnabled(true);
-        
+
         btnCancelar.setEnabled(true);
 //        btnDeletar.setEnabled(true);
         btnEditar.setEnabled(true);
@@ -486,12 +575,11 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
     public String[] auditoria() {
         String[] r
                 = {
-                    prontuario.getIdprontuario()+ "",
+                    prontuario.getIdprontuario() + "",
                     prontuario.getTriagem(),
-                    prontuario.getAtendimento()+ "",
-                    prontuario.getIdreceita()+ "",
-                    prontuario.getIdrequisicao() + "",
-                };
+                    prontuario.getAtendimento() + "",
+                    prontuario.getIdreceita() + "",
+                    prontuario.getIdrequisicao() + "",};
         return r;
     }
 
@@ -503,6 +591,98 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
         logAuditoria.setOnde(Atividade.FROM_PRONTUARIO);
         logAuditoria.setUsuario(usuario);
         return logAuditoria;
+    }
+
+    public void LerXML(String endereco) throws ParserConfigurationException {
+
+        try {
+            //objetos para construir e fazer a leitura do documento
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+
+            //abre e faz o parser de um documento xml de acordo com o nome passado no parametro
+            org.w3c.dom.Document doc = builder.parse(endereco);
+
+            //cria uma lista de pessoas. Busca no documento todas as tag pessoa
+            NodeList listaDePessoas = doc.getElementsByTagName("prontuario");
+
+            //pego o tamanho da lista de pessoas
+            int tamanhoLista = listaDePessoas.getLength();
+
+            //varredura na lista de pessoas
+            for (int i = 0; i < tamanhoLista; i++) {
+
+                //pego cada item (pessoa) como um nó (node)
+                Node noPessoa = listaDePessoas.item(i);
+
+                //verifica se o noPessoa é do tipo element (e não do tipo texto etc)
+                if (noPessoa.getNodeType() == Node.ELEMENT_NODE) {
+
+                    //caso seja um element, converto o no Pessoa em Element pessoa
+                    org.w3c.dom.Element elementoPessoa = (org.w3c.dom.Element) noPessoa;
+
+                    //já posso pegar o atributo do element
+                    String id = elementoPessoa.getAttribute("codigo");
+
+                    //imprimindo o id
+                    jTF_CodigoConsulta.setText(id);
+
+                    //recupero os nos filhos do elemento pessoa (nome, idade e peso)
+                    NodeList listaDeFilhosDaPessoa = elementoPessoa.getChildNodes();
+
+                    //pego o tamanho da lista de filhos do elemento pessoa
+                    int tamanhoListaFilhos = listaDeFilhosDaPessoa.getLength();
+
+                    //varredura na lista de filhos do elemento pessoa
+                    for (int j = 0; j < tamanhoListaFilhos; j++) {
+
+                        //crio um no com o cada tag filho dentro do no pessoa (tag nome, idade e peso)
+                        Node noFilho = listaDeFilhosDaPessoa.item(j);
+
+                        //verifico se são tipo element
+                        if (noFilho.getNodeType() == Node.ELEMENT_NODE) {
+
+                            //converto o no filho em element filho
+                            org.w3c.dom.Element elementoFilho = (org.w3c.dom.Element) noFilho;
+
+                            //verifico em qual filho estamos pela tag
+                            switch (elementoFilho.getTagName()) {
+                                case "codigo":
+                                    //imprimo o nome
+                                    jTF_CodigoConsulta.setText(elementoFilho.getTextContent());
+                                    this.prontuario.setIdprontuario(Integer.parseInt(elementoFilho.getTextContent()));
+                                    break;
+
+                                case "paciente":
+                                    //imprimo o nome
+                                    jTF_NomePaciente.setText(elementoFilho.getTextContent());
+                                    break;
+
+                                case "triagem":
+                                    //imprimo a idade
+                                    jTA_CamporTextoTriagem.setText(elementoFilho.getTextContent());
+                                    this.prontuario.setTriagem(elementoFilho.getTextContent());
+                                    break;
+
+                                case "atendimento":
+                                    //imprimo o peso
+                                    jTA_CamporTextoAtendimento.setText(elementoFilho.getTextContent());
+                                    this.prontuario.setAtendimento(elementoFilho.getTextContent());
+                                    break;
+
+                            }
+                        }
+                    }
+                }
+            }
+
+        } catch (ParserConfigurationException ex) {
+            java.util.logging.Logger.getLogger(XML.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SAXException ex) {
+            java.util.logging.Logger.getLogger(XML.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(XML.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }
