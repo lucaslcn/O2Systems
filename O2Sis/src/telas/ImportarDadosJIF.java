@@ -150,6 +150,7 @@ public class ImportarDadosJIF extends javax.swing.JInternalFrame implements Basi
 
         nome = jComboBox1.getItemAt(jComboBox1.getSelectedIndex());
         String jsonText = tfdJsonText.getText();
+        //jsonText.replaceAll("_", "");
         ObjectMapper mapper = new ObjectMapper();
 
 //         k = mapper.readValue(jsonText, Object);
@@ -160,7 +161,7 @@ public class ImportarDadosJIF extends javax.swing.JInternalFrame implements Basi
             if (nome.equalsIgnoreCase("agendamento de exames")) {
 
                 try {
-                    agendamentoExames = mapper.readValue(jsonText, AgendamentoExames.class);
+                    agendamentoExames = (AgendamentoExames) mapper.readValue(jsonText, AgendamentoExames.class);
                 } catch (IOException ex) {
                     Logger.getLogger(ImportarDadosJIF.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -172,7 +173,7 @@ public class ImportarDadosJIF extends javax.swing.JInternalFrame implements Basi
                 String[] infoNew = auditoria();
                 Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
 
-                String s;
+                String s = null;
                 if (agendamentoExames.getIdagendamentoExames() != null) {
                     s = new AgendamentoExamesDAO().updateTest(this.agendamentoExames);
                 } else {

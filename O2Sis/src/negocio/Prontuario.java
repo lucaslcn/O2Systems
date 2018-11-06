@@ -5,6 +5,7 @@
  */
 package negocio;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -137,6 +138,7 @@ public class Prontuario implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public List<Consultas> getConsultasList() {
         return consultasList;
     }

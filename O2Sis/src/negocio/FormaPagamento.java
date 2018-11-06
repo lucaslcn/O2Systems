@@ -5,13 +5,15 @@
  */
 package negocio;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,6 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "FormaPagamento.findAll", query = "SELECT f FROM FormaPagamento f")
     , @NamedQuery(name = "FormaPagamento.findByIdformaPagamento", query = "SELECT f FROM FormaPagamento f WHERE f.idformaPagamento = :idformaPagamento")
     , @NamedQuery(name = "FormaPagamento.findByDescricaoFormaPagamento", query = "SELECT f FROM FormaPagamento f WHERE f.descricaoFormaPagamento = :descricaoFormaPagamento")})
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idformaPagamento")
 public class FormaPagamento implements Serializable {
 
     @Basic(optional = false)
@@ -82,6 +85,7 @@ public class FormaPagamento implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public List<AgendamentoExames> getAgendamentoExamesList() {
         return agendamentoExamesList;
     }
@@ -91,6 +95,7 @@ public class FormaPagamento implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public List<Consultas> getConsultasList() {
         return consultasList;
     }

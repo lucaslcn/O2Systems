@@ -5,7 +5,9 @@
  */
 package negocio;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.Serializable;
@@ -40,6 +42,7 @@ import org.json.JsonDateSerializer;
     , @NamedQuery(name = "Consultas.findByIdconsultas", query = "SELECT c FROM Consultas c WHERE c.idconsultas = :idconsultas")
     , @NamedQuery(name = "Consultas.findByDataConsulta", query = "SELECT c FROM Consultas c WHERE c.dataConsulta = :dataConsulta")
     , @NamedQuery(name = "Consultas.findByHoraConsulta", query = "SELECT c FROM Consultas c WHERE c.horaConsulta = :horaConsulta")})
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idformaPagamento")
 public class Consultas implements Serializable {
 
     @Basic(optional = false)
@@ -62,23 +65,19 @@ public class Consultas implements Serializable {
     private Date horaConsulta;
     @JoinColumn(name = "idforma_pagamento", referencedColumnName = "idforma_pagamento")
     @ManyToOne(optional = false)
-    @JsonIgnore
     private FormaPagamento idformaPagamento;
     @JoinColumn(name = "idfuncionario", referencedColumnName = "idfuncionario")
     @ManyToOne(optional = false)
-    @JsonIgnore
     private Funcionario idfuncionario;
     @JoinColumn(name = "idpaciente", referencedColumnName = "idpaciente")
     @ManyToOne(optional = false)
-    @JsonIgnore
     private Paciente idpaciente;
     @JoinColumn(name = "idplano", referencedColumnName = "idplano")
     @ManyToOne(optional = false)
-    @JsonIgnore
     private Plano idplano;
     @JoinColumn(name = "idprontuario", referencedColumnName = "idprontuario")
     @ManyToOne(optional = false)
-    @JsonIgnore
+ 
     
     private Prontuario idprontuario;
 

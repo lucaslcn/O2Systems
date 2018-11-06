@@ -5,6 +5,7 @@
  */
 package negocio;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -67,6 +68,7 @@ public class Paciente implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public List<ListagemPlanos> getListagemPlanosList() {
         return listagemPlanosList;
     }
@@ -83,6 +85,7 @@ public class Paciente implements Serializable {
         this.idpessoa = idpessoa;
     }
 
+    @JsonIgnore
     @XmlTransient
     public List<AgendamentoExames> getAgendamentoExamesList() {
         return agendamentoExamesList;
@@ -93,6 +96,7 @@ public class Paciente implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public List<Consultas> getConsultasList() {
         return consultasList;
     }

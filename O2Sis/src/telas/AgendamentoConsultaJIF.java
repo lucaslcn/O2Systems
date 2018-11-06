@@ -14,6 +14,7 @@ import dao.PlanoDAO;
 import dao.ProntuarioDAO;
 import gema.Formatacao;
 import gema.Gema;
+import gema.JSON;
 import gema.Mensagens;
 import gema.ValidaCampo;
 import java.text.ParseException;
@@ -90,6 +91,7 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
         btnDeletar = new javax.swing.JToggleButton();
         btnEditar = new javax.swing.JToggleButton();
         btnSalvar = new javax.swing.JToggleButton();
+        jButton1 = new javax.swing.JButton();
 
         setTitle("Agendamento de consultas");
         setName("Agendamento de consultas"); // NOI18N
@@ -179,7 +181,7 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
@@ -286,6 +288,13 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
             }
         });
 
+        jButton1.setText("Gerar JSON");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jp_botoesAcaoLayout = new javax.swing.GroupLayout(jp_botoesAcao);
         jp_botoesAcao.setLayout(jp_botoesAcaoLayout);
         jp_botoesAcaoLayout.setHorizontalGroup(
@@ -295,6 +304,8 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnPesquisar3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(18, 18, 18)
                 .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -308,7 +319,8 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
                 .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(btnPesquisar3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btnPesquisar3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -507,6 +519,10 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
     private void tfdProfissionalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdProfissionalActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfdProfissionalActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        JSON.gerarJSON(this.consultas, Consultas.class);
+    }//GEN-LAST:event_jButton1ActionPerformed
     
     @Override
     public void preencher() {
@@ -683,6 +699,7 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
     private javax.swing.JToggleButton btnPesquisar3;
     private javax.swing.JToggleButton btnSalvar;
     private javax.swing.JComboBox<String> comboHora;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
