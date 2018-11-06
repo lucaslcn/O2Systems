@@ -5,14 +5,14 @@
  */
 package negocio;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,8 +24,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.json.CustomJsonDateDeserializer;
-import org.json.CustomJsonTimeDeserializer;
 import org.json.JsonDateSerializer;
 
 /**
@@ -41,7 +39,13 @@ import org.json.JsonDateSerializer;
     , @NamedQuery(name = "AgendamentoExames.findByDataExame", query = "SELECT a FROM AgendamentoExames a WHERE a.dataExame = :dataExame")
     , @NamedQuery(name = "AgendamentoExames.findByHoraExame", query = "SELECT a FROM AgendamentoExames a WHERE a.horaExame = :horaExame")
     , @NamedQuery(name = "AgendamentoExames.findByDataEntrega", query = "SELECT a FROM AgendamentoExames a WHERE a.dataEntrega = :dataEntrega")})
+
+
 public class AgendamentoExames implements Serializable {
+
+    @Basic(optional = false)
+    @Column(name = "hora_exame")
+    private String horaExame;
 
     @Basic(optional = false)
     @Column(name = "status")
@@ -57,28 +61,21 @@ public class AgendamentoExames implements Serializable {
     @Column(name = "data_exame")
     @Temporal(TemporalType.DATE)
     private Date dataExame;
-    @Basic(optional = false)
-    @Column(name = "hora_exame")
-    @Temporal(TemporalType.TIME)
-    private Date horaExame;
     @Column(name = "data_entrega")
     @Temporal(TemporalType.DATE)
     private Date dataEntrega;
     @JoinColumn(name = "idexame", referencedColumnName = "idexame")
-    @ManyToOne(optional = false)
-    @JsonIgnore
+    @ManyToOne(optional=false)
     private Exames idexame;
     @JoinColumn(name = "idforma_pagamento", referencedColumnName = "idforma_pagamento")
-    @ManyToOne(optional = false)
-    @JsonIgnore
+    @ManyToOne(optional=false)
     private FormaPagamento idformaPagamento;
     @JoinColumn(name = "idpaciente", referencedColumnName = "idpaciente")
-    @ManyToOne(optional = false)
-    @JsonIgnore
+    @ManyToOne(optional=false)
     private Paciente idpaciente;
     @JoinColumn(name = "idplano", referencedColumnName = "idplano")
-    @ManyToOne(optional = false)
-    @JsonIgnore
+    @ManyToOne(optional=false)
+
     private Plano idplano;
 
     public AgendamentoExames() {
@@ -88,7 +85,7 @@ public class AgendamentoExames implements Serializable {
         this.idagendamentoExames = idagendamentoExames;
     }
 
-    public AgendamentoExames(Integer idagendamentoExames, Date dataExame, Date horaExame) {
+    public AgendamentoExames(Integer idagendamentoExames, Date dataExame, String horaExame) {
         this.idagendamentoExames = idagendamentoExames;
         this.dataExame = dataExame;
         this.horaExame = horaExame;
@@ -113,11 +110,11 @@ public class AgendamentoExames implements Serializable {
     }
 
     //@JsonDeserialize(using = CustomJsonTimeDeserializer.class)
-    public Date getHoraExame() {
+    public String getHoraExame() {
         return horaExame;
     }
 
-    public void setHoraExame(Date horaExame) {
+    public void setHoraExame(String horaExame) {
         this.horaExame = horaExame;
     }
 
@@ -196,5 +193,7 @@ public class AgendamentoExames implements Serializable {
     public void setStatus(boolean status) {
         this.status = status;
     }
+
+   
     
 }

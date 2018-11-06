@@ -198,13 +198,19 @@ public class ExportarDadosJIF extends javax.swing.JInternalFrame {
             } else if (nome.equalsIgnoreCase("consultas")) {
                 k = (Consultas) Gema.pesquisar(new ConsultasDAO());
             } else if (nome.equalsIgnoreCase("agendamento de exames")) {
-                k = (AgendamentoExames) Gema.pesquisar(new AgendamentoExamesDAO());
+                k = Gema.pesquisar(new AgendamentoExamesDAO());
+                AgendamentoExames ae = (AgendamentoExames) k;
+                System.out.println(ae.getIdexame().getIdexame());
+                System.out.println(ae.getIdplano().getIdplano());
+                
             }
 
             if (k != null) {
                 tfdItem.setText("Item selecionado!");
-            }
 
+            }
+           
+ 
         }
 
     }//GEN-LAST:event_btnPesquisar1ActionPerformed
@@ -214,6 +220,7 @@ public class ExportarDadosJIF extends javax.swing.JInternalFrame {
         if (JSONButton.isSelected()) {
             ObjectMapper mapper = new ObjectMapper();
 
+            
             try {
                 File json = new File(nome + contador + ".json");
                 String name = nome + contador + ".json";

@@ -71,7 +71,7 @@ public class DAO {
     public String update(Object o, Atividade logAuditoria) {
         String r = null;
         Session s = null;
-        if(!Atividade.FROM_AUDITORIA.equals(logAuditoria.getOnde())){
+       if(!Atividade.FROM_AUDITORIA.equals(logAuditoria.getOnde())){
             logAuditoria.setAcao(Atividade.ACAO_EDITADO); //Definir ação auditoria
         }
         try {
@@ -147,6 +147,43 @@ public class DAO {
             s = ConexaoDAO.iniciarSessão();
             Transaction t = s.beginTransaction();
             s.save(o);
+            t.commit();
+        } catch (HibernateException he) {
+            he.printStackTrace();
+            r = he.toString();
+            return r;
+        } finally {
+            s.close();
+            return null;
+        }
+    }
+    
+    
+    public String insertTest(Object o) {
+        String r = null;
+        Session s = null;
+        try {
+            s = ConexaoDAO.iniciarSessão();
+            Transaction t = s.beginTransaction();
+            s.save(o);
+            t.commit();
+        } catch (HibernateException he) {
+            he.printStackTrace();
+            r = he.toString();
+            return r;
+        } finally {
+            s.close();
+            return null;
+        }
+    }
+    
+    public String updateTest(Object o) {
+        String r = null;
+        Session s = null;
+        try {
+            s = ConexaoDAO.iniciarSessão();
+            Transaction t = s.beginTransaction();
+            s.update(o);
             t.commit();
         } catch (HibernateException he) {
             he.printStackTrace();

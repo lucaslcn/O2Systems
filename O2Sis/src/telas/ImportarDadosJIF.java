@@ -174,9 +174,9 @@ public class ImportarDadosJIF extends javax.swing.JInternalFrame implements Basi
 
                 String s;
                 if (agendamentoExames.getIdagendamentoExames() != null) {
-                    s = new AgendamentoExamesDAO().update(this.agendamentoExames, logAuditoria);
+                    s = new AgendamentoExamesDAO().updateTest(this.agendamentoExames);
                 } else {
-                    s = new AgendamentoExamesDAO().insert(this.agendamentoExames, logAuditoria);
+                    s = new AgendamentoExamesDAO().insertTest(this.agendamentoExames);
                 }
 
                 if (s == null) {
