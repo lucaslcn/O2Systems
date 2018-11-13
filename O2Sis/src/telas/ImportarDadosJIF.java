@@ -182,7 +182,6 @@ public class ImportarDadosJIF extends javax.swing.JInternalFrame implements Basi
 
                 if (s == null) {
                     Mensagens.retornoAcao(Mensagens.salvo("Agendamento Exame"));
-                    limpar();
                     situacaoNovo();
                 } else {
                     Mensagens.retornoAcao(Mensagens.erroSalvar("Agendamento Exame"));
@@ -265,7 +264,7 @@ public class ImportarDadosJIF extends javax.swing.JInternalFrame implements Basi
 
     @Override
     public void limpar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //
     }
 
     @Override

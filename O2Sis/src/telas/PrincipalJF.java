@@ -5,7 +5,10 @@
  */
 package telas;
 
+import api.PrevisaoTempo;
+import controller.PrevisaoTempoController;
 import dao.ListapermissaoDAO;
+import dao.MensagemRetorno;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,6 +18,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import negocio.Listapermissao;
 import negocio.Usuario;
 import registros.PermissaoG;
@@ -54,6 +60,8 @@ public class PrincipalJF extends javax.swing.JFrame {
         String ip = in.readLine();
         System.out.println(ip);
         this.setTitle("O2 Systems (" + ip + ")");
+        
+        
         
     }
 
@@ -111,6 +119,8 @@ public class PrincipalJF extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuItem7 = new javax.swing.JMenuItem();
 
         jMenuItem5.setText("jMenuItem5");
 
@@ -410,6 +420,18 @@ public class PrincipalJF extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu4);
 
+        jMenu5.setText("Temperatura");
+
+        jMenuItem7.setText("Temperatura atual");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem7);
+
+        jMenuBar1.add(jMenu5);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -604,6 +626,30 @@ public class PrincipalJF extends javax.swing.JFrame {
         k.setVisible(true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        
+        try {
+            PrevisaoTempoController previsaoController = new PrevisaoTempoController();
+            MensagemRetorno msg = previsaoController.consultarAgora();
+            if(msg.isSucesso()) {
+                PrevisaoTempo p = (PrevisaoTempo) msg.getObjeto();
+                String celsius = ((int) p.getTemperatura()+"");
+                String previsao = (p.getTempo());
+                String previsaoCidade = (p.getCidade());
+                String retorno = "Temperatura para "+previsaoCidade+ ": " + celsius + " ºC \n ";
+                
+                JOptionPane.showMessageDialog(null, retorno);
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Erro ao consultar previsão do tempo");
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(PrincipalJF.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+   
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
 //    /**
 //     * @param args the command line arguments
 //     */
@@ -667,6 +713,7 @@ public class PrincipalJF extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -674,6 +721,7 @@ public class PrincipalJF extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;

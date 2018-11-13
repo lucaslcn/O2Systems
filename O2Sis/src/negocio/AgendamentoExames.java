@@ -100,7 +100,7 @@ public class AgendamentoExames implements Serializable {
     }
 
     
-    @JsonSerialize(using=JsonDateSerializer.class)
+  @JsonSerialize(using=JsonDateSerializer.class)
     public Date getDataExame() {
         return dataExame;
     }
@@ -119,7 +119,7 @@ public class AgendamentoExames implements Serializable {
     }
 
     
-    @JsonSerialize(using=JsonDateSerializer.class)    
+  @JsonSerialize(using=JsonDateSerializer.class)    
     //@JsonDeserialize(using = CustomJsonDateDeserializer.class)
     public Date getDataEntrega() {
         return dataEntrega;

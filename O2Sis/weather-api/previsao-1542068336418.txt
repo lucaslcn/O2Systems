@@ -1,0 +1,9 @@
+{ 
+"cidade": Lajeado,
+ "tempo": "tempo nublado",
+"dia": 1542068336418,
+"dia-extenso": Mon Nov 12 22:18:56 BRST 2018,
+"temperatura": 25.73,
+"temperaturaMaxima": 25.73,
+"temperaturaMinima": 25.73
+ }
