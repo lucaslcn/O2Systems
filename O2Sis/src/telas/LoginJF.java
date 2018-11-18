@@ -11,9 +11,11 @@ import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import dao.ListaacaoDAO;
 import dao.ListapermissaoDAO;
 import dao.LoginDAO;
+import dao.ParametrosDAO;
 import dao.PlanoDAO;
 import dao.UsuarioDAO;
 import gema.Email;
+import gema.FileConfig;
 import gema.Mensagens;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -27,6 +29,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import negocio.Listaacao;
 import negocio.Listapermissao;
+import negocio.Parametros;
 import negocio.Usuario;
 import org.hibernate.HibernateException;
 import persistencia.DAO;
@@ -46,9 +49,10 @@ public class LoginJF extends javax.swing.JFrame {
      */
     public LoginJF() {
         initComponents();
+        verificaVersao();
         this.setLocationRelativeTo(null);
 //        caregando();
-        new PlanoDAO().select("Plano");
+//        new PlanoDAO().select("Plano");
         this.requestFocus();
 //        a.dispose();
     }
@@ -385,4 +389,14 @@ public class LoginJF extends javax.swing.JFrame {
 //            }
 //        }
 //    }
+
+    private void verificaVersao() {
+        Parametros version = new ParametrosDAO().consultarId(3);
+        if(!FileConfig.FileConfig().equals(version.getValueparametro())){
+            int i = Mensagens.questionarAcao("Seu sistema está executando uma versão antiga. \nDeseja continuar?");
+            if(i == JOptionPane.NO_OPTION){
+                System.exit(0);
+            }
+        }
+    }
 }
