@@ -6,11 +6,15 @@
 package telas;
 
 import api.PrevisaoTempo;
+
+
 import controller.PrevisaoTempoController;
 import dao.ListapermissaoDAO;
 import dao.MensagemRetorno;
+import gema.Mensagens;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -20,9 +24,14 @@ import java.util.List;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.xml.parsers.ParserConfigurationException;
 import negocio.Listapermissao;
 import negocio.Usuario;
+import org.apache.commons.io.FileUtils;
+import static persistencia.PostgresBackup.realizaBackup;
+import static persistencia.PostgresRestore.realizaRestore;
 import registros.PermissaoG;
 
 /**
@@ -35,6 +44,8 @@ public class PrincipalJF extends javax.swing.JFrame {
     Usuario usuario;
     List<Listapermissao> permissao;
     TreeMap<Integer, Boolean> can;
+    JFileChooser chooser;
+    String choosertitle;
 
     /**
      * Creates new form Principal
@@ -48,21 +59,19 @@ public class PrincipalJF extends javax.swing.JFrame {
         this.montaTree();
         defineNomesComponente();
         permissao();
-        
+
         PainelAvisosJIF k = new PainelAvisosJIF(this.usuario);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() - k.getWidth(), /*this.getHeight() / 2 - k.getHeight() / 2*/ 0);
         k.setVisible(true);
-       
+
         URL url = new URL("http://meuip.com/api/meuip.php");
         InputStream is = new BufferedInputStream(url.openConnection().getInputStream());
-        BufferedReader in=new BufferedReader(new InputStreamReader(is));
+        BufferedReader in = new BufferedReader(new InputStreamReader(is));
         String ip = in.readLine();
         System.out.println(ip);
         this.setTitle("O2 Systems (" + ip + ")");
-        
-        
-        
+
     }
 
     /**
@@ -121,6 +130,10 @@ public class PrincipalJF extends javax.swing.JFrame {
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
+        jMenu6 = new javax.swing.JMenu();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
 
         jMenuItem5.setText("jMenuItem5");
 
@@ -432,6 +445,34 @@ public class PrincipalJF extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu5);
 
+        jMenu6.setText("Backup/Restauração");
+
+        jMenuItem8.setText("Backup do banco de dados");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem8);
+
+        jMenuItem9.setText("Restaurar banco de dados");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem9);
+
+        jMenuItem10.setText("Backup da aplicação");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem10);
+
+        jMenuBar1.add(jMenu6);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -627,28 +668,105 @@ public class PrincipalJF extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        
+
         try {
             PrevisaoTempoController previsaoController = new PrevisaoTempoController();
             MensagemRetorno msg = previsaoController.consultarAgora();
-            if(msg.isSucesso()) {
+            if (msg.isSucesso()) {
                 PrevisaoTempo p = (PrevisaoTempo) msg.getObjeto();
-                String celsius = ((int) p.getTemperatura()+"");
+                String celsius = ((int) p.getTemperatura() + "");
                 String previsao = (p.getTempo());
                 String previsaoCidade = (p.getCidade());
-                String retorno = "Temperatura para "+previsaoCidade+ ": " + celsius + " ºC \n ";
-                
+                String retorno = "Temperatura para " + previsaoCidade + ": " + celsius + " ºC \n ";
+
                 JOptionPane.showMessageDialog(null, retorno);
-            }
-            else {
+            } else {
                 JOptionPane.showMessageDialog(null, "Erro ao consultar previsão do tempo");
             }
         } catch (IOException ex) {
             Logger.getLogger(PrincipalJF.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-   
+
+
     }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        try {
+            realizaBackup();
+        } catch (IOException ex) {
+            Logger.getLogger(PrincipalJF.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(PrincipalJF.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+
+        try {
+            String EnderecoAnexo = "";
+            File[] Anexo;
+
+            JFileChooser file = new JFileChooser("BACKUP\\");
+            file.setMultiSelectionEnabled(true);
+            file.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            int i = file.showOpenDialog(null);
+            if (i == 1) {
+                EnderecoAnexo = "";
+                Anexo = null;
+            } else {
+                Anexo = file.getSelectedFiles();
+                for (File enderec : Anexo) {
+                    EnderecoAnexo = (enderec.getPath());
+                    realizaRestore(EnderecoAnexo);
+
+                }
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(PrincipalJF.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(rootPane, "Erro ao restaurar banco de dados: " + ex);
+        } catch (InterruptedException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Erro ao restaurar banco de dados: " + ex);
+            Logger.getLogger(PrincipalJF.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        JOptionPane.showMessageDialog(null, "Especifique o diretório do projeto!");
+        chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle(choosertitle);
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        //
+        // disable the "All files" option.
+        //
+        chooser.setAcceptAllFileFilterUsed(false);
+        //    
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            System.out.println("getCurrentDirectory(): "
+                    + chooser.getCurrentDirectory());
+            System.out.println("getSelectedFile() : "
+                    + chooser.getSelectedFile());
+        } else {
+            System.out.println("No Selection ");
+        }
+
+    String source = chooser.getCurrentDirectory().toString();
+    File srcDir = new File(source);
+
+    String destination = "C:/";
+    File destDir = new File(destination);
+
+    
+        try {
+    FileUtils.copyDirectory(srcDir, destDir);
+    JOptionPane.showMessageDialog(null, "Backup relizado com sucesso para "+destDir);
+    }
+    catch (IOException e) {
+    e.printStackTrace();
+    JOptionPane.showMessageDialog(null, "Erro ao realizar backup do projeto: "+e);}
+
+
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
 
 //    /**
 //     * @param args the command line arguments
@@ -714,14 +832,18 @@ public class PrincipalJF extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
