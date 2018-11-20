@@ -17,6 +17,7 @@ import dao.UsuarioDAO;
 import gema.Email;
 import gema.FileConfig;
 import gema.Mensagens;
+import gema.VerificaVersion;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -49,7 +50,8 @@ public class LoginJF extends javax.swing.JFrame {
      */
     public LoginJF() {
         initComponents();
-        verificaVersao();
+        this.requestFocus();
+        VerificaVersion.verificaVersao();
         this.setLocationRelativeTo(null);
 //        caregando();
 //        new PlanoDAO().select("Plano");
@@ -389,14 +391,4 @@ public class LoginJF extends javax.swing.JFrame {
 //            }
 //        }
 //    }
-
-    private void verificaVersao() {
-        Parametros version = new ParametrosDAO().consultarId(3);
-        if(!FileConfig.FileConfig().equals(version.getValueparametro())){
-            int i = Mensagens.questionarAcao("Seu sistema está executando uma versão antiga. \nDeseja continuar?");
-            if(i == JOptionPane.NO_OPTION){
-                System.exit(0);
-            }
-        }
-    }
 }

@@ -12,6 +12,7 @@ import controller.PrevisaoTempoController;
 import dao.ListapermissaoDAO;
 import dao.MensagemRetorno;
 import gema.Mensagens;
+import gema.VerificaVersion;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -59,7 +60,9 @@ public class PrincipalJF extends javax.swing.JFrame {
         this.montaTree();
         defineNomesComponente();
         permissao();
-
+        
+        VerificaVersion();
+        
         PainelAvisosJIF k = new PainelAvisosJIF(this.usuario);
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() - k.getWidth(), /*this.getHeight() / 2 - k.getHeight() / 2*/ 0);
@@ -897,5 +900,37 @@ public class PrincipalJF extends javax.swing.JFrame {
 
     private void atualizaPermissao() {
         permissao();
+    }
+    
+    /* Verificação de Atualização */
+    private void movimentoAtualizacaoVersion(boolean isAtualizada){
+        System.out.println("Oi, verifiquei!");
+    }
+    
+    public void VerificaVersion() {
+        new Thread().start();
+//        Runnable runnable = new Runnable() {
+//            public void run() {
+//                while (true) {
+//                    try {
+//                        movimentoAtualizacaoVersion(VerificaVersion.runVersion());
+//                        Thread.sleep(10000L);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        };
+    }
+
+    public void run() {
+        while (true) {
+            try {
+                movimentoAtualizacaoVersion(VerificaVersion.runVersion());
+                Thread.sleep(10000L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
