@@ -36,6 +36,19 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Log.findByErro", query = "SELECT l FROM Log l WHERE l.erro = :erro")})
 public class Log implements Serializable {
 
+    @Basic(optional = false)
+    @Column(name = "data_hora")
+    private String dataHora;
+    @Basic(optional = false)
+    @Column(name = "p")
+    private String p;
+    @Basic(optional = false)
+    @Column(name = "c")
+    private String c;
+    @Basic(optional = false)
+    @Column(name = "m")
+    private String m;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -123,6 +136,38 @@ public class Log implements Serializable {
     @Override
     public String toString() {
         return "negocio.Log[ idlog=" + idlog + " ]";
+    }
+
+    public String getDataHora() {
+        return dataHora;
+    }
+
+    public void setDataHora(String dataHora) {
+        this.dataHora = dataHora;
+    }
+
+    public String getP() {
+        return p;
+    }
+
+    public void setP(String p) {
+        this.p = p;
+    }
+
+    public String getC() {
+        return c;
+    }
+
+    public void setC(String c) {
+        this.c = c;
+    }
+
+    public String getM() {
+        return m;
+    }
+
+    public void setM(String m) {
+        this.m = m;
     }
     
 }
