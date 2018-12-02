@@ -164,4 +164,5 @@ public class Atividade {
     final public static String ACAO_INSERIDO = "Inserido";
     final public static String ACAO_EDITADO = "Editado";
     final public static String ACAO_ALTERADO = "Alterado";
+    final public static String ACAO_INFORMACAO = "Informação";
 }

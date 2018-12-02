@@ -955,6 +955,7 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable{
             logAuditoria.setInformacaoNew(s);
             logAuditoria.setOnde(Atividade.FROM_VERIFICA_VERSION);
             logAuditoria.setUsuario(usuario);
+            logAuditoria.setAcao(Atividade.ACAO_INFORMACAO);
             
             new AuditoriaDAO().insertAuditoria(logAuditoria.registraAtividade());
         
