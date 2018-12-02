@@ -9,6 +9,7 @@ import api.PrevisaoTempo;
 
 
 import controller.PrevisaoTempoController;
+import dao.AuditoriaDAO;
 import dao.ListapermissaoDAO;
 import dao.MensagemRetorno;
 import gema.Mensagens;
@@ -33,6 +34,7 @@ import negocio.Usuario;
 import org.apache.commons.io.FileUtils;
 import static persistencia.PostgresBackup.realizaBackup;
 import static persistencia.PostgresRestore.realizaRestore;
+import registros.Atividade;
 import registros.PermissaoG;
 
 /**
@@ -40,7 +42,7 @@ import registros.PermissaoG;
  *
  * @author anderson.caye
  */
-public class PrincipalJF extends javax.swing.JFrame {
+public class PrincipalJF extends javax.swing.JFrame implements Runnable{
 
     Usuario usuario;
     List<Listapermissao> permissao;
@@ -96,6 +98,7 @@ public class PrincipalJF extends javax.swing.JFrame {
         itemMenuGestorUsuario = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
         itemMenuAuditoria = new javax.swing.JMenuItem();
+        itemMenu_baixarAtualizacao = new javax.swing.JMenuItem();
         itemMenuSobre = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
         itemMenuLogout = new javax.swing.JMenuItem();
@@ -190,6 +193,9 @@ public class PrincipalJF extends javax.swing.JFrame {
             }
         });
         menuO2System.add(itemMenuAuditoria);
+
+        itemMenu_baixarAtualizacao.setText("Baixar Atualização");
+        menuO2System.add(itemMenu_baixarAtualizacao);
 
         itemMenuSobre.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F11, 0));
         itemMenuSobre.setText("Sobre");
@@ -828,6 +834,7 @@ public class PrincipalJF extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemMenuSair;
     private javax.swing.JMenuItem itemMenuSobre;
     private javax.swing.JMenuItem itemMenu_CriarPermissao;
+    private javax.swing.JMenuItem itemMenu_baixarAtualizacao;
     private javax.swing.JDesktopPane jDesktopRun;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
@@ -903,34 +910,54 @@ public class PrincipalJF extends javax.swing.JFrame {
     }
     
     /* Verificação de Atualização */
-    private void movimentoAtualizacaoVersion(boolean isAtualizada){
-        System.out.println("Oi, verifiquei!");
+    public void movimentoAtualizacaoVersion(boolean isAtualizada){
+        if(isAtualizada){
+            itemMenu_baixarAtualizacao.setVisible(false);
+            menuO2System.setText("O2 Systems");
+        } else {
+            itemMenu_baixarAtualizacao.setVisible(true);
+            menuO2System.setText("O2 Systems - SISTEMA DESATUALIZADO");
+        }
     }
     
     public void VerificaVersion() {
-        new Thread().start();
-//        Runnable runnable = new Runnable() {
-//            public void run() {
-//                while (true) {
-//                    try {
-//                        movimentoAtualizacaoVersion(VerificaVersion.runVersion());
-//                        Thread.sleep(10000L);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        };
+        Thread t = new Thread(this);
+        t.start();
+    }
+    
+    @Override
+    public void run(){
+        int i = 0;
+        boolean b = !VerificaVersion.runVersion();
+        while(true){
+            try {
+                boolean temp = b;
+                b = !VerificaVersion.runVersion();
+                if(temp != b){ i = 0;}
+                System.out.println("testes = " + (i) + "  de execução - " + b);
+                movimentoAtualizacaoVersion( b );
+                avisadoCliente(i, b);
+                Thread.sleep(30000);
+                i++;
+            } catch (InterruptedException ex) {
+                Logger.getLogger(PrincipalJF.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
-    public void run() {
-        while (true) {
-            try {
-                movimentoAtualizacaoVersion(VerificaVersion.runVersion());
-                Thread.sleep(10000L);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+    private void avisadoCliente(int i, boolean b) {
+        String n = "desatualizado";
+        if(b){ n = "atualizado";}
+        if(i == 0){
+            Atividade logAuditoria = new Atividade();
+            String[] s = {"Cliente notificado que o sistema está "+n};
+            logAuditoria.setInformacaoOld(s);
+            logAuditoria.setInformacaoNew(s);
+            logAuditoria.setOnde(Atividade.FROM_VERIFICA_VERSION);
+            logAuditoria.setUsuario(usuario);
+            
+            new AuditoriaDAO().insertAuditoria(logAuditoria.registraAtividade());
+        
         }
     }
 }

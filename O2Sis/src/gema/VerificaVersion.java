@@ -7,7 +7,6 @@ import negocio.Parametros;
 /* @author XorNOTE */
 public class VerificaVersion {
     private boolean executando;
-
     
     
     

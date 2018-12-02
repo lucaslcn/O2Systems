@@ -156,6 +156,7 @@ public class Atividade {
     final public static String FROM_PRONTUARIO = "Preencher Prontuário";
     final public static String FROM_CONSULTAS = "Agendamento de Consultas";
     final public static String FROM_LOGIN_ESQUECEU_SENHA = "Esqueceu sua senha - Login";
+    final public static String FROM_VERIFICA_VERSION = "Verificação da Versão do Sistema";
 
     //Definição de nome para as ações.
     final public static String ACAO_DELETADO = "Deletado";
