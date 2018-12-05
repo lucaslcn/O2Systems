@@ -23,7 +23,7 @@ public class LicenseDAO extends DAO implements IDAO_T<License>{
 
     @Override
     public License consultarId(int id) {
-        Object o = this.selectWithJoin("license", "id = " + id).get(0);
+        Object o = this.selectWithJoin("License", "id = " + id).get(0);
         return (License) o;
     }
     

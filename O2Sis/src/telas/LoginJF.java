@@ -8,6 +8,7 @@ package telas;
 import dao.LicenseDAO;
 import dao.LoginDAO;
 import gema.EncryptDecryptStringWithDES;
+import gema.Formatacao;
 import gema.Mensagens;
 import gema.VerificaVersion;
 import java.awt.event.KeyEvent;
@@ -15,8 +16,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import negocio.Listapermissao;
 import negocio.Usuario;
 
@@ -27,11 +31,13 @@ import negocio.Usuario;
 public class LoginJF extends javax.swing.JFrame {
 
     AvisoInicioSistemaJF a;
+    EncryptDecryptStringWithDES cripto = new EncryptDecryptStringWithDES();
 
     /**
      * Creates new form Login
      */
     public LoginJF() {
+
         initComponents();
         this.requestFocus();
         VerificaVersion.verificaVersao();
@@ -333,18 +339,40 @@ public class LoginJF extends javax.swing.JFrame {
             System.out.println(ex);
         }
         if (u != null) {
-            LicenseDAO licenseDAO = new LicenseDAO();
-            String key = EncryptDecryptStringWithDES.encrypt(licenseDAO.consultarId(1).getKey());
-            String data = EncryptDecryptStringWithDES.encrypt(licenseDAO.consultarId(1).getData());
+            LocalDate dataAtual = LocalDate.now();
+            System.out.println("Data atual: " + dataAtual);
             
-            PrintWriter out = new PrintWriter("/license/license.txt");
+            LicenseDAO licenseDAO = new LicenseDAO();
+            String key = licenseDAO.consultarId(1).getKey();
+            String data = licenseDAO.consultarId(1).getData();
             System.out.println("key: "+key);
             System.out.println("data: "+data);
+            String encrypted_key = EncryptDecryptStringWithDES.encrypt(key, cripto.getEcipher());
+            String encrypted_data = EncryptDecryptStringWithDES.encrypt(data, cripto.getDcipher());
+            
+            PrintWriter out = new PrintWriter("license.txt");
+            System.out.println("encrypted key: "+key);
+            System.out.println("encrypted data: "+data);
             
             out.println(key);
             out.println(data);
             out.close();
             
+            LocalDate dataParsed = LocalDate.parse(data);
+            System.out.println("Tempo em dias até expirar a licença: " + dataAtual.until(dataParsed, ChronoUnit.DAYS));
+            System.out.println("Data que a licença irá expirar: " + Formatacao.ajustaDataDMA(data));
+            
+            long daysToExpire = dataAtual.until(dataParsed, ChronoUnit.DAYS);
+            
+            if(daysToExpire <=5 && daysToExpire >= 0){
+                JOptionPane.showMessageDialog(this, "ATENÇÃO! A licença do produto irá expirar em " +daysToExpire+" dias. Renove-a para manter o acesso ao programa!");
+        }
+            if(daysToExpire<0)
+            {
+                JOptionPane.showMessageDialog(this, "Sua licença ao produto expirou em "+Formatacao.ajustaDataDMA(data)+". Renove-a para continuar acessando o programa.");
+                dispose();
+                System.exit(0);
+            }
                    
             
             PrincipalJF principal = new PrincipalJF(u);
