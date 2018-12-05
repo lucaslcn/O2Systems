@@ -5,37 +5,20 @@
  */
 package telas;
 
-import com.mballem.app.Servidor;
-import com.mballem.app.service.ServidorService;
-import com.sun.org.apache.bcel.internal.generic.AALOAD;
-import dao.ListaacaoDAO;
-import dao.ListapermissaoDAO;
+import dao.LicenseDAO;
 import dao.LoginDAO;
-import dao.ParametrosDAO;
-import dao.PlanoDAO;
-import dao.UsuarioDAO;
-import gema.Email;
-import gema.FileConfig;
+import gema.EncryptDecryptStringWithDES;
 import gema.Mensagens;
 import gema.VerificaVersion;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import negocio.Listaacao;
 import negocio.Listapermissao;
-import negocio.Parametros;
 import negocio.Usuario;
-import org.hibernate.HibernateException;
-import persistencia.DAO;
-import registros.Atividade;
-import registros.LogAuditoria;
 
 /**
  *
@@ -350,6 +333,20 @@ public class LoginJF extends javax.swing.JFrame {
             System.out.println(ex);
         }
         if (u != null) {
+            LicenseDAO licenseDAO = new LicenseDAO();
+            String key = EncryptDecryptStringWithDES.encrypt(licenseDAO.consultarId(1).getKey());
+            String data = EncryptDecryptStringWithDES.encrypt(licenseDAO.consultarId(1).getData());
+            
+            PrintWriter out = new PrintWriter("/license/license.txt");
+            System.out.println("key: "+key);
+            System.out.println("data: "+data);
+            
+            out.println(key);
+            out.println(data);
+            out.close();
+            
+                   
+            
             PrincipalJF principal = new PrincipalJF(u);
             //PrincipalJF principal = new PrincipalJF((Usuario) new UsuarioDAO().consultarId(1);//  selectWithJoin("Usuario", "nick = 'admin' AND status = true").get(0));
             principal.setVisible(true);
