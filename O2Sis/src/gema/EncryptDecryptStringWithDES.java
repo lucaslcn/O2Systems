@@ -13,6 +13,7 @@ import com.sun.mail.util.BASE64DecoderStream;
 import com.sun.mail.util.BASE64EncoderStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -129,5 +130,6 @@ public class EncryptDecryptStringWithDES {
         return null;
 
     }
-
+    
+    
 }

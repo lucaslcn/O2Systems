@@ -7,12 +7,18 @@ package gema;
 
 import dao.LicenseDAO;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.PrivateKey;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Properties;
 import javax.swing.JOptionPane;
+import negocio.License;
 
 /**
  *
@@ -22,50 +28,70 @@ public class VerificaLicenca {
     
     private static EncryptDecryptStringWithDES cripto = new EncryptDecryptStringWithDES();
     
-    public static boolean verificaFile(){
-            return true;
+    public static License verificaFile() throws IOException, FileNotFoundException, ClassNotFoundException{
+        isCripto();
+        FileInputStream file = new FileInputStream("license.properties");
+        Properties properties = new Properties();
+        properties.load (file);
+        License licenca = new License();
+        
+        String data = CriptografiaRSA.decriptografa(properties.get("data").toString().getBytes(), (PrivateKey) CriptografiaRSA.chave());
+        String key = CriptografiaRSA.decriptografa(properties.get("key").toString().getBytes(), (PrivateKey) CriptografiaRSA.chave());
+        
+        licenca.setData(data);
+        licenca.setKey(key);
+        licenca.setId(Integer.parseInt(properties.getProperty("id")));
+        return licenca;
     }
     
-    public static void escreveLicenca(){
-        File licencaFile = new File("license.properties");
+    public static void isCripto() throws FileNotFoundException, IOException, ClassNotFoundException{
+        FileInputStream file = new FileInputStream("license.properties");
+        Properties properties = new Properties();
+        properties.load (file);
+        boolean cripto = Boolean.parseBoolean( properties.getProperty("cripto") );
         
-        Properties licenca = new Properties();
-        licenca.l
-        
-    }
-    
-    public static boolean verificaNuvem() throws FileNotFoundException{
-        LicenseDAO licenseDAO = new LicenseDAO();
-        String key = licenseDAO.consultarId(1).getKey();
-        String data = licenseDAO.consultarId(1).getData();
-        System.out.println("key: " + key);
-        System.out.println("data: " + data);
-        String encrypted_key = EncryptDecryptStringWithDES.encrypt(key, cripto.getEcipher());
-        String encrypted_data = EncryptDecryptStringWithDES.encrypt(data, cripto.getDcipher());
-        
-        
-        
-        PrintWriter out = new PrintWriter("license.txt");
-        System.out.println("encrypted key: " + key);
-        System.out.println("encrypted data: " + data);
-        
-        out.println(key);
-        out.println(data);
-        out.close();
-        
-        LocalDate dataParsed = LocalDate.parse(data);
-        System.out.println("Tempo em dias até expirar a licença: " + dataAtual.until(dataParsed, ChronoUnit.DAYS));
-        System.out.println("Data que a licença irá expirar: " + Formatacao.ajustaDataDMA(data));
-
-        long daysToExpire = dataAtual.until(dataParsed, ChronoUnit.DAYS);
-
-        if (daysToExpire <= 5 && daysToExpire >= 0) {
-            JOptionPane.showMessageDialog(this, "ATENÇÃO! A licença do produto irá expirar em " + daysToExpire + " dias. Renove-a para manter o acesso ao programa!");
+        if(!cripto){
+            escreveLicenca(properties.getProperty("key"), properties.getProperty("data"));
         }
-        if (daysToExpire < 0) {
-            JOptionPane.showMessageDialog(this, "Sua licença ao produto expirou em " + Formatacao.ajustaDataDMA(data) + ". Renove-a para continuar acessando o programa.");
-            dispose();
-            System.exit(0);
+    }
+    
+    public static void escreveLicenca(String key, String data) throws IOException, FileNotFoundException, ClassNotFoundException{
+        
+        if (!CriptografiaRSA.verificaSeExisteChavesNoSO()){
+            CriptografiaRSA.geraChave();
+        }
+        
+        FileOutputStream file = new FileOutputStream("license.properties");
+        Properties properties = new Properties();
+        byte[] cripto_data = CriptografiaRSA.criptografa(data, CriptografiaRSA.chave());
+        byte[] cripto_key = CriptografiaRSA.criptografa(key, CriptografiaRSA.chave());
+        properties.setProperty("data", cripto_data.toString()); 
+        properties.setProperty("key", cripto_key.toString()); 
+        properties.setProperty("cripto", "true"); 
+        properties.store(file, "Licença");
+        file.close();
+       
+        
+    }
+    
+    public static boolean verificaNuvem() throws FileNotFoundException, IOException, ClassNotFoundException{
+        License licencaFile = verificaFile();
+        LicenseDAO licenseDAO = new LicenseDAO();
+        License licencaNuvem = licenseDAO.consultarId(licencaFile.getId());
+        
+        LocalDate dataNuvem = LocalDate.parse(licencaNuvem.getData());
+        LocalDate dataFile = LocalDate.parse(licencaFile.getData());
+        LocalDate dataAtual = LocalDate.now();
+        
+        long daysNuvem = dataAtual.until(dataNuvem, ChronoUnit.DAYS);
+        long daysFile = dataAtual.until(dataFile, ChronoUnit.DAYS);
+        
+        if (daysFile != daysNuvem){
+            escreveLicenca(licencaNuvem.getKey(), licencaNuvem.getData());
+        }
+
+        if (daysNuvem < 0) {
+            return false;
         }
         
         return true;

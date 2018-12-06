@@ -7,9 +7,13 @@ package telas;
 
 import dao.LicenseDAO;
 import dao.LoginDAO;
+import gema.CriptografiaRSA;
+import static gema.CriptografiaRSA.geraChave;
+import static gema.CriptografiaRSA.verificaSeExisteChavesNoSO;
 import gema.EncryptDecryptStringWithDES;
 import gema.Formatacao;
 import gema.Mensagens;
+import gema.VerificaLicenca;
 import gema.VerificaVersion;
 import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
@@ -22,6 +26,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import negocio.License;
 import negocio.Listapermissao;
 import negocio.Usuario;
 
@@ -212,6 +217,8 @@ public class LoginJF extends javax.swing.JFrame {
             login();
         } catch (IOException ex) {
             Logger.getLogger(LoginJF.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(LoginJF.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_btnLoginActionPerformed
@@ -327,7 +334,7 @@ public class LoginJF extends javax.swing.JFrame {
         return (new BigInteger(1, m.digest()).toString(16));
     }
 
-    private void login() throws FileNotFoundException, IOException{
+    private void login() throws FileNotFoundException, IOException, ClassNotFoundException {
         Usuario u = null;
         Listapermissao permissao = null;
         try {
@@ -379,19 +386,25 @@ public class LoginJF extends javax.swing.JFrame {
 //            }
 //        }
 //    }
-
-    private boolean licensa() throws FileNotFoundException {
+    private void licensa() throws FileNotFoundException, IOException, ClassNotFoundException {
+        if (!CriptografiaRSA.verificaSeExisteChavesNoSO()) {
+            CriptografiaRSA.geraChave();
+        }
+        License licenca = VerificaLicenca.verificaFile();
         LocalDate dataAtual = LocalDate.now();
-        System.out.println("Data atual: " + dataAtual);
+        LocalDate dataFile = LocalDate.parse(licenca.getData());
+        //System.out.println("Data atual: " + dataAtual);
+        long daysToExpire = dataAtual.until(dataFile, ChronoUnit.DAYS);
 
-        
-        
-        
+        if (daysToExpire <= 5 && daysToExpire >= 0) {
+            JOptionPane.showMessageDialog(this, "ATENÇÃO! A licença do produto irá expirar em " + daysToExpire + " dias. Renove-a para manter o acesso ao programa!");
+        }
+        if (daysToExpire < 0) {
+            JOptionPane.showMessageDialog(this, "Sua licença ao produto expirou em " + Formatacao.ajustaDataDMA(licenca.getData()) + ". Renove-a para continuar acessando o programa.");
 
-        
+            dispose();
+            System.exit(0);
+        }
 
-        
-
-        
     }
 }

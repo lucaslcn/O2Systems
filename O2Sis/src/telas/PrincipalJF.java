@@ -13,6 +13,7 @@ import dao.AuditoriaDAO;
 import dao.ListapermissaoDAO;
 import dao.MensagemRetorno;
 import gema.Mensagens;
+import gema.VerificaLicenca;
 import gema.VerificaVersion;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -937,9 +938,19 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable{
                 System.out.println("testes = " + (i) + "  de execução - " + b);
                 movimentoAtualizacaoVersion( b );
                 avisadoCliente(i, b);
+                
+                //verificar licença
+                if(!VerificaLicenca.verificaNuvem()){
+                    System.exit(0);
+                }
+                
                 Thread.sleep(30000);
                 i++;
             } catch (InterruptedException ex) {
+                Logger.getLogger(PrincipalJF.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(PrincipalJF.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
                 Logger.getLogger(PrincipalJF.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
