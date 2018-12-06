@@ -12,6 +12,7 @@ import gema.Formatacao;
 import gema.Mensagens;
 import gema.VerificaVersion;
 import java.awt.event.KeyEvent;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigInteger;
@@ -42,10 +43,7 @@ public class LoginJF extends javax.swing.JFrame {
         this.requestFocus();
         VerificaVersion.verificaVersao();
         this.setLocationRelativeTo(null);
-//        caregando();
-//        new PlanoDAO().select("Plano");
         this.requestFocus();
-//        a.dispose();
     }
 
     /**
@@ -329,7 +327,7 @@ public class LoginJF extends javax.swing.JFrame {
         return (new BigInteger(1, m.digest()).toString(16));
     }
 
-    private void login() throws IOException {
+    private void login() throws FileNotFoundException, IOException{
         Usuario u = null;
         Listapermissao permissao = null;
         try {
@@ -339,42 +337,7 @@ public class LoginJF extends javax.swing.JFrame {
             System.out.println(ex);
         }
         if (u != null) {
-            LocalDate dataAtual = LocalDate.now();
-            System.out.println("Data atual: " + dataAtual);
-            
-            LicenseDAO licenseDAO = new LicenseDAO();
-            String key = licenseDAO.consultarId(1).getKey();
-            String data = licenseDAO.consultarId(1).getData();
-            System.out.println("key: "+key);
-            System.out.println("data: "+data);
-            String encrypted_key = EncryptDecryptStringWithDES.encrypt(key, cripto.getEcipher());
-            String encrypted_data = EncryptDecryptStringWithDES.encrypt(data, cripto.getDcipher());
-            
-            PrintWriter out = new PrintWriter("license.txt");
-            System.out.println("encrypted key: "+key);
-            System.out.println("encrypted data: "+data);
-            
-            out.println(key);
-            out.println(data);
-            out.close();
-            
-            LocalDate dataParsed = LocalDate.parse(data);
-            System.out.println("Tempo em dias até expirar a licença: " + dataAtual.until(dataParsed, ChronoUnit.DAYS));
-            System.out.println("Data que a licença irá expirar: " + Formatacao.ajustaDataDMA(data));
-            
-            long daysToExpire = dataAtual.until(dataParsed, ChronoUnit.DAYS);
-            
-            if(daysToExpire <=5 && daysToExpire >= 0){
-                JOptionPane.showMessageDialog(this, "ATENÇÃO! A licença do produto irá expirar em " +daysToExpire+" dias. Renove-a para manter o acesso ao programa!");
-        }
-            if(daysToExpire<0)
-            {
-                JOptionPane.showMessageDialog(this, "Sua licença ao produto expirou em "+Formatacao.ajustaDataDMA(data)+". Renove-a para continuar acessando o programa.");
-                dispose();
-                System.exit(0);
-            }
-                   
-            
+            licensa();
             PrincipalJF principal = new PrincipalJF(u);
             //PrincipalJF principal = new PrincipalJF((Usuario) new UsuarioDAO().consultarId(1);//  selectWithJoin("Usuario", "nick = 'admin' AND status = true").get(0));
             principal.setVisible(true);
@@ -416,4 +379,19 @@ public class LoginJF extends javax.swing.JFrame {
 //            }
 //        }
 //    }
+
+    private boolean licensa() throws FileNotFoundException {
+        LocalDate dataAtual = LocalDate.now();
+        System.out.println("Data atual: " + dataAtual);
+
+        
+        
+        
+
+        
+
+        
+
+        
+    }
 }
