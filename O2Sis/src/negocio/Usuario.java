@@ -39,6 +39,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Usuario.findByStatus", query = "SELECT u FROM Usuario u WHERE u.status = :status")})
 public class Usuario implements Serializable {
 
+    @OneToMany(mappedBy = "idUsuario")
+    private List<UsuariosVersoes> usuariosVersoesList;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idusuario")
     @JsonIgnore
     private List<Auditoriainfoold> auditoriainfooldList;
@@ -175,6 +178,15 @@ public class Usuario implements Serializable {
 
     public void setAuditoriainfooldList(List<Auditoriainfoold> auditoriainfooldList) {
         this.auditoriainfooldList = auditoriainfooldList;
+    }
+
+    @XmlTransient
+    public List<UsuariosVersoes> getUsuariosVersoesList() {
+        return usuariosVersoesList;
+    }
+
+    public void setUsuariosVersoesList(List<UsuariosVersoes> usuariosVersoesList) {
+        this.usuariosVersoesList = usuariosVersoesList;
     }
     
 }
