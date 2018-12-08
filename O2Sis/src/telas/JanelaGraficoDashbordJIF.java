@@ -5,25 +5,30 @@
  */
 package telas;
 
+import dao.AgendamentoExamesDAO;
 import dao.ConsultasDAO;
 import java.awt.BorderLayout;
 import java.util.List;
 import negocio.Consultas;
 import graficos.*;
+import java.util.Date;
+import negocio.AgendamentoExames;
 
 /**
  *
  * @author XorNOTE
  */
 public class JanelaGraficoDashbordJIF extends javax.swing.JInternalFrame {
-
+    
+    List <Consultas> consultas;
+    List <AgendamentoExames> exames;
+    
     /**
      * Creates new form JanelaGraficoDashbordJIF
      */
     public JanelaGraficoDashbordJIF() {
         initComponents();
-        
-        this.graficoUm();
+        initGraficos();
     }
 
     /**
@@ -36,20 +41,70 @@ public class JanelaGraficoDashbordJIF extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         graficoUm = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        graficoDois = new javax.swing.JPanel();
+        jdc_Data = new com.toedter.calendar.JDateChooser();
+        jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        graficoTres = new javax.swing.JPanel();
 
         setClosable(true);
 
         graficoUm.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        graficoUm.setPreferredSize(new java.awt.Dimension(400, 350));
 
         javax.swing.GroupLayout graficoUmLayout = new javax.swing.GroupLayout(graficoUm);
         graficoUm.setLayout(graficoUmLayout);
         graficoUmLayout.setHorizontalGroup(
             graficoUmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 876, Short.MAX_VALUE)
+            .addGap(0, 396, Short.MAX_VALUE)
         );
         graficoUmLayout.setVerticalGroup(
             graficoUmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 494, Short.MAX_VALUE)
+            .addGap(0, 346, Short.MAX_VALUE)
+        );
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Dashboard");
+
+        graficoDois.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        graficoDois.setPreferredSize(new java.awt.Dimension(400, 350));
+
+        javax.swing.GroupLayout graficoDoisLayout = new javax.swing.GroupLayout(graficoDois);
+        graficoDois.setLayout(graficoDoisLayout);
+        graficoDoisLayout.setHorizontalGroup(
+            graficoDoisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 396, Short.MAX_VALUE)
+        );
+        graficoDoisLayout.setVerticalGroup(
+            graficoDoisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 346, Short.MAX_VALUE)
+        );
+
+        jdc_Data.setDate(new Date());
+
+        jLabel2.setText("Data:");
+
+        jButton1.setText("Atualizar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        graficoTres.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        graficoTres.setPreferredSize(new java.awt.Dimension(400, 350));
+
+        javax.swing.GroupLayout graficoTresLayout = new javax.swing.GroupLayout(graficoTres);
+        graficoTres.setLayout(graficoTresLayout);
+        graficoTresLayout.setHorizontalGroup(
+            graficoTresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 396, Short.MAX_VALUE)
+        );
+        graficoTresLayout.setVerticalGroup(
+            graficoTresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 346, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -58,33 +113,92 @@ public class JanelaGraficoDashbordJIF extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(graficoUm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(294, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(graficoUm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(graficoDois, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(graficoTres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(483, 483, 483)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jdc_Data, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(graficoUm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jdc_Data, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(graficoUm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(graficoDois, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(graficoTres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        initGraficos();
+        System.out.println("acionado");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel graficoDois;
+    private javax.swing.JPanel graficoTres;
     private javax.swing.JPanel graficoUm;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private com.toedter.calendar.JDateChooser jdc_Data;
     // End of variables declaration//GEN-END:variables
     public void graficoUm(){
         graficoUm.setLayout(new BorderLayout());
-        
-        List <Consultas> consultas = new ConsultasDAO().select("Consultas");
-        
         GraficoBaras_ConsultaPorMedicos g = new GraficoBaras_ConsultaPorMedicos();
-        
-        this.graficoUm.add( g.criarGrafico(consultas) );
-        
+        this.graficoUm.removeAll();
+        this.graficoUm.add( g.criarGrafico(this.consultas) );
         pack();
+    }
+    public void graficoDois(){
+        graficoDois.setLayout(new BorderLayout());
+        GraficoBaras_ConsultaPorPlanos g = new GraficoBaras_ConsultaPorPlanos();
+        this.graficoDois.removeAll();
+        this.graficoDois.add( g.criarGrafico(this.consultas) );
+        pack();
+    }
+    public void graficoTres(){
+        graficoTres.setLayout(new BorderLayout());
+        GraficoBaras_ExamesPorPlanos g = new GraficoBaras_ExamesPorPlanos();
+        this.graficoTres.removeAll();
+        this.graficoTres.add( g.criarGrafico(this.exames) );
+        pack();
+    }
+
+    private void initGraficos() {
+        consultas = new ConsultasDAO().selectWithJoin("Consultas", "data_consulta = '"+gema.Formatacao.converterDateToStringAMD(jdc_Data.getDate())+"'");
+        exames = new AgendamentoExamesDAO().selectWithJoin("AgendamentoExames", "data_exame = '"+gema.Formatacao.converterDateToStringAMD(jdc_Data.getDate())+"'");
+        this.graficoUm();
+        this.graficoDois();
+        this.graficoTres();
     }
 }

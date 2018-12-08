@@ -400,10 +400,15 @@ public class LoginJF extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "ATENÇÃO! A licença do produto irá expirar em " + daysToExpire + " dias. Renove-a para manter o acesso ao programa!");
         }
         if (daysToExpire < 0) {
-            JOptionPane.showMessageDialog(this, "Sua licença ao produto expirou em " + Formatacao.ajustaDataDMA(licenca.getData()) + ". Renove-a para continuar acessando o programa.");
+            if (VerificaLicenca.verificaNuvem()) {
+                licenca = VerificaLicenca.verificaFile();
+                JOptionPane.showMessageDialog(this, "Sua licença ao produto foi renovada. O vencimento dela é em " + Formatacao.ajustaDataDMA(licenca.getData()) + ".");
+            } else {
+                JOptionPane.showMessageDialog(this, "Sua licença ao produto expirou em " + Formatacao.ajustaDataDMA(licenca.getData()) + ". Renove-a para continuar acessando o programa.");
 
-            dispose();
-            System.exit(0);
+                dispose();
+                System.exit(0);
+            }
         }
 
     }

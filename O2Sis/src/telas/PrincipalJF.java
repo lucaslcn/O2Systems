@@ -944,7 +944,7 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable{
                     System.exit(0);
                 }
                 
-                Thread.sleep(30000);
+                Thread.sleep(100000);
                 i++;
             } catch (InterruptedException ex) {
                 Logger.getLogger(PrincipalJF.class.getName()).log(Level.SEVERE, null, ex);

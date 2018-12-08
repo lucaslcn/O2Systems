@@ -149,59 +149,59 @@ public class CriptografiaRSA {
         byte[] t = new byte[b.length];
         for (int i = 0; i < t.length; i++) {
             t[i] = new Byte(b[i]);
-            System.out.println(t[i]+" == "+b[i]);
+//            System.out.println(t[i]+" == "+b[i]);
         }
         return t;
     }
     
-    /**
-     * Testa o Algoritmo
-     */
-    public static void main(String[] args) {
-
-        try {
-
-            // Verifica se já existe um par de chaves, caso contrário gera-se as chaves..
-            if (!verificaSeExisteChavesNoSO()) {
-                // Método responsável por gerar um par de chaves usando o algoritmo RSA e
-                // armazena as chaves nos seus respectivos arquivos.
-                geraChave();
-            }
-
-            final String msgOriginal = "Exemplo de mensagem";
-            ObjectInputStream inputStream = null;
-
-            // Criptografa a Mensagem usando a Chave Pública
-            inputStream = new ObjectInputStream(new FileInputStream(PATH_CHAVE_PUBLICA));
-            final PublicKey chavePublica = (PublicKey) inputStream.readObject();
-            final byte[] textoCriptografado = criptografa(msgOriginal, chavePublica);
-            
-            String t = "";
-            for(int i = 0; i < textoCriptografado.length; i++){
-                String a = textoCriptografado[i]+"";
-                t += a+";";
-                System.out.println(a + " == " + textoCriptografado[i]);
-            }
-            System.out.println("depois");
-            String[] array = t.split(";");
-            byte[] c = new byte[array.length];
-            for(int i = 0; i < c.length;i++){
-                c[i] = new Byte(array[i]);
-                System.out.println(c[i] + " == " + array[i]);
-            }
-            // Decriptografa a Mensagem usando a Chave Pirvada
-            inputStream = new ObjectInputStream(new FileInputStream(PATH_CHAVE_PRIVADA));
-            final PrivateKey chavePrivada = (PrivateKey) inputStream.readObject();
-            final String textoPuro = decriptografa(c, chavePrivada);
-
-            // Imprime o texto original, o texto criptografado e 
-            // o texto descriptografado.
-            System.out.println("Mensagem Original: " + msgOriginal);
-            System.out.println("Mensagem Criptografada: " + textoCriptografado.toString());
-            System.out.println("Mensagem Decriptografada: " + textoPuro);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    /**
+//     * Testa o Algoritmo
+//     */
+//    public static void main(String[] args) {
+//
+//        try {
+//
+//            // Verifica se já existe um par de chaves, caso contrário gera-se as chaves..
+//            if (!verificaSeExisteChavesNoSO()) {
+//                // Método responsável por gerar um par de chaves usando o algoritmo RSA e
+//                // armazena as chaves nos seus respectivos arquivos.
+//                geraChave();
+//            }
+//
+//            final String msgOriginal = "Exemplo de mensagem";
+//            ObjectInputStream inputStream = null;
+//
+//            // Criptografa a Mensagem usando a Chave Pública
+//            inputStream = new ObjectInputStream(new FileInputStream(PATH_CHAVE_PUBLICA));
+//            final PublicKey chavePublica = (PublicKey) inputStream.readObject();
+//            final byte[] textoCriptografado = criptografa(msgOriginal, chavePublica);
+//            
+//            String t = "";
+//            for(int i = 0; i < textoCriptografado.length; i++){
+//                String a = textoCriptografado[i]+"";
+//                t += a+";";
+////                System.out.println(a + " == " + textoCriptografado[i]);
+//            }
+//            System.out.println("depois");
+//            String[] array = t.split(";");
+//            byte[] c = new byte[array.length];
+//            for(int i = 0; i < c.length;i++){
+//                c[i] = new Byte(array[i]);
+//                System.out.println(c[i] + " == " + array[i]);
+//            }
+//            // Decriptografa a Mensagem usando a Chave Pirvada
+//            inputStream = new ObjectInputStream(new FileInputStream(PATH_CHAVE_PRIVADA));
+//            final PrivateKey chavePrivada = (PrivateKey) inputStream.readObject();
+//            final String textoPuro = decriptografa(c, chavePrivada);
+//
+//            // Imprime o texto original, o texto criptografado e 
+//            // o texto descriptografado.
+//            System.out.println("Mensagem Original: " + msgOriginal);
+//            System.out.println("Mensagem Criptografada: " + textoCriptografado.toString());
+//            System.out.println("Mensagem Decriptografada: " + textoPuro);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
