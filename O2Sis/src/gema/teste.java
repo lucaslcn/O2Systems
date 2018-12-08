@@ -5,16 +5,15 @@
  */
 package gema;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 /**
  *
  * @author XorNOTE
  */
 public class teste {
-    public static void main(String[] args) {
-        for(int i = 0; i <= 10;i++ ){
-        int  codigo = (int) (Math.random()*10000);
-        
-        System.out.println(codigo);
-        }
+    public static void main(String[] args) throws IOException, FileNotFoundException, ClassNotFoundException {
+        System.out.println( VerificaLicenca.verificaNuvem() );
     }
 }

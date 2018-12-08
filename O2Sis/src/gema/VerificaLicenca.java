@@ -6,14 +6,17 @@
 package gema;
 
 import dao.LicenseDAO;
+import static gema.CriptografiaRSA.PATH_CHAVE_PUBLICA;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Properties;
@@ -29,14 +32,23 @@ public class VerificaLicenca {
     private static EncryptDecryptStringWithDES cripto = new EncryptDecryptStringWithDES();
     
     public static License verificaFile() throws IOException, FileNotFoundException, ClassNotFoundException{
-        isCripto();
         FileInputStream file = new FileInputStream("license.properties");
         Properties properties = new Properties();
         properties.load (file);
+        isCripto();
         License licenca = new License();
         
-        String data = CriptografiaRSA.decriptografa(properties.get("data").toString().getBytes(), (PrivateKey) CriptografiaRSA.chave());
-        String key = CriptografiaRSA.decriptografa(properties.get("key").toString().getBytes(), (PrivateKey) CriptografiaRSA.chave());
+        byte[]t=properties.getProperty("data").getBytes();
+        for (byte a : t){
+            System.out.print(a);
+        }
+        System.out.println(t.toString());
+        
+        byte[] dataB = CriptografiaRSA.converteStringToArrayByte(properties.getProperty("data"));
+        byte[] keyB = CriptografiaRSA.converteStringToArrayByte(properties.getProperty("key"));
+        
+        String data = CriptografiaRSA.decriptografa(dataB, CriptografiaRSA.chavePrivate());
+        String key = CriptografiaRSA.decriptografa(keyB, CriptografiaRSA.chavePrivate());
         
         licenca.setData(data);
         licenca.setKey(key);
@@ -61,12 +73,17 @@ public class VerificaLicenca {
             CriptografiaRSA.geraChave();
         }
         
+        String id = lerKey("id");
+        String code = lerKey("code");
+        
         FileOutputStream file = new FileOutputStream("license.properties");
         Properties properties = new Properties();
-        byte[] cripto_data = CriptografiaRSA.criptografa(data, CriptografiaRSA.chave());
-        byte[] cripto_key = CriptografiaRSA.criptografa(key, CriptografiaRSA.chave());
-        properties.setProperty("data", cripto_data.toString()); 
-        properties.setProperty("key", cripto_key.toString()); 
+        byte[] cripto_data = CriptografiaRSA.criptografa(data, CriptografiaRSA.chavePublic());
+        byte[] cripto_key = CriptografiaRSA.criptografa(key, CriptografiaRSA.chavePublic());
+        properties.setProperty("id", id);
+        properties.setProperty("code", code);
+        properties.setProperty("data", CriptografiaRSA.converteByteToArrayString(cripto_data)); 
+        properties.setProperty("key", CriptografiaRSA.converteByteToArrayString(cripto_key)); 
         properties.setProperty("cripto", "true"); 
         properties.store(file, "Licença");
         file.close();
@@ -95,5 +112,12 @@ public class VerificaLicenca {
         }
         
         return true;
+    }
+    
+    public static String lerKey(String key) throws IOException{
+        FileInputStream file = new FileInputStream("license.properties");
+        Properties properties = new Properties();
+        properties.load (file);
+        return properties.getProperty(key);
     }
 }
