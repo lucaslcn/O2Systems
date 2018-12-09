@@ -7,7 +7,6 @@ package telas;
 
 import api.PrevisaoTempo;
 
-
 import controller.PrevisaoTempoController;
 import dao.AuditoriaDAO;
 import dao.FuncionarioDAO;
@@ -45,7 +44,7 @@ import registros.PermissaoG;
  *
  * @author anderson.caye
  */
-public class PrincipalJF extends javax.swing.JFrame implements Runnable{
+public class PrincipalJF extends javax.swing.JFrame implements Runnable {
 
     Usuario usuario;
     List<Listapermissao> permissao;
@@ -65,7 +64,7 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable{
         this.montaTree();
         defineNomesComponente();
         permissao();
-        
+
         VerificaVersion();
 //        /* Painel de Aviso do Elias*/
 //        PainelAvisosJIF k = new PainelAvisosJIF(this.usuario);
@@ -79,6 +78,11 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable{
         String ip = in.readLine();
         System.out.println(ip);
         this.setTitle("O2 Systems (" + ip + ")");
+
+        NotasVersaoNaoLido k = new NotasVersaoNaoLido(this.usuario);
+        jDesktopRun.add(k);
+        k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
+        k.setVisible(true);
 
     }
 
@@ -131,6 +135,7 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable{
         itemMenu_listaFuncionarios = new javax.swing.JMenuItem();
         menuDesenvolvedor = new javax.swing.JMenu();
         itemMenu_CriarPermissao = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -145,6 +150,8 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable{
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
+        jMenu7 = new javax.swing.JMenu();
+        jMenuItem12 = new javax.swing.JMenuItem();
 
         jMenuItem5.setText("jMenuItem5");
 
@@ -406,6 +413,14 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable{
         });
         menuDesenvolvedor.add(itemMenu_CriarPermissao);
 
+        jMenuItem11.setText("Gerar Versões");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        menuDesenvolvedor.add(jMenuItem11);
+
         jMenuBar1.add(menuDesenvolvedor);
 
         jMenu1.setText("Chat");
@@ -495,6 +510,18 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable{
         jMenu6.add(jMenuItem10);
 
         jMenuBar1.add(jMenu6);
+
+        jMenu7.setText("Versões");
+
+        jMenuItem12.setText("Notas das Versões");
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
+        jMenu7.add(jMenuItem12);
+
+        jMenuBar1.add(jMenu7);
 
         setJMenuBar(jMenuBar1);
 
@@ -773,20 +800,19 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable{
             System.out.println("No Selection ");
         }
 
-    String source = chooser.getCurrentDirectory().toString();
-    File srcDir = new File(source);
+        String source = chooser.getCurrentDirectory().toString();
+        File srcDir = new File(source);
 
-    String destination = "C:/";
-    File destDir = new File(destination);
+        String destination = "C:/";
+        File destDir = new File(destination);
 
-    
         try {
-    FileUtils.copyDirectory(srcDir, destDir);
-    JOptionPane.showMessageDialog(null, "Backup relizado com sucesso para "+destDir);
-    }
-    catch (IOException e) {
-    e.printStackTrace();
-    JOptionPane.showMessageDialog(null, "Erro ao realizar backup do projeto: "+e);}
+            FileUtils.copyDirectory(srcDir, destDir);
+            JOptionPane.showMessageDialog(null, "Backup relizado com sucesso para " + destDir);
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro ao realizar backup do projeto: " + e);
+        }
 
 
     }//GEN-LAST:event_jMenuItem10ActionPerformed
@@ -794,6 +820,25 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable{
     private void itemMenu_listaFuncionariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenu_listaFuncionariosActionPerformed
         new Relatorio().gerarListagem("listaFuncionarios.jrxml", new FuncionarioDAO().select("Funcionario"));
     }//GEN-LAST:event_itemMenu_listaFuncionariosActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        GerarVersoesJIF k = new GerarVersoesJIF(this.usuario);
+        jDesktopRun.add(k);
+        k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
+        k.setVisible(true);
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+       NotasVersao k = null;
+        try {
+            k = new NotasVersao(this.usuario);
+        } catch (IOException ex) {
+            Logger.getLogger(PrincipalJF.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        jDesktopRun.add(k);
+        k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
+        k.setVisible(true);
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
 
 //    /**
 //     * @param args the command line arguments
@@ -862,9 +907,12 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable{
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
@@ -928,10 +976,10 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable{
     private void atualizaPermissao() {
         permissao();
     }
-    
+
     /* Verificação de Atualização */
-    public void movimentoAtualizacaoVersion(boolean isAtualizada){
-        if(isAtualizada){
+    public void movimentoAtualizacaoVersion(boolean isAtualizada) {
+        if (isAtualizada) {
             itemMenu_baixarAtualizacao.setVisible(false);
             menuO2System.setText("O2 Systems");
         } else {
@@ -939,30 +987,32 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable{
             menuO2System.setText("O2 Systems - SISTEMA DESATUALIZADO");
         }
     }
-    
+
     public void VerificaVersion() {
         Thread t = new Thread(this);
         t.start();
     }
-    
+
     @Override
-    public void run(){
+    public void run() {
         int i = 0;
         boolean b = !VerificaVersion.runVersion();
-        while(true){
+        while (true) {
             try {
                 boolean temp = b;
                 b = !VerificaVersion.runVersion();
-                if(temp != b){ i = 0;}
+                if (temp != b) {
+                    i = 0;
+                }
                 System.out.println("testes = " + (i) + "  de execução - " + b);
-                movimentoAtualizacaoVersion( b );
+                movimentoAtualizacaoVersion(b);
                 avisadoCliente(i, b);
-                
+
                 //verificar licença
-                if(!VerificaLicenca.verificaNuvem()){
+                if (!VerificaLicenca.verificaNuvem()) {
                     System.exit(0);
                 }
-                
+
                 Thread.sleep(100000);
                 i++;
             } catch (InterruptedException ex) {
@@ -977,18 +1027,20 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable{
 
     private void avisadoCliente(int i, boolean b) {
         String n = "desatualizado";
-        if(b){ n = "atualizado";}
-        if(i == 0){
+        if (b) {
+            n = "atualizado";
+        }
+        if (i == 0) {
             Atividade logAuditoria = new Atividade();
-            String[] s = {"Cliente notificado que o sistema está "+n};
+            String[] s = {"Cliente notificado que o sistema está " + n};
             logAuditoria.setInformacaoOld(s);
             logAuditoria.setInformacaoNew(s);
             logAuditoria.setOnde(Atividade.FROM_VERIFICA_VERSION);
             logAuditoria.setUsuario(usuario);
             logAuditoria.setAcao(Atividade.ACAO_INFORMACAO);
-            
+
             new AuditoriaDAO().insertAuditoria(logAuditoria.registraAtividade());
-        
+
         }
     }
 }

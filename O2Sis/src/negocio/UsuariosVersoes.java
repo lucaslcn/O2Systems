@@ -31,6 +31,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "UsuariosVersoes.findById", query = "SELECT u FROM UsuariosVersoes u WHERE u.id = :id")})
 public class UsuariosVersoes implements Serializable {
 
+    @Column(name = "lido")
+    private Boolean lido;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -98,6 +101,14 @@ public class UsuariosVersoes implements Serializable {
     @Override
     public String toString() {
         return "negocio.UsuariosVersoes[ id=" + id + " ]";
+    }
+
+    public Boolean getLido() {
+        return lido;
+    }
+
+    public void setLido(Boolean lido) {
+        this.lido = lido;
     }
     
 }

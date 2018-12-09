@@ -90,7 +90,7 @@ public class GerarVersoesJIF extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGerarNotasVersoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarNotasVersoesActionPerformed
-         List<Usuario> a = new UsuarioDAO().select("Usuario");
+        List<Usuario> a = new UsuarioDAO().select("Usuario");
         int v = Integer.parseInt(jTextField1.getText());
         nv = new dao.NotasVersoesDAO().consultarId(v);
         

@@ -32,7 +32,7 @@ import org.xml.sax.SAXException;
  *
  * @author elias.flach
  */
-public class NotasVersao extends javax.swing.JInternalFrame {
+public class NotasVersaoNaoLido extends javax.swing.JInternalFrame {
 
     Usuario usuario;
     Notasversoes nv;
@@ -41,15 +41,17 @@ public class NotasVersao extends javax.swing.JInternalFrame {
     /**
      * Creates new form NotasVersao
      */
-    public NotasVersao(Usuario usuario) throws IOException {
+    public NotasVersaoNaoLido(Usuario usuario) throws IOException {
         initComponents();
 
         this.usuario = usuario;
          
-         String s = PreencherTextField();
+         String s = PreencherTextFieldNaoLido();
          txtANotasVersao.setText(s);
-         
-         
+         String p = txtANotasVersao.getText();
+         if (p.equals("") || p == null || txtANotasVersao.getText().equals("")) {
+             dispose();
+         }
     }
 
     /**
@@ -65,6 +67,7 @@ public class NotasVersao extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtANotasVersao = new javax.swing.JTextArea();
+        btnMarcarLido = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -77,6 +80,13 @@ public class NotasVersao extends javax.swing.JInternalFrame {
         txtANotasVersao.setRows(1000);
         txtANotasVersao.setTabSize(15);
         jScrollPane1.setViewportView(txtANotasVersao);
+
+        btnMarcarLido.setText("Marcar como Lido");
+        btnMarcarLido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMarcarLidoActionPerformed(evt);
+            }
+        });
 
         btnSair.setText("Sair");
         btnSair.addActionListener(new java.awt.event.ActionListener() {
@@ -95,7 +105,8 @@ public class NotasVersao extends javax.swing.JInternalFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 836, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnMarcarLido)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -107,8 +118,10 @@ public class NotasVersao extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMarcarLido, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -131,12 +144,22 @@ public class NotasVersao extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnMarcarLidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarcarLidoActionPerformed
+        try {
+            marcaLido();
+            dispose();
+        } catch (IOException ex) {
+            Logger.getLogger(NotasVersaoNaoLido.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnMarcarLidoActionPerformed
+
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         dispose();
     }//GEN-LAST:event_btnSairActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnMarcarLido;
     private javax.swing.JButton btnSair;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
@@ -145,17 +168,24 @@ public class NotasVersao extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     public void marcaLido() throws IOException {
-              
+        List<UsuariosVersoes> a = new dao.VersoesUsuariosDAO().selectWithJoin("UsuariosVersoes", "lido = false AND id_usuario = " + this.usuario.getIdusuario());
+        String t = "";
+        
+        for (UsuariosVersoes k : a) {
+            k.setLido(true);
+            t = new VersoesUsuariosDAO().updateTest(k);
+        }
+             
        
         
     }
 
-    private String PreencherTextField() {
-        List<Notasversoes> a = new dao.NotasVersoesDAO().selectWithJoin("Notasversoes", "versao != '' order by id ASC");
+    private String PreencherTextFieldNaoLido() {
+        List<UsuariosVersoes> a = new dao.VersoesUsuariosDAO().selectWithJoin("UsuariosVersoes", "lido = false AND id_usuario = " + this.usuario.getIdusuario());
         String t = "";
         
-        for (Notasversoes k : a) {
-            t += k.getVersao()+ ": " + k.getDescricao()+ "\n";
+        for (UsuariosVersoes k : a) {
+            t += k.getIdVersao().getVersao()+ ": " + k.getIdVersao().getDescricao()+ "\n";
         }
         return t;
     }
