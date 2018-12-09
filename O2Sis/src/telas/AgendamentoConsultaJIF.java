@@ -527,9 +527,9 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
     @Override
     public void preencher() {
         paciente = consultas.getIdpaciente();
-        tfdPaciente.setText(paciente.getIdpessoa().getNomePessoa());
+        tfdPaciente.setText(paciente.getIdpessoa().getNomepessoa());
         funcionario = consultas.getIdfuncionario();
-        tfdProfissional.setText(funcionario.getIdpessoa().getNomePessoa());
+        tfdProfissional.setText(funcionario.getIdpessoa().getNomepessoa());
         plano = consultas.getIdplano();
         tfdPlano.setText(plano.getNomePlano());
         
@@ -539,11 +539,11 @@ public class AgendamentoConsultaJIF extends javax.swing.JInternalFrame implement
     }
     
     public void preencherPaciente() {
-        tfdPaciente.setText(this.paciente.getIdpessoa().getNomePessoa());
+        tfdPaciente.setText(this.paciente.getIdpessoa().getNomepessoa());
     }
     
     public void preencherProfissional() {
-        tfdProfissional.setText(this.funcionario.getIdpessoa().getNomePessoa());
+        tfdProfissional.setText(this.funcionario.getIdpessoa().getNomepessoa());
     }
     
     public void preencherPlano() {

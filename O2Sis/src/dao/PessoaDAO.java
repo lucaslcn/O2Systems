@@ -33,9 +33,9 @@ public class PessoaDAO extends DAO implements IDAO_T<Exames> {
 
         //Executa a busca
         if (Gema.vazio(criterio, 1)) {
-            array = this.selectWithJoin(table, "nome_pessoa ilike '%" + criterio + "%' order by nome_pessoa asc");
+            array = this.selectWithJoin(table, "nomepessoa ilike '%" + criterio + "%' order by nomepessoa asc");
         } else {
-            array = this.selectWithJoin(table, " status = true order by nome_pessoa asc");
+            array = this.selectWithJoin(table, " status = true order by nomepessoa asc");
         }
 
         //Definição dos dados da tabela.
@@ -46,7 +46,7 @@ public class PessoaDAO extends DAO implements IDAO_T<Exames> {
                 Pessoa k = (Pessoa) o;
 //              Definir os dados das colunas
                 dadosTabela[i][0] = k.getCpf();
-                dadosTabela[i][1] = k.getNomePessoa();
+                dadosTabela[i][1] = k.getNomepessoa();
 
                 i++;
             }

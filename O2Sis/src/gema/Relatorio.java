@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
-import persistencia.ConexaoDAO;
 
 /**
  *
@@ -27,7 +27,7 @@ public class Relatorio {
     public void gerarListagem(String caminho, List tabela){
         try {
             // Compila o relatorio
-            JasperReport relatorio = JasperCompileManager.compileReport(getClass().getResourceAsStream("/relatorios/"+caminho));
+            JasperReport relatorio = JasperCompileManager.compileReport( getClass().getResourceAsStream("/relatorios/"+caminho));
 
             // Mapeia campos de parametros para o relatorio, mesmo que nao existam
             Map parametros = new HashMap();
@@ -37,7 +37,9 @@ public class Relatorio {
 
             // Exibe resultado em video
             JasperViewer.viewReport(impressao, false);
+//            JasperExportManager.exportReportToPdfFile("Relatório O2systems");
         } catch (Exception e) {
+            System.out.println(e);
             JOptionPane.showMessageDialog(null, "Erro ao gerar relatório: " + e);
         }
     }
@@ -60,6 +62,7 @@ public class Relatorio {
             // Exibe resultado em video
             JasperViewer.viewReport(impressao, false);
         } catch (Exception e) {
+            System.out.println(e);
             JOptionPane.showMessageDialog(null, "Erro ao gerar relatório: " + e);
         }
     }

@@ -49,7 +49,7 @@ public class UsuarioDAO extends DAO implements IDAO_T<Usuario> {
 //              Definir os dados das colunas
                 dadosTabela[i][0] = k.getIdusuario();
                 dadosTabela[i][1] = k.getNick();
-                dadosTabela[i][2] = k.getIdfuncionario().getIdpessoa().getNomePessoa();
+                dadosTabela[i][2] = k.getIdfuncionario().getIdpessoa().getNomepessoa();
 
                 i++;
             }

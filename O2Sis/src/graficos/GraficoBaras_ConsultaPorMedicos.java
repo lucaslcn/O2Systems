@@ -19,7 +19,7 @@ public class GraficoBaras_ConsultaPorMedicos {
         DefaultCategoryDataset dataSet = new DefaultCategoryDataset();
         TreeMap<String, List<Consultas>> resultado = new TreeMap();
         for (Consultas c : consulta){
-            String key = c.getIdfuncionario().getIdpessoa().getNomePessoa()+ " " + c.getIdfuncionario().getIdpessoa().getSobrenome();
+            String key = c.getIdfuncionario().getIdpessoa().getNomepessoa()+ " " + c.getIdfuncionario().getIdpessoa().getSobrenome();
             if (resultado.containsKey(key)) {
                 List<Consultas> temp = resultado.get(key);
                 temp.add(c);
@@ -35,7 +35,7 @@ public class GraficoBaras_ConsultaPorMedicos {
         
         for (String s : resultado.keySet()) {
             List<Consultas> c = resultado.get(s);
-            String nomeMedico = c.get(0).getIdfuncionario().getIdpessoa().getNomePessoa()+" "+c.get(0).getIdfuncionario().getIdpessoa().getSobrenome();
+            String nomeMedico = c.get(0).getIdfuncionario().getIdpessoa().getNomepessoa()+" "+c.get(0).getIdfuncionario().getIdpessoa().getSobrenome();
             dataSet.addValue(c.size(), nomeMedico, "");
         }
         

@@ -488,7 +488,7 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
     public void preencher() {
         jTA_CamporTextoAtendimento.setText(this.prontuario.getAtendimento());
         jTA_CamporTextoTriagem.setText(this.prontuario.getTriagem());
-        jTF_NomePaciente.setText(this.consulta.getIdpaciente().getIdpessoa().getNomePessoa());
+        jTF_NomePaciente.setText(this.consulta.getIdpaciente().getIdpessoa().getNomepessoa());
         jTF_CodigoConsulta.setText(this.consulta.getIdconsultas() + "");
 
 //        this.receita = this.prontuario.getIdreceita();

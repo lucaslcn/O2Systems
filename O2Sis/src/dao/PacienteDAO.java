@@ -34,7 +34,7 @@ public class PacienteDAO extends DAO implements IDAO_T<Paciente> {
 
         //Executa a busca
         if (Gema.vazio(criterio, 1)) {
-            array = this.selectWithJoin(table, "nome_pessoa ilike '%" + criterio + "%' order by nome_pessoa asc");
+            array = this.selectWithJoin(table, "nomepessoa ilike '%" + criterio + "%' order by nomepessoa asc");
         } else {
             array = this.select(table+ " order by idpaciente asc");
         }
@@ -47,7 +47,7 @@ public class PacienteDAO extends DAO implements IDAO_T<Paciente> {
                 Paciente k = (Paciente) o;
 //              Definir os dados das colunas
                 dadosTabela[i][0] = k.getIdpaciente();
-                dadosTabela[i][1] = k.getIdpessoa().getNomePessoa();
+                dadosTabela[i][1] = k.getIdpessoa().getNomepessoa();
 
                 i++;
             }

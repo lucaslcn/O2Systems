@@ -39,7 +39,7 @@ public class ConsultasDAO extends DAO implements IDAO_T<Consultas> {
 
         //Executa a busca
         if (Gema.vazio(criterio, 1)) {
-            array = this.selectWithJoin(table, "nome_pessoa ilike '%" + criterio + "%' order by nome_pessoa asc");
+            array = this.selectWithJoin(table, "nomepessoa ilike '%" + criterio + "%' order by nomepessoa asc");
         } else {
             array = this.selectWithJoin(table, "status = true order by data_consulta asc");
         }
@@ -52,10 +52,10 @@ public class ConsultasDAO extends DAO implements IDAO_T<Consultas> {
                 Consultas k = (Consultas) o;
 //              Definir os dados das colunas
                 dadosTabela[i][0] = k.getIdconsultas();
-                dadosTabela[i][1] = k.getIdpaciente().getIdpessoa().getNomePessoa();
+                dadosTabela[i][1] = k.getIdpaciente().getIdpessoa().getNomepessoa();
                 dadosTabela[i][2] = Formatacao.ajustaDataDMA(k.getDataConsulta().toString());
                 dadosTabela[i][3] = k.getHoraConsulta().toString().split(":")[0]+":"+k.getHoraConsulta().toString().split(":")[1];// .getHours()+":"+k.getHoraConsulta().getMinutes();
-                dadosTabela[i][4] = k.getIdfuncionario().getIdpessoa().getNomePessoa();
+                dadosTabela[i][4] = k.getIdfuncionario().getIdpessoa().getNomepessoa();
                 
 
                 i++;

@@ -52,7 +52,7 @@ public class AgendamentoExamesDAO extends DAO implements IDAO_T<AgendamentoExame
                 AgendamentoExames k = (AgendamentoExames) o;
 //              Definir os dados das colunas
                 dadosTabela[i][0] = k.getIdagendamentoExames();
-                dadosTabela[i][1] = k.getIdpaciente().getIdpessoa().getNomePessoa();
+                dadosTabela[i][1] = k.getIdpaciente().getIdpessoa().getNomepessoa();
                 dadosTabela[i][2] = k.getIdexame().getNomeExame();
                 dadosTabela[i][3] = Formatacao.ajustaDataDMA(k.getDataExame().toString());
                 dadosTabela[i][4] = k.getHoraExame();
@@ -127,9 +127,9 @@ public class AgendamentoExamesDAO extends DAO implements IDAO_T<AgendamentoExame
 
         //Executa a busca
         if (Gema.vazio(criterio, 1)) {
-            array = this.selectWithJoin(table, "nome_pessoa ilike '%" + criterio + "%' order by nome_pessoa asc");
+            array = this.selectWithJoin(table, "nomepessoa ilike '%" + criterio + "%' order by nomepessoa asc");
         } else {
-            array = this.selectWithJoin(table, "order by nome_pessoa asc");
+            array = this.selectWithJoin(table, "order by nomepessoa asc");
         }
 
         //Definição dos dados da tabela.
@@ -140,7 +140,7 @@ public class AgendamentoExamesDAO extends DAO implements IDAO_T<AgendamentoExame
                 Pessoa k = (Pessoa) o;
 //              Definir os dados das colunas
                 dadosTabela[i][0] = k.getIdpessoa();
-                dadosTabela[i][1] = k.getNomePessoa();
+                dadosTabela[i][1] = k.getNomepessoa();
 
                 i++;
             }

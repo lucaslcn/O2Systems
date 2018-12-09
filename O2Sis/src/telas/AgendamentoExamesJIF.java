@@ -554,7 +554,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
     @Override
     public void preencher() {
         paciente = ae.getIdpaciente();
-        tfdPaciente.setText(paciente.getIdpessoa().getNomePessoa());
+        tfdPaciente.setText(paciente.getIdpessoa().getNomepessoa());
         exame = ae.getIdexame();
         tfdExames.setText(ae.getIdexame().getNomeExame());
         plano = ae.getIdplano();
@@ -565,7 +565,7 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
     }
 
     public void preencherPaciente() {
-        tfdPaciente.setText(this.paciente.getIdpessoa().getNomePessoa());
+        tfdPaciente.setText(this.paciente.getIdpessoa().getNomepessoa());
     }
 
     public void preencherExame() {

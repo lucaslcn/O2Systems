@@ -619,7 +619,7 @@ public class GestorUsuarioJIF extends javax.swing.JInternalFrame implements Basi
     public void preencher() {
         jTF_codigoFuncionario.setText(usuarioHere.getIdfuncionario().getIdfuncionario() + "");
         jTF_codigoUsuario.setText(usuarioHere.getIdusuario() + "");
-        jTF_nomeFuncionario.setText(usuarioHere.getIdfuncionario().getIdpessoa().getNomePessoa());
+        jTF_nomeFuncionario.setText(usuarioHere.getIdfuncionario().getIdpessoa().getNomepessoa());
         jTF_nomeUsuario.setText(usuarioHere.getNick());
         atualizaTabela();
     }

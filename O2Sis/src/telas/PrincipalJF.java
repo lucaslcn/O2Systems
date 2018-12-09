@@ -10,9 +10,11 @@ import api.PrevisaoTempo;
 
 import controller.PrevisaoTempoController;
 import dao.AuditoriaDAO;
+import dao.FuncionarioDAO;
 import dao.ListapermissaoDAO;
 import dao.MensagemRetorno;
 import gema.Mensagens;
+import gema.Relatorio;
 import gema.VerificaLicenca;
 import gema.VerificaVersion;
 import java.io.BufferedInputStream;
@@ -65,11 +67,11 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable{
         permissao();
         
         VerificaVersion();
-        
-        PainelAvisosJIF k = new PainelAvisosJIF(this.usuario);
-        jDesktopRun.add(k);
-        k.setLocation(this.getWidth() - k.getWidth(), /*this.getHeight() / 2 - k.getHeight() / 2*/ 0);
-        k.setVisible(true);
+//        /* Painel de Aviso do Elias*/
+//        PainelAvisosJIF k = new PainelAvisosJIF(this.usuario);
+//        jDesktopRun.add(k);
+//        k.setLocation(this.getWidth() - k.getWidth(), /*this.getHeight() / 2 - k.getHeight() / 2*/ 0);
+//        k.setVisible(true);
 
         URL url = new URL("http://meuip.com/api/meuip.php");
         InputStream is = new BufferedInputStream(url.openConnection().getInputStream());
@@ -125,6 +127,8 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable{
         itemMenuProntuario = new javax.swing.JMenuItem();
         menuRelatorios = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jSeparator7 = new javax.swing.JPopupMenu.Separator();
+        itemMenu_listaFuncionarios = new javax.swing.JMenuItem();
         menuDesenvolvedor = new javax.swing.JMenu();
         itemMenu_CriarPermissao = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
@@ -375,6 +379,15 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable{
             }
         });
         menuRelatorios.add(jMenuItem4);
+        menuRelatorios.add(jSeparator7);
+
+        itemMenu_listaFuncionarios.setText("Lista de Funcionários");
+        itemMenu_listaFuncionarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenu_listaFuncionariosActionPerformed(evt);
+            }
+        });
+        menuRelatorios.add(itemMenu_listaFuncionarios);
 
         jMenuBar1.add(menuRelatorios);
 
@@ -778,6 +791,10 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable{
 
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
+    private void itemMenu_listaFuncionariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenu_listaFuncionariosActionPerformed
+        new Relatorio().gerarListagem("listaFuncionarios.jrxml", new FuncionarioDAO().select("Funcionario"));
+    }//GEN-LAST:event_itemMenu_listaFuncionariosActionPerformed
+
 //    /**
 //     * @param args the command line arguments
 //     */
@@ -836,6 +853,7 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable{
     private javax.swing.JMenuItem itemMenuSobre;
     private javax.swing.JMenuItem itemMenu_CriarPermissao;
     private javax.swing.JMenuItem itemMenu_baixarAtualizacao;
+    private javax.swing.JMenuItem itemMenu_listaFuncionarios;
     private javax.swing.JDesktopPane jDesktopRun;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
@@ -861,6 +879,7 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable{
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;
+    private javax.swing.JPopupMenu.Separator jSeparator7;
     private javax.swing.JMenu menuAgendamento;
     private javax.swing.JMenu menuCadastro;
     private javax.swing.JMenu menuDesenvolvedor;
