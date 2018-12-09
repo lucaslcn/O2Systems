@@ -12,6 +12,7 @@ import static gema.CriptografiaRSA.geraChave;
 import static gema.CriptografiaRSA.verificaSeExisteChavesNoSO;
 import gema.EncryptDecryptStringWithDES;
 import gema.Formatacao;
+import gema.FuncoesPostgres;
 import gema.Mensagens;
 import gema.VerificaLicenca;
 import gema.VerificaVersion;
@@ -339,7 +340,6 @@ public class LoginJF extends javax.swing.JFrame {
         Listapermissao permissao = null;
         try {
             u = new LoginDAO().acessar(jTF_user.getText(), criptoSenha(jPF_pass.getText()));
-
         } catch (Exception ex) {
             System.out.println(ex);
         }
