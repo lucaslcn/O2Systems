@@ -5,18 +5,40 @@
  */
 package telas;
 
+import dao.FuncaoDAO;
+import dao.RemedioDAO;
+import gema.Gema;
+import gema.Mensagens;
+import gema.ValidaCampo;
+import java.math.BigInteger;
+import java.util.List;
+import javax.swing.JOptionPane;
+import negocio.ListagemRemedios;
+import negocio.Receita;
+import negocio.Remedio;
+import negocio.Usuario;
+import org.hibernate.HibernateException;
+import org.jfree.ui.L1R1ButtonPanel;
+import persistencia.BasicScreen;
+import registros.Atividade;
+
 /**
  *
  * @author XorNOTE
  */
-public class ProntuarioReceitaJD extends javax.swing.JDialog {
-
+public class ProntuarioReceitaJD extends javax.swing.JDialog implements BasicScreen{
+    
+    String receita;
+    
+    //
+    
     /**
      * Creates new form ReceitaJD
      */
-    public ProntuarioReceitaJD(java.awt.Frame parent, boolean modal) {
+    public ProntuarioReceitaJD(java.awt.Frame parent, boolean modal, String receita) {
         super(parent, modal);
         initComponents();
+        this.receita = receita;
     }
 
     /**
@@ -28,21 +50,158 @@ public class ProntuarioReceitaJD extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jP_btnDeeAcao = new javax.swing.JPanel();
+        btnCancelar = new javax.swing.JToggleButton();
+        btnSalvar = new javax.swing.JToggleButton();
+        jPanel1 = new javax.swing.JPanel();
+        btn_insert = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTA_receita = new javax.swing.JTextArea();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Receita");
+
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cancel.png"))); // NOI18N
+        btnCancelar.setText("Cancelar");
+        btnCancelar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
+        btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_add.png"))); // NOI18N
+        btnSalvar.setText("Salvar");
+        btnSalvar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jP_btnDeeAcaoLayout = new javax.swing.GroupLayout(jP_btnDeeAcao);
+        jP_btnDeeAcao.setLayout(jP_btnDeeAcaoLayout);
+        jP_btnDeeAcaoLayout.setHorizontalGroup(
+            jP_btnDeeAcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jP_btnDeeAcaoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 632, Short.MAX_VALUE)
+                .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jP_btnDeeAcaoLayout.setVerticalGroup(
+            jP_btnDeeAcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jP_btnDeeAcaoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jP_btnDeeAcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder()));
+
+        btn_insert.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_insert.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
+        btn_insert.setText("Adicionar Remédio");
+        btn_insert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_insertActionPerformed(evt);
+            }
+        });
+
+        jTA_receita.setColumns(20);
+        jTA_receita.setRows(5);
+        jScrollPane2.setViewportView(jTA_receita);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2)
+                    .addComponent(btn_insert, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(btn_insert)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jP_btnDeeAcao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jP_btnDeeAcao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        int resposta = Mensagens.questionarAcao();
+        if (resposta == JOptionPane.NO_OPTION) {
+
+        } else if (resposta == JOptionPane.YES_OPTION) {
+            dispose();
+        }
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        this.receita = jTA_receita.getText();
+        dispose();
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btn_insertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_insertActionPerformed
+        Remedio k = (Remedio) Gema.pesquisar(new RemedioDAO());
+
+        if (k != null) {
+            
+            String tamplet = "\n======x======x======\n"+k.getIdremedio() + ":> " + k.getNomeRemedio()
+                + "Quantidade/Und:"
+                + "Frequencia:"
+                    + "Duração:"
+                    + "Composição:";
+            
+            receita +=tamplet;
+            
+        }
+        
+        String tamplet = ""
+                + ""
+                + "";
+    }//GEN-LAST:event_btn_insertActionPerformed
 
     /**
      * @param args the command line arguments
@@ -88,5 +247,57 @@ public class ProntuarioReceitaJD extends javax.swing.JDialog {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton btnCancelar;
+    private javax.swing.JToggleButton btnSalvar;
+    private javax.swing.JButton btn_insert;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jP_btnDeeAcao;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTA_receita;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void preencher() {
+    }
+
+    @Override
+    public void limpar() {
+    }
+
+    @Override
+    public void popular() {
+    }
+
+    @Override
+    public void situacaoNovo() {
+    }
+
+    @Override
+    public void situacaoEditar() {
+    }
+
+    @Override
+    public void situacaoVisualizacao() {
+    }
+
+    @Override
+    public void permissao() {
+    }
+
+    @Override
+    public String[] auditoria() {
+        String[] s = {""};
+        return s;
+    }
+
+    @Override
+    public Atividade autoAuditoria(String[] iOld, String[] iNew) {
+        Atividade logAuditoria = new Atividade();
+        logAuditoria.setInformacaoOld(iOld);
+        logAuditoria.setInformacaoNew(iNew);
+        logAuditoria.setOnde(Atividade.FROM_PRONTUARIO);
+        
+        return logAuditoria;
+    }
 }

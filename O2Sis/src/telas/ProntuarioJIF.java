@@ -228,10 +228,20 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
         btn_Receita.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_add.png"))); // NOI18N
         btn_Receita.setText("Criar Receita");
         btn_Receita.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btn_Receita.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ReceitaActionPerformed(evt);
+            }
+        });
 
         btn_Exame.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_add.png"))); // NOI18N
         btn_Exame.setText("Solicitar Exames");
         btn_Exame.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btn_Exame.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ExameActionPerformed(evt);
+            }
+        });
 
         jTA_CamporTextoAtendimento.setColumns(20);
         jTA_CamporTextoAtendimento.setRows(5);
@@ -458,6 +468,22 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
 
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btn_ReceitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ReceitaActionPerformed
+        String receita = "";
+        ProntuarioReceitaJD p = new ProntuarioReceitaJD(new javax.swing.JFrame(), true, receita);
+        p.setLocationRelativeTo(null);
+        p.setVisible(true);
+        
+        receita = p.receita;
+    }//GEN-LAST:event_btn_ReceitaActionPerformed
+
+    private void btn_ExameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ExameActionPerformed
+        
+        ProntuarioExamesJD p = new ProntuarioExamesJD(new javax.swing.JFrame(), true, usuario);
+        p.setLocationRelativeTo(null);
+        p.setVisible(true);
+    }//GEN-LAST:event_btn_ExameActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

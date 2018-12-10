@@ -5,18 +5,23 @@
  */
 package telas;
 
+import negocio.Usuario;
+
 /**
  *
  * @author XorNOTE
  */
 public class ProntuarioExamesJD extends javax.swing.JDialog {
 
+    Usuario usuario;
+    
     /**
      * Creates new form ProntuarioExamesJD
      */
-    public ProntuarioExamesJD(java.awt.Frame parent, boolean modal) {
+    public ProntuarioExamesJD(java.awt.Frame parent, boolean modal, Usuario usuario) {
         super(parent, modal);
         initComponents();
+        this.usuario = usuario;
     }
 
     /**
