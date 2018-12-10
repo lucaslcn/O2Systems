@@ -78,7 +78,7 @@ public class EmailJIF extends javax.swing.JInternalFrame {
         jPanel3.setPreferredSize(new java.awt.Dimension(786, 543));
 
         Destinatario.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        Destinatario.setText("email_destino@dominio.com.br");
+        Destinatario.setToolTipText("email_destino@dominio.com.br");
         Destinatario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DestinatarioActionPerformed(evt);
@@ -89,13 +89,14 @@ public class EmailJIF extends javax.swing.JInternalFrame {
         Mensagem.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         Mensagem.setLineWrap(true);
         Mensagem.setRows(5);
-        Mensagem.setText("Digite sua Mensagem aqui.");
+        Mensagem.setToolTipText("Oi, eu sou o Goku!");
         Mensagem.setWrapStyleWord(true);
         jScrollPane1.setViewportView(Mensagem);
 
         jLabel7.setText("Assunto:(*)");
 
         Assunto.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        Assunto.setToolTipText("Exemplo");
 
         EnderecoAnexo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
@@ -304,7 +305,9 @@ public class EmailJIF extends javax.swing.JInternalFrame {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         Destinatario.setText("");
         Assunto.setText("");
-        
+        Mensagem.setText("");
+        EnderecoAnexo.setText("");
+        Anexo = null;
     }//GEN-LAST:event_btnEditarActionPerformed
 
 

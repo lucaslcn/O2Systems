@@ -114,6 +114,9 @@ public class ChatJIF extends javax.swing.JInternalFrame {
         this.txtAreaSend.setText("");
 
         JOptionPane.showMessageDialog(this, "Você saiu do chat!");
+        this.message = new ChatMessage();
+            this.message.setAction(Action.DISCONNECT);
+
     }
 
     private void receive(ChatMessage message) {
@@ -388,16 +391,17 @@ public class ChatJIF extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void txtAreaSendKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAreaSendKeyPressed
-//        txtAreaSend.addKeyListener(new KeyAdapter() {
-//            public void keyTyped(KeyEvent k) {
-//                //If the return button is hit, only set to a new line if shift is also down.
-//                if (k.getKeyChar() == KeyEvent.VK_ENTER) {
-//                    if (k.isShiftDown()) {
-//                        txtAreaSend.append(" \n");
-//                    }
-//                }
-//            }
-//        }
+        txtAreaSend.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent k) {
+                //If the return button is hit, only set to a new line if shift is also down.
+                if (k.getKeyChar() == KeyEvent.VK_ENTER) {
+                    if (k.isShiftDown()) {
+                        txtAreaSend.append(" \n");
+                    }
+                }
+            }
+       });
+                
 //
 //        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
 //            String text = this.txtAreaSend.getText();

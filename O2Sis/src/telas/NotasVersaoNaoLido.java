@@ -77,8 +77,14 @@ public class NotasVersaoNaoLido extends javax.swing.JInternalFrame {
         txtANotasVersao.setEditable(false);
         txtANotasVersao.setColumns(20);
         txtANotasVersao.setLineWrap(true);
-        txtANotasVersao.setRows(1000);
+        txtANotasVersao.setRows(5);
         txtANotasVersao.setTabSize(15);
+        txtANotasVersao.setToolTipText("");
+        txtANotasVersao.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtANotasVersaoKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(txtANotasVersao);
 
         btnMarcarLido.setText("Marcar como Lido");
@@ -156,6 +162,10 @@ public class NotasVersaoNaoLido extends javax.swing.JInternalFrame {
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         dispose();
     }//GEN-LAST:event_btnSairActionPerformed
+
+    private void txtANotasVersaoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtANotasVersaoKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtANotasVersaoKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
