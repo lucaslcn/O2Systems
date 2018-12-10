@@ -1010,6 +1010,7 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable {
 
                 //verificar licença
                 if (!VerificaLicenca.verificaNuvem()) {
+                    Mensagens.retornoAcao("Sua licença expirou, o sistema será fechado!");
                     System.exit(0);
                 }
 
