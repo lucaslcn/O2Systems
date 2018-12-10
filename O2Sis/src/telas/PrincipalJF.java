@@ -33,6 +33,7 @@ import javax.swing.JOptionPane;
 import javax.xml.parsers.ParserConfigurationException;
 import negocio.Listapermissao;
 import negocio.Usuario;
+import negocio.UsuariosVersoes;
 import org.apache.commons.io.FileUtils;
 import static persistencia.PostgresBackup.realizaBackup;
 import static persistencia.PostgresRestore.realizaRestore;
@@ -83,7 +84,17 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable {
         jDesktopRun.add(k);
         k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
         k.setVisible(true);
-
+        
+        List<UsuariosVersoes> a = new dao.VersoesUsuariosDAO().selectWithJoin("UsuariosVersoes", "lido = false AND id_usuario = " + this.usuario.getIdusuario());
+        String t = "";
+        
+        for (UsuariosVersoes i : a) {
+            t += i.getIdVersao().getVersao()+ ": " + i.getIdVersao().getDescricao()+ "\n";
+        }
+        
+        if (t.equals("")) {
+           k.dispose();
+        }
     }
 
     /**

@@ -49,7 +49,7 @@ public class NotasVersaoNaoLido extends javax.swing.JInternalFrame {
          String s = PreencherTextFieldNaoLido();
          txtANotasVersao.setText(s);
          String p = txtANotasVersao.getText();
-         if (p.equals("") || p == null || txtANotasVersao.getText().equals("")) {
+         if (p.equals("") || txtANotasVersao.getText().equals("") || txtANotasVersao.getText() == null) {
              dispose();
          }
     }
@@ -186,6 +186,10 @@ public class NotasVersaoNaoLido extends javax.swing.JInternalFrame {
         
         for (UsuariosVersoes k : a) {
             t += k.getIdVersao().getVersao()+ ": " + k.getIdVersao().getDescricao()+ "\n";
+        }
+        
+        if (t.equals("")) {
+            dispose();
         }
         return t;
     }
