@@ -127,6 +127,7 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable {
         itemMenuPaciente = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         itemMenuEstado = new javax.swing.JMenuItem();
+        jMenuItem13 = new javax.swing.JMenuItem();
         itemMenuPlano = new javax.swing.JMenuItem();
         itemMenuRemedio = new javax.swing.JMenuItem();
         itemMenuExame = new javax.swing.JMenuItem();
@@ -284,6 +285,14 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable {
             }
         });
         menuCadastro.add(itemMenuEstado);
+
+        jMenuItem13.setText("Cidade");
+        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem13ActionPerformed(evt);
+            }
+        });
+        menuCadastro.add(jMenuItem13);
 
         itemMenuPlano.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_MASK));
         itemMenuPlano.setText("Plano");
@@ -851,6 +860,13 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable {
         k.setVisible(true);
     }//GEN-LAST:event_jMenuItem12ActionPerformed
 
+    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
+        CadastroCidadeJIF k = new CadastroCidadeJIF();
+        jDesktopRun.add(k);
+        k.setLocation(this.getWidth() / 2 - k.getWidth() / 2, /*this.getHeight() / 2 - k.getHeight() / 2*/ 10);
+        k.setVisible(true);
+    }//GEN-LAST:event_jMenuItem13ActionPerformed
+
 //    /**
 //     * @param args the command line arguments
 //     */
@@ -924,6 +940,7 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable {
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
+    private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
