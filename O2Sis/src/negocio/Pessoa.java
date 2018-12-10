@@ -5,6 +5,7 @@
  */
 package negocio;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
@@ -53,6 +54,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Pessoa implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idpessoa")
+    @JsonIgnore
     private List<Funcionario> funcionarioList;
 
     private static final long serialVersionUID = 1L;
@@ -261,6 +263,7 @@ public class Pessoa implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public List<Funcionario> getFuncionarioList() {
         return funcionarioList;
     }

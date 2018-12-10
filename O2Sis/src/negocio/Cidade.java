@@ -5,6 +5,7 @@
  */
 package negocio;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -48,6 +49,7 @@ public class Cidade implements Serializable {
     @JoinColumn(name = "idestado", referencedColumnName = "idestado")
     @ManyToOne(optional = false)
     private Estado idestado;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idcidade")
     private List<Pessoa> pessoaList;
 
@@ -88,6 +90,7 @@ public class Cidade implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public List<Pessoa> getPessoaList() {
         return pessoaList;
     }
