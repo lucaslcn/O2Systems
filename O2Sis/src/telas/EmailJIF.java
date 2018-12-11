@@ -46,6 +46,7 @@ public class EmailJIF extends javax.swing.JInternalFrame {
         EnderecoAnexo.setEditable(false);
         this.usuario = usuario;
         NomeRemetente.setText(this.usuario.getNick());
+        lblEnviando.setVisible(false);
     }
 
     /**
@@ -72,6 +73,7 @@ public class EmailJIF extends javax.swing.JInternalFrame {
         btnSalvar = new javax.swing.JToggleButton();
         btnCancelar = new javax.swing.JToggleButton();
         btnEditar = new javax.swing.JToggleButton();
+        lblEnviando = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados do E-Mail"));
@@ -150,6 +152,9 @@ public class EmailJIF extends javax.swing.JInternalFrame {
             }
         });
 
+        lblEnviando.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblEnviando.setText("Enviando... Aguarde Por Favor");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -172,6 +177,8 @@ public class EmailJIF extends javax.swing.JInternalFrame {
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                             .addComponent(btnCancelar)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblEnviando)
+                            .addGap(70, 70, 70)
                             .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -215,7 +222,9 @@ public class EmailJIF extends javax.swing.JInternalFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblEnviando))
+                .addGap(10, 10, 10))
         );
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -286,7 +295,15 @@ public class EmailJIF extends javax.swing.JInternalFrame {
             if (resposta == JOptionPane.NO_OPTION) {
 
             } else if (resposta == JOptionPane.YES_OPTION) {
+                lblEnviando.setVisible(true);
                 EmailSendAnexo.SendEmail(NomeRemetente.getText(), Destinatario.getText(), Assunto.getText(), Mensagem.getText(), Anexo);
+                Destinatario.setText("");
+                Assunto.setText("");
+                Mensagem.setText("");
+                EnderecoAnexo.setText("");
+                Anexo = null;
+                lblEnviando.setVisible(false);
+
             }
         } catch (HibernateException he) {
             System.out.println(he);
@@ -328,6 +345,7 @@ public class EmailJIF extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblEnviando;
     // End of variables declaration//GEN-END:variables
 
 }

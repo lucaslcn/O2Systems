@@ -29,17 +29,18 @@ import registros.Atividade;
  * @author anderson.caye
  */
 public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements BasicScreen {
-    
+
     Usuario usuario;
     Paciente p;
     TreeMap<Integer, Boolean> can;
     Estado estado;
     Cidade cidade;
     Pessoa pessoa;
+
     /**
      * Creates new form CadastroPaciente
      */
-    public CadastroPacienteJIF(Usuario usuario,TreeMap<Integer, Boolean> can) {
+    public CadastroPacienteJIF(Usuario usuario, TreeMap<Integer, Boolean> can) {
         initComponents();
         this.usuario = usuario;
         this.can = can;
@@ -339,10 +340,20 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
         btnDeletar.setSelected(true);
         btnDeletar.setText("Deletar");
         btnDeletar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnDeletar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeletarActionPerformed(evt);
+            }
+        });
 
         btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_edit.png"))); // NOI18N
         btnEditar.setText("Editar");
         btnEditar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/magnifier.png"))); // NOI18N
         btnPesquisar.setText("Pesquisar");
@@ -523,7 +534,7 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-            int resposta = Mensagens.questionarAcao();
+        int resposta = Mensagens.questionarAcao();
         if (resposta == JOptionPane.NO_OPTION) {
 
         } else if (resposta == JOptionPane.YES_OPTION) {
@@ -532,38 +543,38 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-            Paciente k = (Paciente) Gema.pesquisar(new PacienteDAO());  
-        
-            if (k != null) {
+        Paciente k = (Paciente) Gema.pesquisar(new PacienteDAO());
+
+        if (k != null) {
             this.p = k;
             preencher();
             situacaoVisualizacao();
         }
     }//GEN-LAST:event_btnPesquisarActionPerformed
-    
+
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         String[] infoOld = auditoria();
 
-                popular();
+        popular();
 
-                String[] infoNew = auditoria();
-                Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
+        String[] infoNew = auditoria();
+        Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
 
-                String s;
-                if (p.getIdpaciente() != null) {
-                    s = new PacienteDAO().update(this.p, logAuditoria);
-                } else {
-                    s = new PessoaDAO().insert(this.pessoa, logAuditoria);
-                    s = new PacienteDAO().insert(this.p, logAuditoria);
-                }
+        String s;
+        if (p.getIdpaciente() != null) {
+            s = new PacienteDAO().update(this.p, logAuditoria);
+        } else {
+            s = new PessoaDAO().insert(this.pessoa, logAuditoria);
+            s = new PacienteDAO().insert(this.p, logAuditoria);
+        }
 
-                if (s == null) {
-                    Mensagens.retornoAcao(Mensagens.salvo("Paciente"));
-                    limpar();
-                    situacaoNovo();
-                } else {
-                    Mensagens.retornoAcao(Mensagens.erroSalvar("Paciente"));
-                }
+        if (s == null) {
+            Mensagens.retornoAcao(Mensagens.salvo("Paciente"));
+            limpar();
+            situacaoNovo();
+        } else {
+            Mensagens.retornoAcao(Mensagens.erroSalvar("Paciente"));
+        }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnPesquisar9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisar9ActionPerformed
@@ -584,21 +595,58 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
         }
     }//GEN-LAST:event_btnPesquisar8ActionPerformed
 
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+            situacaoEditar();       
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDeletarActionPerformed
+
     @Override
     public void preencher() {
-        
+        jTF_CodigoPaciente.setText(this.p.getIdpaciente() + "");
+        jTF_Nome.setText(this.p.getIdpessoa().getNomepessoa());
+        jTF_Sobrenome.setText(this.p.getIdpessoa().getSobrenome());
+        jFTF_Cpf.setText(this.p.getIdpessoa().getCpf());
+        jTF_RG.setText(this.p.getIdpessoa().getRg());
+        if (this.p.getIdpessoa().getSexo().equals("M")) {
+            jCB_Sexo.setSelectedIndex(0);
+        } else {
+            jCB_Sexo.setSelectedIndex(1);
+        }
+        jdc_Data.setDate(this.p.getIdpessoa().getDatanascimento());
+        jTF_Logradouro.setText(this.p.getIdpessoa().getLogradouro());
+        jTF_Complemento.setText(this.p.getIdpessoa().getComplemento());
+        jFT_FieldCep.setText(this.p.getIdpessoa().getCep());
+        TF_ESTADO.setText(this.p.getIdpessoa().getIdcidade().getIdestado().getNomeEstado());
+        TF_CIDADE.setText(this.p.getIdpessoa().getIdcidade().getNomeCidade());
+        cidade = p.getIdpessoa().getIdcidade();
+
     }
 
     @Override
     public void limpar() {
-        
+        jTF_CodigoPaciente.setText("");
+        jTF_Nome.setText("");
+        jTF_Sobrenome.setText("");
+        jFTF_Cpf.setText("");
+        jTF_RG.setText("");
+        jCB_Sexo.setSelectedIndex(0);
+        jdc_Data.setDate(new Date());
+        jTF_Logradouro.setText("");
+        jTF_Complemento.setText("");
+        jFT_FieldCep.setText("");
+        TF_CIDADE.setText("");
+        TF_ESTADO.setText("");
+        this.cidade = new Cidade();
     }
 
     @Override
     public void popular() {
         this.pessoa.setNomepessoa(jTF_Nome.getText());
         String CPF = jFTF_Cpf.getText();
-        CPF = CPF.replace(".", ""); 
+        CPF = CPF.replace(".", "");
         CPF = CPF.replace("-", "");
         System.out.println(CPF);
         this.pessoa.setSobrenome(jTF_Sobrenome.getText());
@@ -609,7 +657,7 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
         this.pessoa.setLogradouro(jTF_Logradouro.getText());
         this.pessoa.setComplemento(jTF_Complemento.getText());
         String CEP = jFT_FieldCep.getText();
-        CEP = CEP.replace(".", ""); 
+        CEP = CEP.replace(".", "");
         CEP = CEP.replace("-", "");
         System.out.println(CEP);
         this.pessoa.setCep(CEP);
@@ -618,11 +666,10 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
         this.pessoa.setNick("");
         this.pessoa.setEmail("");
         this.pessoa.setImagem(BigInteger.ONE);
-        
+
         p = new Paciente();
         p.setIdpessoa(pessoa);
-        
-        
+
     }
 
     @Override
@@ -636,7 +683,7 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
         jFT_FieldCep.setEnabled(true);
         jFTF_Cpf.setEnabled(true);
         jTF_Logradouro.setEnabled(true);
-        
+
         btnCancelar.setEnabled(true);
         btnDeletar.setEnabled(false);
         btnEditar.setEnabled(false);
@@ -655,7 +702,7 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
         jFT_FieldCep.setEnabled(true);
         jFTF_Cpf.setEnabled(true);
         jTF_Logradouro.setEnabled(true);
-        
+
         btnCancelar.setEnabled(true);
         btnDeletar.setEnabled(true);
         btnEditar.setEnabled(false);
@@ -665,7 +712,7 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
 
     @Override
     public void situacaoVisualizacao() {
-        
+
         jTF_Complemento.setEnabled(false);
         jTF_Nome.setEnabled(false);
         jTF_Sobrenome.setEnabled(false);
@@ -675,18 +722,18 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
         jFT_FieldCep.setEnabled(false);
         jFTF_Cpf.setEnabled(false);
         jTF_Logradouro.setEnabled(false);
-        
+
         btnCancelar.setEnabled(true);
         btnDeletar.setEnabled(false);
         btnEditar.setEnabled(true);
         btnPesquisar.setEnabled(true);
         btnSalvar.setEnabled(false);
-        
+
     }
 
     @Override
     public void permissao() {
-        
+
     }
 
     @Override
@@ -702,15 +749,14 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
         logAuditoria.setInformacaoNew(iNew);
         logAuditoria.setOnde(Atividade.FROM_PACIENTE);
         logAuditoria.setUsuario(usuario);
-        
+
         return logAuditoria;
     }
-    
-    
+
     public void preencherEstado() {
-        TF_ESTADO.setText(this.estado.getNomeEstado());
+        TF_ESTADO.setText(this.cidade.getIdestado().getNomeEstado());
     }
-    
+
     public void preencherCidade() {
         TF_CIDADE.setText(this.cidade.getNomeCidade());
     }
