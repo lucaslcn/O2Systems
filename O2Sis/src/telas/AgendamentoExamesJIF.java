@@ -506,8 +506,6 @@ public class AgendamentoExamesJIF extends javax.swing.JInternalFrame implements 
             System.out.println(he);
         }
 
-        PainelAvisosJIF.enviarMensagem("Novo Remédio Cadastrado");
-
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void comboHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboHoraActionPerformed

@@ -5,17 +5,44 @@
  */
 package telas;
 
+import dao.AgendamentoExamesDAO;
+import dao.CidadeDAO;
+import dao.FuncionarioDAO;
+import gema.Gema;
+import gema.Mensagens;
+import gema.ValidaCampo;
 import java.util.TreeMap;
+import negocio.Cidade;
+import negocio.Funcionario;
+import negocio.Pessoa;
+import negocio.Plano;
 import negocio.Usuario;
+import persistencia.BasicScreen;
+import registros.Atividade;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import org.hibernate.HibernateException;
 
 /**
  *
  * @author anderson.caye
  */
-public class CadastroFuncionarioJIF extends javax.swing.JInternalFrame {
+public class CadastroFuncionarioJIF extends javax.swing.JInternalFrame implements BasicScreen{
     
     Usuario usuario;
     TreeMap<Integer, Boolean> can;
+    Pessoa pessoa;
+    Funcionario funcionario;
+    Cidade cidade;
     
     /**
      * Creates new form CadastroPaciente
@@ -53,6 +80,8 @@ public class CadastroFuncionarioJIF extends javax.swing.JInternalFrame {
         jCB_Sexo = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jFTF_DataNascimento = new javax.swing.JFormattedTextField();
+        jFTF_RG = new javax.swing.JFormattedTextField();
+        jLabel7 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jTF_Logradouro = new javax.swing.JTextField();
@@ -60,10 +89,13 @@ public class CadastroFuncionarioJIF extends javax.swing.JInternalFrame {
         jTF_Complemento = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jFTF_Cep = new javax.swing.JFormattedTextField();
-        jLabel11 = new javax.swing.JLabel();
-        jCB_EstadoUf = new javax.swing.JComboBox<>();
-        jCB_Cidade = new javax.swing.JComboBox<>();
-        jLabel12 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jTF_Nick = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        jTF_Email = new javax.swing.JTextField();
+        btnPesquisar1 = new javax.swing.JToggleButton();
+        jTF_Cidade = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -90,10 +122,20 @@ public class CadastroFuncionarioJIF extends javax.swing.JInternalFrame {
         btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_add.png"))); // NOI18N
         btnSalvar.setText("Salvar");
         btnSalvar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
         btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_edit.png"))); // NOI18N
         btnEditar.setText("Editar");
         btnEditar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cancel.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
@@ -107,6 +149,11 @@ public class CadastroFuncionarioJIF extends javax.swing.JInternalFrame {
         btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_delete.png"))); // NOI18N
         btnDeletar.setText("Deletar");
         btnDeletar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnDeletar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeletarActionPerformed(evt);
+            }
+        });
 
         btnPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/magnifier.png"))); // NOI18N
         btnPesquisar.setText("Pesquisar");
@@ -154,6 +201,15 @@ public class CadastroFuncionarioJIF extends javax.swing.JInternalFrame {
         }
         jFTF_DataNascimento.setText("07/04/1997");
 
+        try {
+            jFTF_RG.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##########")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jFTF_RG.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+
+        jLabel7.setText("RG");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -161,28 +217,31 @@ public class CadastroFuncionarioJIF extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTF_Nome, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(0, 321, Short.MAX_VALUE))
-                            .addComponent(jTF_Sobrenome)))
+                    .addComponent(jTF_Nome, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jFTF_Cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jCB_Sexo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                            .addComponent(jFTF_RG, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTF_Sobrenome)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jFTF_DataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jCB_Sexo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jFTF_DataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel6))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -191,9 +250,9 @@ public class CadastroFuncionarioJIF extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
+                        .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCB_Sexo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jFTF_RG, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
@@ -203,12 +262,16 @@ public class CadastroFuncionarioJIF extends javax.swing.JInternalFrame {
                             .addComponent(jTF_Nome, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTF_Sobrenome, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jFTF_Cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCB_Sexo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jFTF_DataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))))
@@ -234,14 +297,34 @@ public class CadastroFuncionarioJIF extends javax.swing.JInternalFrame {
         }
         jFTF_Cep.setText("95.890-000");
 
-        jLabel11.setText("UF - Estado");
+        jLabel14.setText("Nick");
 
-        jCB_EstadoUf.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione um estado", "RS - Rio Grande do Sul" }));
+        jTF_Nick.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTF_Nick.setText("ander");
 
-        jCB_Cidade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione um estado - UF" }));
-        jCB_Cidade.setEnabled(false);
+        jLabel15.setText("Email");
 
-        jLabel12.setText("Cidade");
+        jTF_Email.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTF_Email.setText("ander@ander.and.an");
+
+        btnPesquisar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/magnifier.png"))); // NOI18N
+        btnPesquisar1.setText("Pesquisar");
+        btnPesquisar1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnPesquisar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisar1ActionPerformed(evt);
+            }
+        });
+
+        jTF_Cidade.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTF_Cidade.setText("Cidade do Juca");
+        jTF_Cidade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTF_CidadeActionPerformed(evt);
+            }
+        });
+
+        jLabel16.setText("Cidade");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -261,17 +344,22 @@ public class CadastroFuncionarioJIF extends javax.swing.JInternalFrame {
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel10)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jFTF_Cep)))
+                            .addComponent(jFTF_Cep, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jTF_Cidade, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(jTF_Nick)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCB_EstadoUf, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel15)
+                            .addComponent(jTF_Email)
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel12)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jCB_Cidade, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(btnPesquisar1)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel16)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -281,7 +369,6 @@ public class CadastroFuncionarioJIF extends javax.swing.JInternalFrame {
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTF_Logradouro, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(jLabel10))
@@ -289,15 +376,22 @@ public class CadastroFuncionarioJIF extends javax.swing.JInternalFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTF_Complemento, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jFTF_Cep, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel12))
+                .addGap(5, 5, 5)
+                .addComponent(jLabel16)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCB_EstadoUf, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCB_Cidade, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(45, Short.MAX_VALUE))
+                    .addComponent(jTF_Cidade, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPesquisar1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTF_Nick, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTF_Email, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -318,7 +412,7 @@ public class CadastroFuncionarioJIF extends javax.swing.JInternalFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Cadastro", jPanel1);
@@ -357,7 +451,7 @@ public class CadastroFuncionarioJIF extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 757, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnDeletarPlanoSaude, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -573,12 +667,70 @@ public class CadastroFuncionarioJIF extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        int resposta = Mensagens.questionarAcao();
+        if (resposta == JOptionPane.NO_OPTION) {
+
+        } else if (resposta == JOptionPane.YES_OPTION) {
+            dispose();
+        }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        // TODO add your handling code here:
+        Funcionario k = (Funcionario) Gema.pesquisar(new FuncionarioDAO());
+
+        if (k != null) {
+            this.funcionario = k;
+            preencher();
+            situacaoVisualizacao();
+        }
     }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    private void btnPesquisar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisar1ActionPerformed
+        Cidade k = (Cidade) Gema.pesquisar(new CidadeDAO());
+
+        if (k != null) {
+            this.cidade = k;
+            preencherCidade();
+        }
+
+    }//GEN-LAST:event_btnPesquisar1ActionPerformed
+
+    private void jTF_CidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTF_CidadeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTF_CidadeActionPerformed
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        situacaoEditar();
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
+        int resposta = Mensagens.confirmarArquivamento();
+        if (resposta == JOptionPane.YES_OPTION) {
+            try {
+                String[] infoOld = auditoria();
+                String[] infoNew = auditoria();
+                Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
+
+                this.funcionario.getIdpessoa().setStatus(false);
+                String r;
+                r = new AgendamentoExamesDAO().update(this.funcionario, logAuditoria);
+                situacaoNovo();
+                if (r == null) {
+                    Mensagens.retornoAcao(Mensagens.arquivado("Agendamento Exame")); //Acrecentar o resultado da auditoria a msg.
+                    limpar();
+                    situacaoNovo();
+                } else {
+                    Mensagens.retornoAcao(Mensagens.erroArquivado("Agendamento Exame"));
+
+                }
+            } catch (HibernateException he) {
+                System.out.println(he);
+            }
+        }
+    }//GEN-LAST:event_btnDeletarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -590,24 +742,26 @@ public class CadastroFuncionarioJIF extends javax.swing.JInternalFrame {
     private javax.swing.JToggleButton btnEditarFuncao;
     private javax.swing.JToggleButton btnEditarPlanoSaude;
     private javax.swing.JToggleButton btnPesquisar;
+    private javax.swing.JToggleButton btnPesquisar1;
     private javax.swing.JToggleButton btnSalvar;
-    private javax.swing.JComboBox<String> jCB_Cidade;
-    private javax.swing.JComboBox<String> jCB_EstadoUf;
     private javax.swing.JComboBox<String> jCB_Sexo;
     private javax.swing.JFormattedTextField jFTF_Cep;
     private javax.swing.JFormattedTextField jFTF_Cpf;
     private javax.swing.JFormattedTextField jFTF_DataNascimento;
+    private javax.swing.JFormattedTextField jFTF_RG;
     private javax.swing.JLabel jL_TituloGrande;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -620,9 +774,12 @@ public class CadastroFuncionarioJIF extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jTF_Cidade;
     private javax.swing.JTextField jTF_CodigoFuncionario;
     private javax.swing.JTextField jTF_Complemento;
+    private javax.swing.JTextField jTF_Email;
     private javax.swing.JTextField jTF_Logradouro;
+    private javax.swing.JTextField jTF_Nick;
     private javax.swing.JTextField jTF_Nome;
     private javax.swing.JTextField jTF_Sobrenome;
     private javax.swing.JTextField jTF_ValorConsulta;
@@ -630,4 +787,137 @@ public class CadastroFuncionarioJIF extends javax.swing.JInternalFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void preencher() {
+        jTF_CodigoFuncionario.setText(this.funcionario.getIdfuncionario() + "");
+        jTF_Nome.setText(this.funcionario.getIdpessoa().getNomepessoa());
+        jTF_Sobrenome.setText(this.funcionario.getIdpessoa().getSobrenome());
+        jFTF_Cpf.setText(this.funcionario.getIdpessoa().getCpf());
+        jFTF_RG.setText(this.funcionario.getIdpessoa().getRg());
+        if (this.funcionario.getIdpessoa().getSexo().equals("M") ) {
+            jCB_Sexo.setSelectedIndex(0);
+        } else {
+            jCB_Sexo.setSelectedIndex(1);
+        }
+        jFTF_DataNascimento.setText(this.funcionario.getIdpessoa().getDatanascimento().toString());
+        jTF_Logradouro.setText(this.funcionario.getIdpessoa().getLogradouro());
+        jTF_Complemento.setText(this.funcionario.getIdpessoa().getComplemento());
+        jFTF_Cep.setText(this.funcionario.getIdpessoa().getCep());
+        jTF_Nick.setText(this.funcionario.getIdpessoa().getNick());
+        jTF_Email.setText(this.funcionario.getIdpessoa().getEmail());
+    }
+    
+    public void preencherCidade() {
+        jTF_Cidade.setText(this.funcionario.getIdpessoa().getIdcidade().getNomeCidade());
+    }
+
+    @Override
+    public void limpar() {
+        jTF_CodigoFuncionario.setText("");
+        jTF_Nome.setText("");
+        jTF_Sobrenome.setText("");
+        jFTF_Cpf.setText("");
+        jFTF_RG.setText("");
+        jCB_Sexo.setSelectedIndex(0);
+        jFTF_DataNascimento.setText("");
+        jTF_Logradouro.setText("");
+        jTF_Complemento.setText("");
+        jFTF_Cep.setText("");
+        jTF_Nick.setText("");
+        jTF_Email.setText("");
+        jTF_Cidade.setText("");
+        this.cidade = new Cidade();
+    }
+
+    @Override
+    public void popular() {
+        this.pessoa.setNomepessoa(jTF_Nome.getText());
+        this.pessoa.setSobrenome(jTF_Sobrenome.getText());
+        this.pessoa.setCpf(jFTF_Cpf.getText());
+        this.pessoa.setRg(jFTF_RG.getText());
+        this.pessoa.setSexo(jCB_Sexo.getSelectedItem() + "");
+        this.pessoa.setLogradouro(jTF_Logradouro.getText());
+        this.pessoa.setComplemento(jTF_Complemento.getText());
+        this.pessoa.setCep(jFTF_Cep.getText());
+        this.pessoa.setNick(jTF_Nick.getText());
+        this.pessoa.setEmail(jTF_Email.getText());
+        this.pessoa.setIdcidade(this.cidade);
+        
+        jFTF_DataNascimento.setText("");
+             
+        String[] data = jFTF_DataNascimento.getText().split("/");
+        
+        int year = Integer.parseInt(data[2]);
+        int month = Integer.parseInt(data[1]);
+        int day = Integer.parseInt(data[0]);
+        
+        Date dataConsulta = null;
+        
+        SimpleDateFormat formato = new SimpleDateFormat ("dd/MM/yyyy");
+        try {
+            dataConsulta = formato.parse(jFTF_DataNascimento.getText());
+        } catch (ParseException ex) {
+            Logger.getLogger(AgendamentoExamesJIF.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        this.pessoa.setDatanascimento(dataConsulta);
+    }
+    
+
+    @Override
+    public void situacaoNovo() {
+        btnCancelar.setEnabled(true);
+        btnDeletar.setEnabled(false);
+        btnEditar.setEnabled(false);
+        btnPesquisar.setEnabled(true);
+        btnSalvar.setEnabled(true);
+        permissao();
+    }
+
+    @Override
+    public void situacaoEditar() {
+        btnCancelar.setEnabled(true);
+        btnDeletar.setEnabled(false);
+        btnEditar.setEnabled(false);
+        btnPesquisar.setEnabled(false);
+        btnSalvar.setEnabled(true);
+        permissao();
+    }
+
+    @Override
+    public void situacaoVisualizacao() {
+        btnCancelar.setEnabled(true);
+        btnDeletar.setEnabled(true);
+        btnEditar.setEnabled(true);
+        btnPesquisar.setEnabled(true);
+        btnSalvar.setEnabled(false);
+        permissao();
+    }
+
+    @Override
+    public void permissao() {
+
+    }
+
+    @Override
+    public String[] auditoria() {
+        String[] r
+                = {
+                    funcionario.getIdfuncionario()+ "",
+                };
+        return r;
+    }
+
+    @Override
+    public Atividade autoAuditoria(String[] iOld, String[] iNew) {
+        Atividade logAuditoria = new Atividade();
+        logAuditoria.setInformacaoOld(iOld);
+        logAuditoria.setInformacaoNew(iNew);
+        logAuditoria.setOnde(Atividade.FROM_PLANO);
+        logAuditoria.setUsuario(usuario);
+
+        return logAuditoria;
+    }
 }
+

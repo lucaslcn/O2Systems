@@ -55,12 +55,13 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnSalvar = new javax.swing.JToggleButton();
-        btnEditar = new javax.swing.JToggleButton();
-        btnCancelar = new javax.swing.JToggleButton();
-        btnDeletar = new javax.swing.JToggleButton();
-        btnPesquisar = new javax.swing.JToggleButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jT_PlanoSaude = new javax.swing.JTable();
+        btnEditarPlanoSaude = new javax.swing.JToggleButton();
+        btnDeletarPlanoSaude = new javax.swing.JToggleButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jTF_Nome = new javax.swing.JTextField();
@@ -88,12 +89,11 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
         btnPesquisar9 = new javax.swing.JToggleButton();
         TF_CIDADE = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jT_PlanoSaude = new javax.swing.JTable();
-        btnEditarPlanoSaude = new javax.swing.JToggleButton();
-        btnDeletarPlanoSaude = new javax.swing.JToggleButton();
+        btnSalvar = new javax.swing.JToggleButton();
+        btnDeletar = new javax.swing.JToggleButton();
+        btnEditar = new javax.swing.JToggleButton();
+        btnPesquisar = new javax.swing.JToggleButton();
+        btnCancelar = new javax.swing.JToggleButton();
         jLabel1 = new javax.swing.JLabel();
         jTF_CodigoPaciente = new javax.swing.JTextField();
         jL_TituloGrande = new javax.swing.JLabel();
@@ -102,41 +102,78 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
         setTitle("Cadastro Paciente");
         setPreferredSize(new java.awt.Dimension(1010, 752));
 
-        btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_add.png"))); // NOI18N
-        btnSalvar.setText("Salvar");
-        btnSalvar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvarActionPerformed(evt);
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Adicionar Planos de Saúde"));
+
+        jT_PlanoSaude.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Código", "Plano"
             }
-        });
+        ));
+        jT_PlanoSaude.setPreferredSize(new java.awt.Dimension(385, 64));
+        jScrollPane2.setViewportView(jT_PlanoSaude);
+        if (jT_PlanoSaude.getColumnModel().getColumnCount() > 0) {
+            jT_PlanoSaude.getColumnModel().getColumn(0).setMaxWidth(200);
+        }
 
-        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_edit.png"))); // NOI18N
-        btnEditar.setText("Editar");
-        btnEditar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnEditarPlanoSaude.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pencil.png"))); // NOI18N
+        btnEditarPlanoSaude.setText("Editar");
+        btnEditarPlanoSaude.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
-        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cancel.png"))); // NOI18N
-        btnCancelar.setText("Cancelar");
-        btnCancelar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarActionPerformed(evt);
-            }
-        });
+        btnDeletarPlanoSaude.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/delete.png"))); // NOI18N
+        btnDeletarPlanoSaude.setText("Deletar");
+        btnDeletarPlanoSaude.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
-        btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_delete.png"))); // NOI18N
-        btnDeletar.setSelected(true);
-        btnDeletar.setText("Deletar");
-        btnDeletar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 907, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnDeletarPlanoSaude, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEditarPlanoSaude, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(32, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEditarPlanoSaude, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDeletarPlanoSaude, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
 
-        btnPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/magnifier.png"))); // NOI18N
-        btnPesquisar.setText("Pesquisar");
-        btnPesquisar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPesquisarActionPerformed(evt);
-            }
-        });
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Planos de Saúde", jPanel5);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -289,6 +326,42 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
 
         jLabel13.setText("Cidade(*)");
 
+        btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_add.png"))); // NOI18N
+        btnSalvar.setText("Salvar");
+        btnSalvar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
+
+        btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_delete.png"))); // NOI18N
+        btnDeletar.setSelected(true);
+        btnDeletar.setText("Deletar");
+        btnDeletar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+
+        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_edit.png"))); // NOI18N
+        btnEditar.setText("Editar");
+        btnEditar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+
+        btnPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/magnifier.png"))); // NOI18N
+        btnPesquisar.setText("Pesquisar");
+        btnPesquisar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarActionPerformed(evt);
+            }
+        });
+
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cancel.png"))); // NOI18N
+        btnCancelar.setText("Cancelar");
+        btnCancelar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -301,15 +374,7 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTF_Complemento, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8)
-                            .addComponent(jLabel9))
-                        .addGap(165, 165, 165)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jFT_FieldCep, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
                             .addComponent(jLabel7)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(TF_ESTADO, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -320,8 +385,29 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
                                 .addComponent(TF_CIDADE, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnPesquisar9, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(51, 51, 51)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jFT_FieldCep, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel10))
+                                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(185, 185, 185))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -341,16 +427,31 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
                 .addGap(10, 10, 10)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TF_ESTADO, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                    .addComponent(btnPesquisar8, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnPesquisar8, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TF_ESTADO, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
-                .addComponent(jLabel13)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TF_CIDADE, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPesquisar9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(TF_CIDADE, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnPesquisar9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap())
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(25, 25, 25))))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -369,85 +470,12 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(60, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Cadastro", jPanel1);
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Adicionar Planos de Saúde"));
-
-        jT_PlanoSaude.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Código", "Plano"
-            }
-        ));
-        jT_PlanoSaude.setPreferredSize(new java.awt.Dimension(385, 64));
-        jScrollPane2.setViewportView(jT_PlanoSaude);
-        if (jT_PlanoSaude.getColumnModel().getColumnCount() > 0) {
-            jT_PlanoSaude.getColumnModel().getColumn(0).setMaxWidth(200);
-        }
-
-        btnEditarPlanoSaude.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pencil.png"))); // NOI18N
-        btnEditarPlanoSaude.setText("Editar");
-        btnEditarPlanoSaude.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-
-        btnDeletarPlanoSaude.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/delete.png"))); // NOI18N
-        btnDeletarPlanoSaude.setText("Deletar");
-        btnDeletarPlanoSaude.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 907, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnDeletarPlanoSaude, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEditarPlanoSaude, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(218, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEditarPlanoSaude, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDeletarPlanoSaude, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Planos de Saúde", jPanel5);
+        jTabbedPane1.addTab("Cadastro", jPanel1);
 
         jLabel1.setText("Código");
 
@@ -467,23 +495,13 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jTF_CodigoPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(42, 42, 42)
                         .addComponent(jL_TituloGrande, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 964, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -497,15 +515,8 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
                         .addComponent(jTF_CodigoPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jL_TituloGrande, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jTabbedPane1)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE)
+                .addGap(52, 52, 52))
         );
 
         pack();
@@ -529,24 +540,6 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
             situacaoVisualizacao();
         }
     }//GEN-LAST:event_btnPesquisarActionPerformed
-
-    private void btnPesquisar9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisar9ActionPerformed
-        Cidade k = (Cidade) Gema.pesquisar(new CidadeDAO());
-
-        if (k != null) {
-            this.cidade = k;
-            preencherCidade();
-        }
-    }//GEN-LAST:event_btnPesquisar9ActionPerformed
-
-    private void btnPesquisar8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisar8ActionPerformed
-        Estado k = (Estado) Gema.pesquisar(new EstadoDAO());
-
-        if (k != null) {
-            this.estado = k;
-            preencherEstado();
-        }
-    }//GEN-LAST:event_btnPesquisar8ActionPerformed
     
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         String[] infoOld = auditoria();
@@ -573,6 +566,24 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
                 }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
+    private void btnPesquisar9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisar9ActionPerformed
+        Cidade k = (Cidade) Gema.pesquisar(new CidadeDAO());
+
+        if (k != null) {
+            this.cidade = k;
+            preencherCidade();
+        }
+    }//GEN-LAST:event_btnPesquisar9ActionPerformed
+
+    private void btnPesquisar8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisar8ActionPerformed
+        Estado k = (Estado) Gema.pesquisar(new EstadoDAO());
+
+        if (k != null) {
+            this.estado = k;
+            preencherEstado();
+        }
+    }//GEN-LAST:event_btnPesquisar8ActionPerformed
+
     @Override
     public void preencher() {
         
@@ -587,17 +598,26 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
     public void popular() {
         this.pessoa.setNomepessoa(jTF_Nome.getText());
         String CPF = jFTF_Cpf.getText();
-        CPF.replace(".", "");
-        CPF.replace("-", "");
-        this.pessoa.setCpf(CPF);
+        CPF = CPF.replace(".", ""); 
+        CPF = CPF.replace("-", "");
+        System.out.println(CPF);
         this.pessoa.setSobrenome(jTF_Sobrenome.getText());
-        this.pessoa.setDatanascimento(jdc_Data.getDate());
-        this.pessoa.setSexo(jCB_Sexo.getSelectedItem().toString());
-        this.pessoa.setLogradouro(jTF_Logradouro.getText());
+        this.pessoa.setCpf(CPF);
         this.pessoa.setRg(jTF_RG.getText());
-        this.pessoa.setCep(jFT_FieldCep.getText());
+        this.pessoa.setSexo(jCB_Sexo.getSelectedItem().toString());
+        this.pessoa.setDatanascimento(jdc_Data.getDate());
+        this.pessoa.setLogradouro(jTF_Logradouro.getText());
         this.pessoa.setComplemento(jTF_Complemento.getText());
+        String CEP = jFT_FieldCep.getText();
+        CEP = CEP.replace(".", ""); 
+        CEP = CEP.replace("-", "");
+        System.out.println(CEP);
+        this.pessoa.setCep(CEP);
         this.pessoa.setIdcidade(cidade);
+        this.pessoa.setStatus(true);
+        this.pessoa.setNick("");
+        this.pessoa.setEmail("");
+        this.pessoa.setImagem(BigInteger.ONE);
         
         p = new Paciente();
         p.setIdpessoa(pessoa);
@@ -646,7 +666,7 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
     @Override
     public void situacaoVisualizacao() {
         
-         jTF_Complemento.setEnabled(false);
+        jTF_Complemento.setEnabled(false);
         jTF_Nome.setEnabled(false);
         jTF_Sobrenome.setEnabled(false);
         jdc_Data.setEnabled(false);
