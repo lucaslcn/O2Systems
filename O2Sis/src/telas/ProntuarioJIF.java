@@ -5,7 +5,6 @@
  */
 package telas;
 
-import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import dao.AuditoriaDAO;
 import dao.ConsultasDAO;
 import dao.ExameDAO;

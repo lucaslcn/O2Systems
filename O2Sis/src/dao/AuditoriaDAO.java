@@ -1,6 +1,5 @@
 package dao;
 
-import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import javax.swing.JTable;
 import negocio.Pessoa;
 import persistencia.DAO;
