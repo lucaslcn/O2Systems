@@ -26,7 +26,7 @@ import registros.Atividade;
  *
  * @author XorNOTE
  */
-public class ProntuarioReceitaJD extends javax.swing.JDialog implements BasicScreen{
+public class ExameReceitaJD extends javax.swing.JDialog implements BasicScreen{
     
     String receita;
     
@@ -35,7 +35,7 @@ public class ProntuarioReceitaJD extends javax.swing.JDialog implements BasicScr
     /**
      * Creates new form ReceitaJD
      */
-    public ProntuarioReceitaJD(java.awt.Frame parent, boolean modal, String receita) {
+    public ExameReceitaJD(java.awt.Frame parent, boolean modal, String receita) {
         super(parent, modal);
         initComponents();
         this.receita = receita;

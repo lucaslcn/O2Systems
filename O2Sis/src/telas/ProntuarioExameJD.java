@@ -5,20 +5,11 @@
  */
 package telas;
 
-import dao.FuncaoDAO;
-import dao.RemedioDAO;
+import dao.ExameDAO;
 import gema.Gema;
 import gema.Mensagens;
-import gema.ValidaCampo;
-import java.math.BigInteger;
-import java.util.List;
 import javax.swing.JOptionPane;
-import negocio.ListagemRemedios;
-import negocio.Receita;
-import negocio.Remedio;
-import negocio.Usuario;
-import org.hibernate.HibernateException;
-import org.jfree.ui.L1R1ButtonPanel;
+import negocio.Exames;
 import persistencia.BasicScreen;
 import registros.Atividade;
 
@@ -26,20 +17,20 @@ import registros.Atividade;
  *
  * @author XorNOTE
  */
-public class ProntuarioReceitaJD extends javax.swing.JDialog implements BasicScreen{
+public class ProntuarioExameJD extends javax.swing.JDialog implements BasicScreen{
     
-    String receita;
+    String exame;
     
     //
     
     /**
      * Creates new form ReceitaJD
      */
-    public ProntuarioReceitaJD(java.awt.Frame parent, boolean modal, String receita) {
+    public ProntuarioExameJD(java.awt.Frame parent, boolean modal, String receita) {
         super(parent, modal);
         initComponents();
-        this.receita = receita;
-        jTA_receita.setText(this.receita);
+        this.exame = receita;
+        jTA_exame.setText(this.exame);
     }
 
     /**
@@ -58,13 +49,13 @@ public class ProntuarioReceitaJD extends javax.swing.JDialog implements BasicScr
         jPanel1 = new javax.swing.JPanel();
         btn_insert = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTA_receita = new javax.swing.JTextArea();
+        jTA_exame = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Receita");
+        jLabel1.setText("Requisição de Exames");
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cancel.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
@@ -109,16 +100,16 @@ public class ProntuarioReceitaJD extends javax.swing.JDialog implements BasicScr
 
         btn_insert.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_insert.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
-        btn_insert.setText("Adicionar Remédio");
+        btn_insert.setText("Adicionar Exame");
         btn_insert.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_insertActionPerformed(evt);
             }
         });
 
-        jTA_receita.setColumns(20);
-        jTA_receita.setRows(5);
-        jScrollPane2.setViewportView(jTA_receita);
+        jTA_exame.setColumns(20);
+        jTA_exame.setRows(5);
+        jScrollPane2.setViewportView(jTA_exame);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -180,24 +171,20 @@ public class ProntuarioReceitaJD extends javax.swing.JDialog implements BasicScr
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        this.receita = jTA_receita.getText();
+        this.exame = jTA_exame.getText();
         dispose();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btn_insertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_insertActionPerformed
-        Remedio k = (Remedio) Gema.pesquisar(new RemedioDAO());
+        Exames k = (Exames) Gema.pesquisar(new ExameDAO());
 
         if (k != null) {
-            receita = jTA_receita.getText();
-            String tamplet = "\n======x======x======\n" + k.getIdremedio() + ":> " + k.getNomeRemedio()
-                    + "\nQuantidade/Und:"
-                    + "\nFrequencia:"
-                    + "\nDuração:"
-                    + "\nComposição:";
+            exame = jTA_exame.getText();
+            String tamplet = "\n======x======x======\n" + k.getIdexame()+ ":> " + k.getNomeExame()+"\n";
 
-            receita += tamplet;
+            exame += tamplet;
 
-            jTA_receita.setText(receita);
+            jTA_exame.setText(exame);
 
         }
     }//GEN-LAST:event_btn_insertActionPerformed
@@ -253,7 +240,7 @@ public class ProntuarioReceitaJD extends javax.swing.JDialog implements BasicScr
     private javax.swing.JPanel jP_btnDeeAcao;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTA_receita;
+    private javax.swing.JTextArea jTA_exame;
     // End of variables declaration//GEN-END:variables
 
     @Override

@@ -37,6 +37,11 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Prontuario.findByAtendimento", query = "SELECT p FROM Prontuario p WHERE p.atendimento = :atendimento")})
 public class Prontuario implements Serializable {
 
+    @Column(name = "receita")
+    private String receita;
+    @Column(name = "exames")
+    private String exames;
+
     @OneToMany(mappedBy = "idprontuario")
     private List<Consultas> consultasList;
 
@@ -145,6 +150,22 @@ public class Prontuario implements Serializable {
 
     public void setConsultasList(List<Consultas> consultasList) {
         this.consultasList = consultasList;
+    }
+
+    public String getReceita() {
+        return receita;
+    }
+
+    public void setReceita(String receita) {
+        this.receita = receita;
+    }
+
+    public String getExames() {
+        return exames;
+    }
+
+    public void setExames(String exames) {
+        this.exames = exames;
     }
     
 }

@@ -374,7 +374,7 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
 
             if (r == null) {
                 String[] infoOld = auditoria();
-
+                
                 popular();
 
                 String[] infoNew = auditoria();
@@ -470,19 +470,23 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btn_ReceitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ReceitaActionPerformed
-        String receita = "";
+        String receita = prontuario.getReceita()+"";
         ProntuarioReceitaJD p = new ProntuarioReceitaJD(new javax.swing.JFrame(), true, receita);
         p.setLocationRelativeTo(null);
         p.setVisible(true);
         
         receita = p.receita;
+        prontuario.setReceita(receita); 
     }//GEN-LAST:event_btn_ReceitaActionPerformed
 
     private void btn_ExameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ExameActionPerformed
-        
-        ProntuarioExamesJD p = new ProntuarioExamesJD(new javax.swing.JFrame(), true, usuario);
+        String exame = prontuario.getExames()+"";
+        ProntuarioExameJD p = new ProntuarioExameJD(new javax.swing.JFrame(), true, exame);
         p.setLocationRelativeTo(null);
         p.setVisible(true);
+        
+        exame = p.exame;
+        prontuario.setExames(exame);
     }//GEN-LAST:event_btn_ExameActionPerformed
 
 
@@ -609,7 +613,10 @@ public class ProntuarioJIF extends javax.swing.JInternalFrame implements BasicSc
                     prontuario.getTriagem(),
                     prontuario.getAtendimento() + "",
                     prontuario.getIdreceita() + "",
-                    prontuario.getIdrequisicao() + "",};
+                    prontuario.getIdrequisicao() + "",
+                    prontuario.getReceita(),
+                    prontuario.getExames()
+                };
         return r;
     }
 
