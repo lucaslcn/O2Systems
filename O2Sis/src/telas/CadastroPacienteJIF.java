@@ -12,6 +12,7 @@ import dao.PacienteDAO;
 import dao.PessoaDAO;
 import gema.Gema;
 import gema.Mensagens;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.TreeMap;
 import javax.swing.JOptionPane;
@@ -42,6 +43,7 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
         initComponents();
         this.usuario = usuario;
         this.can = can;
+        this.pessoa = new Pessoa();
     }
 
     /**
@@ -555,9 +557,10 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
                 Atividade logAuditoria = autoAuditoria(infoOld, infoNew);
 
                 String s;
-                if (p.getIdpessoa() != null) {
+                if (p.getIdpaciente() != null) {
                     s = new PacienteDAO().update(this.p, logAuditoria);
                 } else {
+                    s = new PessoaDAO().insert(this.pessoa, logAuditoria);
                     s = new PacienteDAO().insert(this.p, logAuditoria);
                 }
 
@@ -583,7 +586,10 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
     @Override
     public void popular() {
         this.pessoa.setNomepessoa(jTF_Nome.getText());
-        this.pessoa.setCpf(jFTF_Cpf.getText());
+        String CPF = jFTF_Cpf.getText();
+        CPF.replace(".", "");
+        CPF.replace("-", "");
+        this.pessoa.setCpf(CPF);
         this.pessoa.setSobrenome(jTF_Sobrenome.getText());
         this.pessoa.setDatanascimento(jdc_Data.getDate());
         this.pessoa.setSexo(jCB_Sexo.getSelectedItem().toString());
@@ -687,7 +693,6 @@ public class CadastroPacienteJIF extends javax.swing.JInternalFrame implements B
     
     public void preencherCidade() {
         TF_CIDADE.setText(this.cidade.getNomeCidade());
-        pessoa.setIdcidade(cidade);
     }
 
 
