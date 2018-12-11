@@ -143,11 +143,13 @@ public class Atividade {
     final public static String FROM_AUDITORIA = "Auditoria";
     final public static String FROM_REG_AUDITORIA = "Registros da Auditoria";
     final public static String FROM_ESTADO = "Cadastro Estado";
+    final public static String FROM_CIDADE = "Cadastro Cidade";
     final public static String FROM_PLANO = "Cadastro de Plano de Saúde";
     final public static String FROM_REMEDIO = "Cadastro de Remédio";
     final public static String FROM_EXAME = "Cadastro de Exame";
     final public static String FROM_FORMA_PGTO = "Cadastro de Forma de Pagamento";
     final public static String FROM_FUNCAO = "Cadastro de Função";
+    final public static String FROM_PACIENTE = "Cadastro de Paciente";
     final public static String FROM_TELA = "Cadastro de Tela do Sistema";
     final public static String FROM_ACAO = "Cadastro de Ação do Sistema";
     final public static String FROM_LISTA_TELA_ACAO = "Cadastro de Ação da Tela do Sistema";
