@@ -35,7 +35,7 @@ public class PostgresBackup {
     if (fList != null)
                {
                
-               comandos.add("C:\\Arquivos de Programas\\PostGreSQL\\10\\bin\\pg_dump.exe");
+               comandos.add("E:\\ProgramasW10\\PostgreSQL\\10\\bin\\pg_dump.exe");
                comandos.add("-h");
                comandos.add("pgsql03-farm76.kinghost.net");
                comandos.add("-p");

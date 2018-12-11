@@ -59,6 +59,13 @@ public class PrincipalJF extends javax.swing.JFrame implements Runnable {
     public PrincipalJF(Usuario usuario) throws MalformedURLException, IOException {
         this.setExtendedState(MAXIMIZED_BOTH);
         initComponents();
+        
+        //tirando de vista
+        jMenuItem11.setVisible(false);
+        itemMenuDadosAcesso.setVisible(false);
+        itemMenu_listaFuncionarios.setVisible(false);
+        
+        
         this.usuario = usuario;
         this.permissao = (List<Listapermissao>) new ListapermissaoDAO().selectWithJoin("Listapermissao", "idusuario = " + this.usuario.getIdusuario() + " order by idlistapermissao asc");
         can = new TreeMap();

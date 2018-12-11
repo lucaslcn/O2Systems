@@ -1,0 +1,9 @@
+{ 
+"cidade": Lajeado,
+ "tempo": "nuvens quebrados",
+"dia": 1544565366788,
+"dia-extenso": Tue Dec 11 19:56:06 BRST 2018,
+"temperatura": 31.78,
+"temperaturaMaxima": 31.78,
+"temperaturaMinima": 31.78
+ }
